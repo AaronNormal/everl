@@ -25,7 +25,7 @@ python3 -m http.server 8798
 Then open `http://localhost:8798/app/` in Safari on the iOS Simulator (iPhone 17).
 
 Useful URL shortcuts:
-- `?screen=home`, `?screen=rooms` or `?screen=you` jumps straight to a tab.
+- `?screen=home`, `?screen=rooms` or `?screen=you` jumps straight to a tab. Any other screen name works too, e.g. `?screen=area` or `?screen=codename`.
 - `?photo=A` to `?photo=F` previews the other splash photos, if they're in `app/img`.
 
 ## Brand rules (agreed with the owner, don't break)
