@@ -334,6 +334,19 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .icard[aria-checked="true"] .rd{background:#fff;color:var(--ink)}.icard[aria-checked="true"] .rd svg{opacity:1}
 .icard[aria-checked="true"] .ipat i{animation:tilepop 520ms cubic-bezier(.3,1.6,.5,1) both}
 .icard[aria-checked="false"]{filter:saturate(.85)}
+
+/* mode accent through setup */
+:root{--acc:#1E7BF2;--acc-soft:#e8f1fe}
+[data-m="adult"]{--acc:#5B2BB5;--acc-soft:#efe9fb}
+.prog i{background:var(--acc)}
+.chip[aria-pressed="true"]{background:var(--acc);color:#fff;box-shadow:none}
+.chip.add{box-shadow:inset 0 0 0 1.5px var(--acc);color:var(--acc)}
+.choice[aria-checked="true"]{background:var(--acc-soft);box-shadow:0 0 0 2px var(--acc)}
+.choice[aria-checked="true"] .rd{background:var(--acc)}
+.more,.skip{color:var(--acc)}
+.search:focus-within{box-shadow:inset 0 0 0 1.5px var(--acc)}
+.aqn .prog i{background:#fff}.aqn .chip[aria-pressed="true"]{background:#fff;color:#121212}.aqn .choice[aria-checked="true"]{background:#fff;box-shadow:none}.aqn .choice[aria-checked="true"] .rd{background:#121212}.aqn .skip{color:#fff}
+.tabscreen .scroll{padding-bottom:140px}
 /* go-available moment */
 .fx{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
 .fx .ring{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--green);opacity:0;animation:ring 1200ms cubic-bezier(.2,.7,.2,1) forwards}
@@ -508,7 +521,7 @@ const places=k=>{const T=TH[k];return `${T.spots[0]+(S.joined[k]?1:0)} of ${T.sp
 
 const modeSw=()=>`<div class="modesw" role="group" aria-label="Mode"><button data-setmode="social" aria-pressed="${S.mode!=='adult'}">Social</button><button data-setmode="adult" aria-pressed="${S.mode==='adult'}">Up for more</button></div>`;
 const bellBtn=()=>`<button class="ib" data-go="notifs" aria-label="Notifications${S.seen?'':', 2 new'}">${IC.bell}${S.seen?'':'<span class="bd"></span>'}</button>`;
-const areaHead=k=>`<div class="hd"><div class="hrow">${modeSw()}${bellBtn()}</div><p class="kick" style="margin-top:12px">${k}</p><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button></div>`;
+const areaHead=k=>`<div class="hd"><p class="kick">${k}</p><div class="top" style="align-items:center"><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button>${bellBtn()}</div></div>`;
 const aSum=()=>{const v=['gender','age','role','into'].flatMap(k=>[...(S.ad[k]||[])]);return v.length?v.slice(0,4).join(', '):'Not set yet'};
 function tile(k,o={}){const T=TH[k];return `<button class="tile${o.wide?' wide':''}" data-room="${k}" style="${o.w?`width:${o.w}px`:''}"><span class="tl" style="background:${T.bg}"><span class="te">${T.e[0]}</span></span><span class="tt">${T.t}</span><span class="tm">${T.m}</span><span class="tm">${places(k)}</span></button>`}
 function sw(on,label,id){return `<button class="sw" role="switch" aria-checked="${on}" aria-label="${label}" ${id?`id="${id}"`:''}></button>`}
@@ -554,7 +567,7 @@ codename:()=>`<div class="screen"><div class="scroll" style="align-items:center;
  <div style="margin:32px 0 8px"><span class="av ${S.cc}" style="width:120px;height:120px;font:700 40px var(--display)">${ini(S.codename)}</span></div>
  <h1 class="lt">${S.codename}</h1><p class="body" style="max-width:300px">This is your codename. It’s the only name others see until you both agree to meet. No photos or real names are shared.</p></div>
  <div class="foot"><button class="btn ink" data-go="home">Continue</button><button class="link" id="newName">Generate a different codename</button></div></div>`,
-home:()=>S.mode==='adult'?(S.aReady?V.ahome():V.aintro()):S.live?V.live():`<div class="screen"><div class="scroll">
+home:()=>S.mode==='adult'?(S.aReady?V.ahome():V.aintro()):S.live?V.live():`<div class="screen tabscreen"><div class="scroll">
  ${areaHead('Going out in')}
  <button class="avail card" id="homeSw" role="switch" aria-checked="false" aria-label="Go available for one hour"><span class="top" style="align-items:center"><span style="flex:1"><span class="ttl" style="display:block">Go available</span><span class="sub">Visible to people nearby for 1 hour</span></span><span class="sw" aria-hidden="true"></span></span><span class="who"><span style="display:flex">${[['c2','CO'],['c3','MW'],['c4','SF']].map(([c,n],i)=>`<span class="av ${c}" style="width:28px;height:28px;font:600 11px var(--text);margin-left:${i?4:0}px">${n}</span>`).join('')}</span><span><b>12 people</b> available within 400 m</span></span></button>
  <div class="sec"><h2>Tonight</h2><button data-tab="rooms">See all</button></div>
@@ -562,7 +575,7 @@ home:()=>S.mode==='adult'?(S.aReady?V.ahome():V.aintro()):S.live?V.live():`<div 
  <div class="sec"><h2>This week</h2></div>
  <div class="list">${['run','games'].map(k=>{const T=TH[k];return `<button class="row" data-room="${k}"><span class="ri" style="background:${T.bg}">${T.e[0]}</span><span style="flex:1;min-width:0"><span class="t" style="display:block;font-weight:600">${T.t}</span><span class="d">${T.m}</span></span><span class="e">${places(k).replace(' places','')} ${chev}</span></button>`}).join('')}</div>
  </div>${tabs()}</div>`,
-live:()=>`<div class="screen"><div class="scroll">
+live:()=>`<div class="screen tabscreen"><div class="scroll">
  ${areaHead('Going out in')}
  <div class="hero"><div class="hr"><span class="hb">You’re available</span>${sw(true,'Available','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`<span class="av ${c}" style="width:28px;height:28px;margin-left:${i?4:0}px;font:600 11px var(--text);background:#fff">${['CO','SH','LF'][i]}</span>`).join('')}</span><span><b>3 nearby</b> share your interests</span></div></div>
  <div class="sec"><h2>Tonight</h2><button data-tab="rooms">See all</button></div>
@@ -592,7 +605,7 @@ adetails:()=>`<div class="screen"><div class="scroll">${nb('Your details')}
  ${QSECS.map(sec=>`<p class="sh" style="margin-top:8px">${sec}${sec==='Private'?' <span class="sub" style="font-weight:400">Only shared if you both agree</span>':''}</p><div class="list">${Object.entries(QS).filter(([k,Q])=>Q.sec===sec&&!(k==='role'&&roleOff())).map(([k,Q])=>`<button class="row" data-aedit="${k}"><span class="t" style="flex:none">${Q.l}</span><span class="e" style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%">${qVal(k)||'Not set'} ${chev}</span></button>`).join('')}</div>`).join('')}
  </div></div>`,
 
-ahome:()=>`<div class="screen"><div class="scroll">
+ahome:()=>`<div class="screen tabscreen"><div class="scroll">
  ${areaHead('Up for more in')}
  ${S.live?`<div class="hero"><div class="hr"><span class="hb">You’re live</span>${sw(true,'Open to meeting','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`<span class="av ${c}" style="width:28px;height:28px;margin-left:${i?4:0}px;font:600 11px var(--text);background:#fff">${['CO','SH','LF'][i]}</span>`).join('')}</span><span><b>3 nearby</b> match what you’re after</span></div></div>`
  :`<button class="avail card" id="homeSw" role="switch" aria-checked="false" aria-label="Open to meeting for one hour"><span class="top" style="align-items:center"><span style="flex:1"><span class="ttl" style="display:block">Open to meeting</span><span class="sub">Visible to people nearby who are up for it, for 1 hour</span></span><span class="sw" aria-hidden="true"></span></span><span class="who"><span><b>7 people</b> up for it within a mile</span></span></button>`}
@@ -604,7 +617,7 @@ ahome:()=>`<div class="screen"><div class="scroll">
  <div class="list">${[['refresh','The Line-up','Several meets in one night, at your times'],['pin','Zones and travel','Be findable where you’re heading, not just where you are'],['clock','Forecast','See who’s around this week']].map(([i,t,d])=>`<div class="row"><span class="ic">${IC[i]}</span><span style="flex:1;min-width:0"><span class="t" style="display:block">${t}</span><span class="d">${d}</span></span></div>`).join('')}</div>
  <button class="btn ink">Try Everl+ free for 3 days</button><p class="sub" style="text-align:center;margin-top:-8px">Then £14.99 a month. Cancel any time.</p>
  </div>${tabs()}</div>`,
-rooms:()=>`<div class="screen"><div class="scroll">
+rooms:()=>`<div class="screen tabscreen"><div class="scroll">
  <div class="top"><h1 class="lt">Rooms</h1><button class="ib" aria-label="Start a room">${IC.plus}</button></div>
  <div class="seg" role="tablist">${[['tonight','Tonight'],['week','This week'],['mine','Mine']].map(([k,l])=>`<button role="tab" aria-selected="${S.roomTab===k}" data-rt="${k}">${l}</button>`).join('')}</div>
  ${S.roomTab==='mine'&&!Object.values(S.joined).some(Boolean)?`<div style="text-align:center;padding:48px 20px;display:flex;flex-direction:column;gap:8px;align-items:center"><h2 class="t3">No rooms yet</h2><p class="sub">Rooms you join show up here, with the exact place once they fill.</p><button class="btn ink" style="margin-top:12px;padding:0 24px" data-rt="tonight">Browse tonight</button></div>`:
@@ -622,7 +635,7 @@ room:(k)=>{const T=TH[k],j=!!S.joined[k],left=T.spots[1]-T.spots[0]-(j?1:0);retu
  </div>
  <div><h2 class="t3" style="font-size:17px;font-family:var(--text);font-weight:600">About</h2><p class="sub" style="margin-top:4px;font-size:17px">A relaxed ${T.t.toLowerCase()} for anyone nearby. Turn up, say hi to the host, and you’re in. If plans change, leave the room so someone else can join.</p></div>
  </div><div class="foot" style="position:absolute;left:0;right:0;bottom:0">${j?`<button class="btn soft" data-join="${k}">Leave</button><p class="sub" style="text-align:center">You’re going. We’ll show the venue once the room is full.</p>`:`<button class="btn ink" data-join="${k}">Join</button>`}</div></div>`},
-you:()=>`<div class="screen"><div class="scroll">
+you:()=>`<div class="screen tabscreen"><div class="scroll">
  <h1 class="lt">You</h1>
  <div class="prof"><span class="av ${S.cc}" style="width:64px;height:64px;font:700 22px var(--display)">${ini(S.codename)}</span><span style="flex:1"><span style="display:block;font:600 20px var(--display)">${S.codename}</span><span class="sub">8 meetings since November</span></span></div>
  <div class="list">
@@ -634,7 +647,7 @@ you:()=>`<div class="screen"><div class="scroll">
  <div class="list">
   <div class="row"><span class="ic">${IC.bell}</span><span class="t">Nearby alerts</span><span class="e">${sw(S.settings.alerts,'Nearby alerts','setAlerts')}</span></div>
   <div class="row"><span class="ic">${IC.lock}</span><span class="t">Face ID lock</span><span class="e">${sw(S.settings.lock,'Face ID lock','setLock')}</span></div>
-  <div class="row"><span class="ic">${IC.people}</span><span class="t">Mode</span><span class="e">${S.mode==='social'?'Social':'Up for more'} ${chev}</span></div>
+  <div class="row"><span class="ic">${IC.people}</span><span class="t">Mode</span><span class="e">${modeSw()}</span></div>
   <button class="row" data-areapick><span class="ic">${IC.pin}</span><span class="t">Area</span><span class="e">${S.area} ${chev}</span></button>
   <div class="row"><span class="ic">${IC.star}</span><span class="t">Everl+</span><span class="e">${chev}</span></div>
  </div>
@@ -660,6 +673,7 @@ function render(anim=true){
   if(S.screen==='room')html=V.room(S.room);
   else if(S.screen==='main')html=S.tab==='home'?V.home():S.tab==='rooms'?V.rooms():V.you();
   else html=V[S.screen]();
+  document.documentElement.dataset.m=S.mode==='adult'?'adult':'social';
   app.innerHTML=html;
   const scr=app.firstElementChild;if(anim)scr.classList.add('enter');
   const light=S.screen==='splash';
