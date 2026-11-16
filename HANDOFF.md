@@ -11,9 +11,9 @@ Neither prototype is production code. Each is one self-contained `index.html` (v
 
 | Folder | What it is | How to open |
 |---|---|---|
-| `app/` | Live at https://mockups94.xyz/app/. Tappable iPhone app prototype: splash, onboarding, Home, the go-available flow, match, meeting point, Rooms, You, Notifications | Double-click `app/index.html`, or serve the folder (see below) |
-| `index.html`, `img/` (top level) | The redesigned everl.com landing page, live at https://mockups94.xyz | Double-click `index.html` |
-| `logo/` | Live at https://mockups94.xyz/logo/. Final logo: SVG masters, PNGs, app icon, favicons, social avatar, and `build.py`, which regenerates every file | Open any SVG |
+| `app/` | Live at https://mockups94.xyz/everl/app/. Tappable iPhone app prototype: splash, onboarding, Home, the go-available flow, match, meeting point, Rooms, You, Notifications | Double-click `app/index.html`, or serve the folder (see below) |
+| `index.html`, `img/` (top level) | The redesigned everl.com landing page, live at https://mockups94.xyz/everl/ | Double-click `index.html` |
+| `logo/` | Live at https://mockups94.xyz/everl/logo/. Final logo: SVG masters, PNGs, app icon, favicons, social avatar, and `build.py`, which regenerates every file | Open any SVG |
 | `photos/` | Full-resolution Arcads photos (1536×2752 tall, 2752×1536 wide) | Images |
 
 To view the app at iPhone size, use a local server from this folder:

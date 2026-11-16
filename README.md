@@ -2,7 +2,7 @@
 
 Working prototypes for the Everl redesign. Everl is a social app for meeting people nearby, in person: flip a switch to "available" and people nearby with the same interests can see you.
 
-Live at **https://mockups94.xyz**
+Live at **https://mockups94.xyz/everl/**
 
 | Path | What it is |
 |---|---|
