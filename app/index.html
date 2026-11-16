@@ -355,6 +355,7 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .icard{min-height:156px!important;padding:16px 18px!important}
 .itx b{font-size:26px!important}
 
+.cav{border-radius:50%;display:grid;place-items:center;flex:none;line-height:1;box-shadow:0 0 0 2px #fff}
 /* codename */
 .cnav{width:168px;height:168px;border-radius:50%;display:grid;place-items:center;margin:24px 0 8px;box-shadow:0 12px 30px rgba(0,0,0,.14),inset 0 0 0 6px rgba(255,255,255,.25);animation:cnpop 520ms cubic-bezier(.3,1.5,.5,1) both}
 .cnav span{font:84px/1 var(--emoji)}
@@ -542,6 +543,9 @@ const MCOPY={
 const MC=()=>MCOPY[new URLSearchParams(location.search).get('copy')]||MCOPY.c;
 const CN_COL={Ochre:'#D39A2C',Cedar:'#B0603A',Amber:'#F2A93B',Teal:'#17A2A1',Plum:'#8E4A8C',Moss:'#6E8B3D',Slate:'#5D6F82',Coral:'#F2705E'};
 const CN_ANI={Wren:'🐦',Otter:'🦦',Fox:'🦊',Hare:'🐇',Kite:'🦅',Lark:'🕊️',Heron:'🦩',Finch:'🐤'};
+const OTHERS={CO:'Cedar Otter 478',MW:'Moss Wren 210',SF:'Slate Fox 330',SH:'Slate Heron 302',LF:'Lark Finch 611'};
+const AVW=t=>t===ini(S.codename)?S.codename:(OTHERS[t]||t);
+const AV=(name,w,ml=0)=>{const [c,a]=(name||'').split(' ');return `<span class="cav" style="width:${w}px;height:${w}px;margin-left:${ml}px;background:${CN_COL[c]||'#5B6CF0'};font-size:${Math.round(w*.5)}px">${CN_ANI[a]||'🐾'}</span>`};
 const modeSw=()=>`<div class="modesw" role="group" aria-label="Mode"><button data-setmode="social" aria-pressed="${S.mode!=='adult'}">Social</button><button data-setmode="adult" aria-pressed="${S.mode==='adult'}">Up for more</button></div>`;
 const bellBtn=()=>`<button class="ib" data-go="notifs" aria-label="Notifications${S.seen?'':', 2 new'}">${IC.bell}${S.seen?'':'<span class="bd"></span>'}</button>`;
 const areaHead=k=>`<div class="hd"><p class="kick">${k}</p><div class="top" style="align-items:center"><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button>${bellBtn()}</div></div>`;
@@ -594,7 +598,7 @@ codename:()=>{const [col,ani]=S.codename.split(' ');return `<div class="screen">
  <div class="foot"><button class="btn ink" data-go="home">Continue</button></div></div>`},
 home:()=>S.mode==='adult'?(S.aReady?V.ahome():V.aintro()):S.live?V.live():`<div class="screen tabscreen"><div class="scroll">
  ${areaHead('Going out in')}
- <button class="avail card" id="homeSw" role="switch" aria-checked="false" aria-label="Go available for one hour"><span class="top" style="align-items:center"><span style="flex:1"><span class="ttl" style="display:block">Go available</span><span class="sub">Visible to people nearby for 1 hour</span></span><span class="sw" aria-hidden="true"></span></span><span class="who"><span style="display:flex">${[['c2','CO'],['c3','MW'],['c4','SF']].map(([c,n],i)=>`<span class="av ${c}" style="width:28px;height:28px;font:600 11px var(--text);margin-left:${i?4:0}px">${n}</span>`).join('')}</span><span><b>12 people</b> available within 400 m</span></span></button>
+ <button class="avail card" id="homeSw" role="switch" aria-checked="false" aria-label="Go available for one hour"><span class="top" style="align-items:center"><span style="flex:1"><span class="ttl" style="display:block">Go available</span><span class="sub">Visible to people nearby for 1 hour</span></span><span class="sw" aria-hidden="true"></span></span><span class="who"><span style="display:flex">${[['c2','CO'],['c3','MW'],['c4','SF']].map(([c,n],i)=>`${AV(AVW(n),28,i?4:0)}`).join('')}</span><span><b>12 people</b> available within 400 m</span></span></button>
  <div class="sec"><h2>Tonight</h2><button data-tab="rooms">See all</button></div>
  <div class="tiles">${['quiz','karaoke','drinks','padel'].map(k=>tile(k,{w:220})).join('')}</div>
  <div class="sec"><h2>This week</h2></div>
@@ -602,7 +606,7 @@ home:()=>S.mode==='adult'?(S.aReady?V.ahome():V.aintro()):S.live?V.live():`<div 
  </div>${tabs()}</div>`,
 live:()=>`<div class="screen tabscreen"><div class="scroll">
  ${areaHead('Going out in')}
- <div class="hero"><div class="hr"><span class="hb">You’re available</span>${sw(true,'Available','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`<span class="av ${c}" style="width:28px;height:28px;margin-left:${i?4:0}px;font:600 11px var(--text);background:#fff">${['CO','SH','LF'][i]}</span>`).join('')}</span><span><b>3 nearby</b> share your interests</span></div></div>
+ <div class="hero"><div class="hr"><span class="hb">You’re available</span>${sw(true,'Available','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`${AV(AVW(['CO','SH','LF'][i]),28,i?4:0)}`).join('')}</span><span><b>3 nearby</b> share your interests</span></div></div>
  <div class="sec"><h2>Tonight</h2><button data-tab="rooms">See all</button></div>
  <div class="tiles">${['quiz','karaoke','drinks','padel'].map(k=>tile(k,{w:220})).join('')}</div>
  <div class="sec"><h2>This week</h2></div>
@@ -632,7 +636,7 @@ adetails:()=>`<div class="screen"><div class="scroll">${nb('Your details')}
 
 ahome:()=>`<div class="screen tabscreen"><div class="scroll">
  ${areaHead('Up for more in')}
- ${S.live?`<div class="hero"><div class="hr"><span class="hb">You’re live</span>${sw(true,'Open to meeting','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`<span class="av ${c}" style="width:28px;height:28px;margin-left:${i?4:0}px;font:600 11px var(--text);background:#fff">${['CO','SH','LF'][i]}</span>`).join('')}</span><span><b>3 nearby</b> match what you’re after</span></div></div>`
+ ${S.live?`<div class="hero"><div class="hr"><span class="hb">You’re live</span>${sw(true,'Open to meeting','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`${AV(AVW(['CO','SH','LF'][i]),28,i?4:0)}`).join('')}</span><span><b>3 nearby</b> match what you’re after</span></div></div>`
  :`<button class="avail card" id="homeSw" role="switch" aria-checked="false" aria-label="Open to meeting for one hour"><span class="top" style="align-items:center"><span style="flex:1"><span class="ttl" style="display:block">Open to meeting</span><span class="sub">Visible to people nearby who are up for it, for 1 hour</span></span><span class="sw" aria-hidden="true"></span></span><span class="who"><span><b>7 people</b> up for it within a mile</span></span></button>`}
  <div class="list">
   <button class="row" data-arefine><span class="ic">${IC.you||IC.people}</span><span style="flex:1;min-width:0"><span class="t" style="display:block">Showing as</span><span class="d">${aSum()}</span></span><span class="e">Edit ${chev}</span></button>
@@ -656,13 +660,13 @@ room:(k)=>{const T=TH[k],j=!!S.joined[k],left=T.spots[1]-T.spots[0]-(j?1:0);retu
  <div>
   <div class="irow">${IC.clock}<span><b>${T.w}</b></span></div>
   <div class="irow"><span class="ii">${IC.pin}</span><span><b>${left<=0?T.where:'Venue shown when full'}</b><span class="d">${left<=0?'Room is full':`${left} ${left===1?'place':'places'} left`}</span></span></div>
-  <div class="irow" style="align-items:center"><span class="ii">${IC.people}</span><span style="flex:1"><b>${T.spots[0]+(j?1:0)} of ${T.spots[1]} going</b><span class="d">All abilities welcome</span></span><span style="display:flex">${[...(j?[[S.cc,ini(S.codename)]]:[]),['c2','CO'],['c3','SH'],['c4','LF']].map(([c,t],i)=>`<span class="av ${c}" style="width:30px;height:30px;margin-left:${i?4:0}px;font:600 11px var(--text)">${t}</span>`).join('')}</span></div>
+  <div class="irow" style="align-items:center"><span class="ii">${IC.people}</span><span style="flex:1"><b>${T.spots[0]+(j?1:0)} of ${T.spots[1]} going</b><span class="d">All abilities welcome</span></span><span style="display:flex">${[...(j?[[S.cc,ini(S.codename)]]:[]),['c2','CO'],['c3','SH'],['c4','LF']].map(([c,t],i)=>`${AV(AVW(t),30,i?4:0)}`).join('')}</span></div>
  </div>
  <div><h2 class="t3" style="font-size:17px;font-family:var(--text);font-weight:600">About</h2><p class="sub" style="margin-top:4px;font-size:17px">A relaxed ${T.t.toLowerCase()} for anyone nearby. Turn up, say hi to the host, and you’re in. If plans change, leave the room so someone else can join.</p></div>
  </div><div class="foot" style="position:absolute;left:0;right:0;bottom:0">${j?`<button class="btn soft" data-join="${k}">Leave</button><p class="sub" style="text-align:center">You’re going. We’ll show the venue once the room is full.</p>`:`<button class="btn ink" data-join="${k}">Join</button>`}</div></div>`},
 you:()=>`<div class="screen tabscreen"><div class="scroll">
  <h1 class="lt">You</h1>
- <div class="prof"><span class="av ${S.cc}" style="width:64px;height:64px;font:700 22px var(--display)">${ini(S.codename)}</span><span style="flex:1"><span style="display:block;font:600 20px var(--display)">${S.codename}</span><span class="sub">8 meetings since November</span></span></div>
+ <div class="prof">${AV(S.codename,64)}<span style="flex:1"><span style="display:block;font:600 20px var(--display)">${S.codename}</span><span class="sub">8 meetings since November</span></span></div>
  <div class="list">
   <button class="row" id="newName"><span class="ic">${IC.refresh}</span><span class="t">Codename</span><span class="e">Change ${chev}</span></button>
   <div class="row"><span class="ic">${IC.heart}</span><span class="t">Interests</span><span class="e">${S.interests.size} ${chev}</span></div>
@@ -684,7 +688,7 @@ meet:()=>`<div class="screen"><div class="scroll">
  <div class="map"><svg width="100%" height="100%" viewBox="0 0 350 250" preserveAspectRatio="xMidYMid slice" aria-label="Map showing you, Cedar Otter 478 and the meeting point"><rect width="350" height="250" fill="#e9efe4"/><g stroke="#fff" stroke-width="14" fill="none"><path d="M-10 70L360 110"/><path d="M60-10L110 260"/><path d="M230-10L260 260"/><path d="M-10 190L360 170"/></g><rect x="140" y="125" width="70" height="36" rx="6" fill="#d7e8cf"/><path d="M80 210C110 170 150 150 170 140" stroke="#121212" stroke-width="4" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/><path d="M280 60C250 100 210 125 178 138" stroke="#121212" stroke-width="4" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/><circle cx="80" cy="210" r="12" fill="#ef6a5b" stroke="#fff" stroke-width="3"/><circle cx="280" cy="60" r="12" fill="#5b6cf0" stroke="#fff" stroke-width="3"/><circle cx="174" cy="139" r="20" fill="#34c759" stroke="#fff" stroke-width="4"/><text x="174" y="146" text-anchor="middle" font-size="18">🎤</text></svg></div>
  <div><h1 class="t2">Lane 7, Oldham Street</h1><p class="sub" style="margin-top:4px">Confirmed with Cedar Otter 478</p></div>
  <div class="irow">${IC.clock}<span><b>Thursday 14 November at 8:25pm</b><span class="d">3 min walk</span></span></div>
- <div class="list"><div class="row"><span class="av c2" style="width:34px;height:34px">CO</span><span><span class="t" style="display:block">Cedar Otter 478</span><span class="d">4 min away</span></span></div>
+ <div class="list"><div class="row">${AV(OTHERS.CO,34)}<span><span class="t" style="display:block">Cedar Otter 478</span><span class="d">4 min away</span></span></div>
   <button class="row" id="safety"><span class="ic">${IC.shield}</span><span><span class="t" style="display:block">Safety contact</span><span class="d" id="safeD">Hold to share your location with Sam</span></span><span class="e">On</span></button></div>
  </div><div class="foot"><button class="btn ink" id="dirs">${'<span style="width:18px;height:18px;display:inline-block">'+IC.pin+'</span>'} Get directions</button><button class="link" data-endmeet>Cancel meeting</button></div></div>`
 };
@@ -736,12 +740,12 @@ function aDone(){if(S.onb){nav('city');return}S.aReady=true;S.screen='main';S.ta
 function aNext(){if(S.aEdit){S.aEdit=null;back();return}if(S.aIdx>=QF().length-1){if(!S.aMore&&!S.aMoreAsked){S.aMoreAsked=true;S.screen='amore';render();return}aDone();return}S.aIdx++;render();const sc=app.querySelector('.scroll');if(sc)sc.scrollTop=0}
 function turnOff(){S.live=false;clearTimeout(reqTimer);render(false)}
 function incoming(){
-  const t=document.createElement('button');t.className='toast';t.innerHTML=`<span class="av c2" style="width:38px;height:38px;font:600 13px var(--text)">CO</span><span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">${S.mode==='adult'?'Someone nearby wants to meet.':'Cedar Otter 478 wants to meet for karaoke. 40 m away.'}</span></span>`;
+  const t=document.createElement('button');t.className='toast';t.innerHTML=`${AV(OTHERS.CO,38)}<span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">${S.mode==='adult'?'Someone nearby wants to meet.':'Cedar Otter 478 wants to meet for karaoke. 40 m away.'}</span></span>`;
   app.append(t);const open=()=>{t.remove();request()};t.onclick=open;
 }
 function request(){
   const sh=sheet(`<div style="display:flex;justify-content:space-between;align-items:center"><span class="sub">Expires in <span id="exp">4:59</span></span><button class="round" id="cl" aria-label="Close">${IC.x}</button></div>
-   <div style="display:flex;justify-content:center"><span class="av c2" style="width:88px;height:88px;font:700 28px var(--display)">CO</span></div>
+   <div style="display:flex;justify-content:center">${AV(OTHERS.CO,88)}</div>
    ${S.mode==='adult'?`<div style="text-align:center"><p class="sub">120 m away</p><h2 class="t2" style="margin-top:4px">Cedar Otter 478 is up for it tonight</h2></div>
    <div class="grp"><p class="sh">Into</p><div class="chips sm">${['A drink first','Versatile','Kissing'].map(t=>`<span class="chip" aria-pressed="true">${t}</span>`).join('')}</div></div>
    <div class="grp"><p class="sh">Their boundaries</p><div class="chips sm">${['Safe sex only','Sober only','No photos without asking'].map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>

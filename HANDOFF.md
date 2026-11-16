@@ -25,6 +25,7 @@ python3 -m http.server 8798
 Then open `http://localhost:8798/app/` in Safari on the iOS Simulator (iPhone 17).
 
 Useful URL shortcuts:
+- `?screen=splash` restarts from the welcome screen. `?mode=adult` opens Up for more (`&ready=1` skips its setup), `?screen=aq&mode=adult&aq=0` jumps to a setup question, `?verified=1` skips the age check.
 - `?screen=home`, `?screen=rooms` or `?screen=you` jumps straight to a tab. Any other screen name works too, e.g. `?screen=area` or `?screen=codename`.
 - `?photo=A` to `?photo=F` previews the other splash photos, if they're in `app/img`.
 
@@ -50,27 +51,42 @@ Useful URL shortcuts:
   - Never use AI photos on in-app cards. Cards use the fun flat-colour emoji pattern tiles.
 - **Motion:** calm and quick. The splash opens with only the switch (off, centred). It flicks on, the logo glides left as "everl" fades in, then the tagline appears. The photo never animates.
 
-## Screens: where the review got to
+## Where things are (16 Nov 2026)
 
-The owner is walking through the app screen by screen on the simulator. Done and approved, in order:
+- **Live:** https://mockups94.xyz/everl/app/ (app), https://mockups94.xyz/everl/ (website), https://mockups94.xyz/everl/logo/ (logo kit). Hosted by GitHub Pages from the public repo `AaronNormal/everl` (branch `main`, root). A small home repo `AaronNormal/AaronNormal.github.io` owns the domain mockups94.xyz; DNS is at Porkbun.
+- **Add to Home Screen:** the app has a web manifest, so on an iPhone it opens full screen from the home screen.
+- **Two modes:** Social and Up for more (18+). The switch lives in **You → Mode**, never on Home (discretion).
 
-1. **Splash:** padel photo, switch-first logo animation.
-2. **What are you looking for?** Social or Adult cards with line icons and a navy tick, and an age-check card above Continue.
-3. **What are you into?** Search with add-your-own, 9 popular chips, and "Show all 28". The interest list matches the original everl.com app.
-4. **How you like to meet (optional):** What you're after, the vibe you want, and must-haves behind a link. Skip sits in the top bar, and nothing is pre-selected. The wording comes from the original app.
+### Approved screens, in flow order
 
-**Done 16 Nov 2026:** a full UI/UX audit (14 fixes): city step, area picker on Home, iOS navigation, calm room tiles, plain You screen.
+1. **Splash:** padel photo, switch-first logo animation, Continue with Apple, Continue with email, "Already on Everl? Log in", tappable Terms and Privacy.
+2. **How do you want to meet?** Apple Invites style: a bright blue Social card and a purple Up for more card, each with a tidy emoji pattern in the top half and a big white title. Copy is option C ("Real people near you, up for the same thing as you. Meet in person, not on a screen."). Line under Continue: "Everyone on Everl is a verified adult."
+3. **Social setup:** interests, how you like to meet, where you live (Manchester live; Leeds and elsewhere get a waiting list), area, codename. Picks, ticks and progress use Social blue `#1E7BF2`.
+4. **Up for more setup:** night-mode intro ("Meet someone nearby tonight", photo `app/img/upformore.jpg`, "Safety comes first" list, white button), the one-time age check, then one question per screen in a night look: gender, age, who you're looking for, ages, how far, how you like to start, what you want, role (single choice, only shown when relevant, never to straight pairings), boundaries. Then an optional "Want sharper matches?" step for ethnicity and orientation preferences, your orientation, vibe and kinks. Everything is editable later under Showing as → Your details.
+5. **Codename:** a big avatar in the codename's colour with its animal emoji (Ochre Wren is an ochre circle with a bird), and a 🎲 Shuffle button. The same colour-and-animal avatars are used everywhere in the app.
+6. **Home (Social):** "Going out in Northern Quarter ⌄" opens an area picker; Go available card; Tonight tiles; This week rows. Going available plays the "Light up" moment on a mint card.
+7. **Up for more Home:** stays WHITE (the owner hated a dark version). Open to meeting card, Showing as, nudge setting, Everl+ list.
+8. **Tab bar:** full-width frosted floating bar; Home, Rooms, You (Up for more has Home and You only).
 
-**Next up (was):** the area screen (step 4 of 5), then codename, Home, go available, the request sheet, match, meeting point, Rooms, room detail, You and Notifications. These were all already polished in an earlier pass (nine fixes), but they haven't had the owner's one-by-one review yet.
+### Not reviewed one by one yet
 
-**Done 16 Nov 2026:** splash buttons are now "Continue with Apple" (main), "Continue with email" (secondary) and an "Already on Everl? Log in" text link, with tappable Terms and Privacy links.
+The meet request sheet, match screen, meeting point, Rooms, room detail, Notifications. The last audit (board: https://claude.ai/artifact/6dVj7uAFSbW4Ftd6iz5q1R) still has open medium and low items: room tiles too big, room detail About text cut off by the Join button, safety contact hidden on Meeting point, vague options on "How you like to meet", map pin colours, splash buttons over the players.
+
+### Owner's taste (learned the hard way)
+
+- Hates anything that looks AI-made: ` · ` separators, uppercase labels, divider lines, warm cream, card soup, frosted caption boxes, random emoji scatter, vague copy like "One match" or "Tonight" on its own, single words left on their own line.
+- Hates orange. Hates dark backgrounds on everyday screens; night mode is only for the 18+ intro and questions.
+- Choice screens use colour and icons or emoji, not photos. Photos only for single full-screen moments, and they must look real and candid, never corny (no candles).
+- Wants it fun and colourful but Apple-clean. When stuck, ask "what would Apple do?" and look at Mobbin.
+- Copy must say plainly what things are. Balance line breaks (`text-wrap: balance`).
 
 ## How the owner likes to work
 
 - Show the change on the iPhone simulator, then say plainly what changed. Use short lists, no jargon.
 - Raise issues one screen at a time and wait for "fix" or "next".
 - Fix exactly what was asked. Suggest extras, but don't add them unasked.
-- Publish an updated version after each approved change, and keep the Desktop copy in sync.
+- Show options side by side on a board (a claude.ai artifact with simulator screenshots) when there's a choice to make.
+- Nothing goes live until the owner's message says exactly "ship it". After "ship it": commit with a clear message, publish to GitHub, and check the live page has the change.
 
 ## Still open
 
