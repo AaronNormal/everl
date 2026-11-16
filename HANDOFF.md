@@ -63,7 +63,7 @@ The owner is walking through the app screen by screen on the simulator. Done and
 
 **Next up (was):** the area screen (step 4 of 5), then codename, Home, go available, the request sheet, match, meeting point, Rooms, room detail, You and Notifications. These were all already polished in an earlier pass (nine fixes), but they haven't had the owner's one-by-one review yet.
 
-**Open suggestion, not yet decided:** change the splash buttons to "Continue with Apple" (main), "Continue with email" (secondary) and "I already have an account" (text link). Ask the owner before doing it.
+**Done 16 Nov 2026:** splash buttons are now "Continue with Apple" (main), "Continue with email" (secondary) and an "Already on Everl? Log in" text link, with tappable Terms and Privacy links.
 
 ## How the owner likes to work
 

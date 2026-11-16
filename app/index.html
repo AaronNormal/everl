@@ -184,7 +184,7 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 /* splash */
 .splash{background:#111}
 .splash .ph{position:absolute;inset:0;background:#0d1426 var(--splash,url(img/splash-E.jpg)) 30% 100%/auto 124% no-repeat}
-.splash .sc{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.42) 30%,rgba(0,0,0,0) 50%,rgba(0,0,0,0) 58%,rgba(0,0,0,.78) 100%)}
+.splash .sc{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.42) 30%,rgba(0,0,0,0) 48%,rgba(0,0,0,.25) 60%,rgba(0,0,0,.88) 82%,rgba(0,0,0,.92) 100%)}
 .splash .brand{position:absolute;left:0;right:0;top:calc(120px + var(--top));display:flex;flex-direction:column;align-items:center;gap:16px;color:#fff;text-align:center}
 .splash .brand .logo svg{height:48px}
 /* opening: switch alone, centred; flicks on; logo glides left as the name appears; tagline follows */
@@ -197,7 +197,9 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 @media (prefers-reduced-motion:reduce){.splash .lk rect{animation:none;fill:#34C759}.splash .lk,.splash .lk circle,.splash .lk path,.splash .brand p{animation:none;transform:none;opacity:1}}.splash .brand .logo span{font-size:52px}
 .splash .brand p{margin:0;font:600 20px var(--text);letter-spacing:-.01em}
 .splash .foot{position:absolute;left:0;right:0;bottom:0;background:none}
-.splash .legal{font:400 12px/1.4 var(--text);color:rgba(255,255,255,.8);text-align:center;margin:4px 0 0}
+.splash .legal{font:400 12px/1.4 var(--text);color:rgba(255,255,255,.72);text-align:center;margin:8px 0 0}.splash .legal a{color:#fff;text-decoration:underline;text-underline-offset:2px}
+.btn.mail{background:rgba(255,255,255,.14);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}.btn.mail .mi{width:18px;height:18px;display:inline-block}
+.login{height:44px;font:400 15px var(--text);color:rgba(255,255,255,.8)}.login b{color:#fff;font-weight:600}
 
 /* map */
 .map{border-radius:20px;overflow:hidden;height:250px;background:#e9efe4;flex:none}
@@ -407,6 +409,7 @@ const IC={
  moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg>',
  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>',
  down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+ mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg>',
  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'
 };
 const chev='<svg class="chev" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>';
@@ -452,7 +455,7 @@ const prog=(n,r='<span style="width:44px"></span>')=>`<div class="navrow"><butto
 const V={
 splash:()=>`<div class="screen splash" data-light><div class="ph" role="img" aria-label="Friends playing padel under floodlights"></div><div class="sc"></div>
  <div class="brand">${LOGO('#fff')}<p>Meet people nearby, in person.</p></div>
- <div class="foot"><button class="btn white" data-go="mode">Get started</button><button class="btn glass" data-go="mode">${IC.apple} Continue with Apple</button><p class="legal">For adults 18+. By continuing you agree to our Terms and Privacy Policy.</p></div></div>`,
+ <div class="foot"><button class="btn white" data-go="mode">${IC.apple} Continue with Apple</button><button class="btn mail" data-go="mode"><span class="mi">${IC.mail}</span> Continue with email</button><button class="login" id="logIn">Already on Everl? <b>Log in</b></button><p class="legal">18+ only. By continuing you agree to our <a href="#" data-legal>Terms</a> and <a href="#" data-legal>Privacy Policy</a>.</p></div></div>`,
 mode:()=>`<div class="screen"><div class="scroll">${prog(1)}<h1 class="lt">What are you looking for?</h1><p class="body">You can change this any time in settings.</p>
  <div role="radiogroup" aria-label="What are you looking for?" style="display:flex;flex-direction:column;gap:12px">${[['social',IC.people,'#e6efff','#2a5bd7','Social','Friends, activities and dates'],['adult',IC.moon,'#efe9ff','#6a45e8','Up for more','Meeting someone nearby tonight, 18+ only']].map(([k,ic,bg,fg,t,d])=>`<button class="choice" role="radio" aria-checked="${S.mode===k}" data-mode="${k}"><span class="ci" style="background:${bg};color:${fg}">${ic}</span><span><span class="ct">${t}</span><span class="sub">${d}</span></span><span class="rd">${IC.check}</span></button>`).join('')}</div>
  </div>
@@ -656,6 +659,7 @@ function matched(){
 
 // events (one delegated handler)
 app.addEventListener('click',e=>{
+  if(e.target.closest('[data-legal]')){e.preventDefault();note('The Terms and Privacy Policy open here in the real app.');return}
   const t=e.target.closest('button,[data-go],[data-back]');if(!t)return;
   if(t.dataset.go){nav(t.dataset.go);return}
   if(t.hasAttribute('data-back')){back();return}
@@ -667,6 +671,7 @@ app.addEventListener('click',e=>{
   if(t.dataset.must!==undefined){S.showMust=true;keep();return}
   if(t.dataset.setmode){const m=t.dataset.setmode;if(m===S.mode)return;S.live=false;clearTimeout(reqTimer);S.mode=m;S.screen='main';S.tab='home';hist.length=0;render();return}
   if(t.id==='modeGo'){nav(S.mode==='adult'?'aintro':'interests');return}
+  if(t.id==='logIn'){note('Log in isn’t part of this prototype. Use Continue to explore.');return}
   if(t.id==='aGo'){const start=()=>{S.aIdx=0;S.aEdit=null;nav('aq')};if(S.verified)start();else{S.afterVerify=start;turnOn()}return}
   if(t.dataset.aopt){const i=t.dataset.aopt.indexOf('|'),k=t.dataset.aopt.slice(0,i),v=t.dataset.aopt.slice(i+1),Q=QS[k];const set=S.ad[k]||(S.ad[k]=new Set());if(Q.one){set.clear();set.add(v);render(false);if(!S.aEdit)setTimeout(aNext,260);return}set.has(v)?set.delete(v):set.add(v);keep();return}
   if(t.hasAttribute('data-anext')){aNext();return}
