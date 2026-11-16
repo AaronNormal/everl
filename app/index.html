@@ -248,6 +248,22 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 
 /* 18+ intro look options */
 .aint{background:#0b0c0f;color:#fff}.aint .sh,.alist b{color:#fff}.alist .d,.aint .foot .sub{color:rgba(255,255,255,.62)}.alist .ii{color:#fff!important}.aint #aGo{background:#fff;color:#0b0c0f}.ahero::after{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,0) 45%,#0b0c0f 100%)}
+
+/* Up for more questions: night look */
+.aqn{background:#0b0c0f;color:#fff}
+.aqbg{position:absolute;left:0;right:0;top:0;height:460px;background:var(--ufm,url(img/upformore.jpg)) 50% 25%/cover no-repeat;filter:blur(20px) saturate(1.35);opacity:.9;transform:scale(1.2);pointer-events:none}
+.aqbg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,12,15,.2) 0%,#0b0c0f 92%)}
+.aqn .scroll{position:relative;background:none}
+.aqn .lt{color:#fff}.aqn .kick{color:rgba(255,255,255,.7)}.aqn .body,.aqn .sub{color:rgba(255,255,255,.66)}
+.aqn .round{background:rgba(255,255,255,.14);color:#fff}.aqn .skip{color:#fff}
+.aqn .prog{background:rgba(255,255,255,.18)}.aqn .prog i{background:#fff}
+.aqn .choice{background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:18px 16px}
+.aqn .choice .ct{color:#fff}.aqn .choice .rd{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35)}
+.aqn .choice[aria-checked="true"]{background:#fff;box-shadow:none}.aqn .choice[aria-checked="true"] .ct{color:#121212}.aqn .choice[aria-checked="true"] .sub{color:#6e6e73}.aqn .choice[aria-checked="true"] .rd{background:#121212}
+.aqn .chip{background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);height:44px;padding:0 16px}
+.aqn .chip[aria-pressed="true"]{background:#fff;color:#121212;box-shadow:none}
+.aqn .foot{background:linear-gradient(180deg,rgba(11,12,15,0),#0b0c0f 24px)}.aqn .btn.ink{background:#fff;color:#121212}
+.aqn .nb button{color:#fff}
 /* go-available moment */
 .fx{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
 .fx .ring{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--green);opacity:0;animation:ring 1200ms cubic-bezier(.2,.7,.2,1) forwards}
@@ -337,8 +353,8 @@ const AREAS=[['Northern Quarter','Live now',1],['Ancoats','Opens 4 December'],['
 const QS={
  gender:{l:'Gender',sec:'About you',q:'How do you identify?',d:'Shown to people you match with.',one:1,o:[['Man'],['Woman'],['Non-binary'],['Trans man'],['Trans woman']]},
  age:{l:'Age',sec:'About you',q:'How old are you?',d:'We only ever show your age range.',one:1,o:[['18–24'],['25–34'],['35–44'],['45–54'],['55–64'],['65–74'],['75+']]},
- role:{l:'Role',sec:'Private',priv:1,q:'What’s your role?',d:'Pick any. Only shown to a match if you both agree.',o:[['Top'],['Vers top'],['Versatile'],['Vers bottom'],['Bottom'],['Side'],['Power bottom'],['Power top'],['Dominant'],['Submissive'],['Switch']]},
- oGender:{l:'Open to',sec:'Who you’re open to',q:'Who are you open to?',d:'Pick any. This ranks people for you and never hides anyone.',o:[['Men'],['Women'],['Non-binary'],['Trans men'],['Trans women'],['Everyone']]},
+ role:{l:'Role',sec:'Private',priv:1,q:'What’s your role?',d:'Pick one. Only shown to a match if you both agree.',one:1,o:[['Top'],['Vers top'],['Versatile'],['Vers bottom'],['Bottom'],['Side'],['Power bottom'],['Power top'],['Dominant'],['Submissive'],['Switch']]},
+ oGender:{l:'Open to',sec:'Who you’re open to',q:'Who are you looking for?',d:'Pick any. We rank people for you and never hide anyone.',o:[['Men'],['Women'],['Non-binary'],['Trans men'],['Trans women'],['Everyone']]},
  far:{l:'How far',sec:'Who you’re open to',q:'How far will you go?',d:'Everyone closer is included.',one:1,o:[['Right here','Same spot'],['Walking distance','About 10 minutes'],['This area','About a mile'],['This city'],['Anywhere nearby','Nearby towns too']]},
  into:{l:'How you like to start',sec:'Tonight',q:'How do you like to start?',d:'Pick any.',o:[['A drink first'],['Straight to it'],['Slow build'],['No small talk'],['Chat first']]},
  want:{l:'What you want',sec:'Tonight',q:'What do you want tonight?',d:'Pick any. Change it every night if you like.',o:[['Give oral'],['Receive oral'],['Rimming'],['Penetration'],['Kissing'],['Hands only'],['Mutual'],['Massage'],['Toys'],['Group'],['Just company'],['See where it goes']]},
@@ -346,22 +362,27 @@ const QS={
  build:{l:'Build',sec:'About you',q:'What’s your build?',one:1,o:[['Slim'],['Average'],['Athletic'],['Muscular'],['Curvy'],['Larger']]},
  height:{l:'Height',sec:'About you',q:'How tall are you?',one:1,o:[['Under 5′5″'],['5′5″ to 5′9″'],['5′10″ to 6′1″'],['Over 6′1″']]},
  features:{l:'Features',sec:'About you',q:'Anything people would notice?',d:'Pick any.',o:[['Tattoos'],['Piercings'],['Beard'],['Glasses'],['Short hair'],['Long hair']]},
- orient:{l:'Orientation',sec:'Private',priv:1,q:'What’s your orientation?',d:'About you only. It never filters anyone else.',one:1,o:[['Straight'],['Gay'],['Bi'],['Queer'],['Pansexual'],['Curious']]},
+ orient:{l:'Orientation',sec:'Private',priv:1,q:'What’s your orientation?',d:'About you only. Only shown to a match if you both agree.',one:1,o:[['Straight'],['Gay'],['Bi'],['Queer'],['Pansexual'],['Curious']]},
  health:{l:'Sexual health',sec:'Private',priv:1,q:'Your sexual health',d:'Private by default. Only shared with a match if you choose.',o:[['Tested regularly'],['On PrEP'],['Prefer not to say']]},
  cut:{l:'Anatomy',sec:'Private',priv:1,q:'Anatomy',one:1,o:[['Cut'],['Uncut'],['Prefer not to say']]},
  goods:{l:'Size and shape',sec:'Private',priv:1,q:'Size and shape',d:'Pick any.',o:[['Small'],['Average'],['Above average'],['Big'],['Thick'],['Extra thick'],['Wide'],['Tight'],['Toned'],['Veiny'],['Prefer not to say']]},
- oAge:{l:'Ages',sec:'Who you’re open to',q:'Which ages?',d:'Pick any.',o:[['18–24'],['25–34'],['35–44'],['45–54'],['55–64'],['65–74'],['75+']]},
- oEth:{l:'Ethnicities',sec:'Who you’re open to',q:'Which ethnicities?',d:'Pick any.',o:[['White'],['Asian'],['Black'],['Mixed'],['Other'],['Open to all']]},
- oOrient:{l:'Orientations',sec:'Who you’re open to',q:'Which orientations?',d:'Pick any.',o:[['Straight'],['Gay'],['Bi'],['Queer'],['Pansexual'],['Curious'],['Open to any']]},
+ oAge:{l:'Ages',sec:'Who you’re open to',q:'What ages are you open to?',d:'Pick any.',o:[['18–24'],['25–34'],['35–44'],['45–54'],['55–64'],['65–74'],['75+']]},
+ oEth:{l:'Ethnicities',sec:'Who you’re open to',q:'Any ethnicity preferences?',d:'Pick any. This ranks people, it never hides anyone.',o:[['White'],['Asian'],['Black'],['Mixed'],['Other'],['Open to all']]},
+ oOrient:{l:'Orientations',sec:'Who you’re open to',q:'Which orientations are you open to?',d:'Pick any.',o:[['Straight'],['Gay'],['Bi'],['Queer'],['Pansexual'],['Curious'],['Open to any']]},
  vibe2:{l:'Vibe',sec:'Tonight',q:'What’s the vibe?',d:'Pick any.',o:[['Long and slow'],['Straight to it'],['Deep and hard'],['Rough'],['Tender'],['Passionate'],['Sensual'],['Dominant'],['Dirty talk'],['No talking'],['No strings'],['Discreet and quick'],['All night']]},
  kinks:{l:'Kinks',sec:'Tonight',q:'Any kinks?',d:'Optional. Pick any.',o:[['Vanilla'],['Roleplay'],['Leather and gear'],['Toys'],['Spanking'],['Restraint'],['Sensory play'],['Watersports'],['Exhibitionist'],['Voyeur'],['Group'],['Prefer not to say']]},
  where:{l:'Where',sec:'Boundaries',q:'Where are you happy to meet?',one:1,o:[['Indoor only'],['Outdoor only'],['Indoor and outdoor'],['Car']]}};
 const SI={"si_shield": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M12 3l7.5 2.8v5.7c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V5.8z\"/><path d=\"M8.8 12.2l2.2 2.2 4.3-4.6\"/></svg>", "si_eyeoff": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3l18 18\"/><path d=\"M10.6 5.1A10.4 10.4 0 0112 5c5.8 0 9.5 7 9.5 7a17 17 0 01-3.1 4M6.6 6.6C3.9 8.4 2.5 12 2.5 12s3.7 7 9.5 7c1.6 0 3-.4 4.3-1\"/><path d=\"M9.9 9.9a3 3 0 004.2 4.2\"/></svg>", "si_clip": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"4.5\" width=\"14\" height=\"17\" rx=\"2.5\"/><path d=\"M9 4.5V3.8A1.3 1.3 0 0110.3 2.5h3.4A1.3 1.3 0 0115 3.8v.7\"/><path d=\"M9 13l2 2 4-4.2\"/></svg>"};
-const QESS=['gender','age','role','oGender','far','into','want','bound'];
+const QESS=['gender','age','oGender','oAge','far','into','want','role','bound'];
+const QMORE=['oEth','oOrient','orient','vibe2','kinks'];
+const isStraight=()=>!!(S.ad.orient&&S.ad.orient.has('Straight'));
+const roleOff=()=>{if(isStraight())return true;const g=S.ad.gender,o=S.ad.oGender;if(!g||!o||!o.size)return false;const only=x=>o.size===1&&o.has(x);return (g.has('Man')&&only('Women'))||(g.has('Woman')&&only('Men'))};
+const QCORE=()=>QESS.filter(k=>!(k==='role'&&roleOff()));
+const QF=()=>S.aMore?[...QCORE(),...QMORE]:QCORE();
 const QSECS=['About you','Private','Who you’re open to','Tonight','Boundaries'];
 const qVal=k=>[...(S.ad[k]||[])].join(', ');
 const CITIES=[['Manchester','Live now',1],['Leeds','Opening soon'],['Somewhere else','Tell us where you are']];
-const S={onb:false,aReady:false,aIdx:0,aEdit:null,aStep:0,ad:{},nudge:false,afterVerify:null,city:'Manchester',town:'',waitlisted:false,leeds:false,seen:false,screen:'splash',mode:'social',interests:new Set(['A pint','Karaoke']),q:'',showAll:false,vibe:new Set(),want:new Set(),must:new Set(),showMust:false,area:'Northern Quarter',codename:'Ochre Wren 641',cc:'c1',verified:false,live:false,secs:3600,tab:'home',joined:{},settings:{alerts:true,lock:false},roomTab:'tonight'};
+const S={aMore:false,aMoreAsked:false,onb:false,aReady:false,aIdx:0,aEdit:null,aStep:0,ad:{},nudge:false,afterVerify:null,city:'Manchester',town:'',waitlisted:false,leeds:false,seen:false,screen:'splash',mode:'social',interests:new Set(['A pint','Karaoke']),q:'',showAll:false,vibe:new Set(),want:new Set(),must:new Set(),showMust:false,area:'Northern Quarter',codename:'Ochre Wren 641',cc:'c1',verified:false,live:false,secs:3600,tab:'home',joined:{},settings:{alerts:true,lock:false},roomTab:'tonight'};
 let timer=null,reqTimer=null;
 const LK=`<svg class="lk" viewBox="0 -104.57 511.92 106.15" role="img" aria-label="everl"><rect y="-100" width="164.52" height="100" rx="50" fill="#34C759"/><circle cx="114.52" cy="-50" r="41.94" fill="#fff"/><path fill="currentColor" d="M239.69 1.58Q228.31 1.58 219.46 -3.1Q210.6 -7.78 205.56 -16.13Q200.52 -24.49 200.52 -35Q200.52 -45.51 205.49 -53.8Q210.45 -62.08 218.95 -66.83Q227.45 -71.58 238.11 -71.58Q248.48 -71.58 256.4 -67.12Q264.32 -62.65 268.86 -54.73Q273.4 -46.81 273.4 -36.58Q273.4 -34.71 273.18 -32.62Q272.96 -30.53 272.39 -27.8L212.04 -27.65V-42.78L263.03 -42.92L253.52 -36.58Q253.38 -42.63 251.65 -46.59Q249.92 -50.56 246.53 -52.64Q243.15 -54.73 238.25 -54.73Q233.07 -54.73 229.25 -52.36Q225.43 -49.98 223.35 -45.66Q221.26 -41.34 221.26 -35.14Q221.26 -28.95 223.49 -24.56Q225.72 -20.16 229.83 -17.79Q233.93 -15.41 239.55 -15.41Q244.73 -15.41 248.91 -17.21Q253.09 -19.01 256.26 -22.61L268.36 -10.51Q263.17 -4.47 255.82 -1.44Q248.48 1.58 239.69 1.58Z M302.49 0 272.82 -70H296.59L316.75 -11.67H306.38L326.54 -70H349.88L320.21 0Z M388.77 1.58Q377.39 1.58 368.53 -3.1Q359.67 -7.78 354.63 -16.13Q349.59 -24.49 349.59 -35Q349.59 -45.51 354.56 -53.8Q359.53 -62.08 368.03 -66.83Q376.52 -71.58 387.18 -71.58Q397.55 -71.58 405.47 -67.12Q413.4 -62.65 417.93 -54.73Q422.47 -46.81 422.47 -36.58Q422.47 -34.71 422.25 -32.62Q422.04 -30.53 421.46 -27.8L361.11 -27.65V-42.78L412.1 -42.92L402.59 -36.58Q402.45 -42.63 400.72 -46.59Q398.99 -50.56 395.61 -52.64Q392.22 -54.73 387.33 -54.73Q382.14 -54.73 378.32 -52.36Q374.51 -49.98 372.42 -45.66Q370.33 -41.34 370.33 -35.14Q370.33 -28.95 372.56 -24.56Q374.8 -20.16 378.9 -17.79Q383.01 -15.41 388.62 -15.41Q393.81 -15.41 397.99 -17.21Q402.16 -19.01 405.33 -22.61L417.43 -10.51Q412.24 -4.47 404.9 -1.44Q397.55 1.58 388.77 1.58Z M429.53 0V-70H451.57V0ZM451.57 -38.46 442.35 -45.66Q445.08 -57.9 451.57 -64.67Q458.05 -71.44 469.57 -71.44Q474.61 -71.44 478.43 -69.93Q482.24 -68.42 485.13 -65.25L472.02 -48.68Q470.58 -50.27 468.42 -51.13Q466.26 -52 463.52 -52Q458.05 -52 454.81 -48.61Q451.57 -45.23 451.57 -38.46Z M489.88 0V-104.57H511.92V0Z"/></svg>`, WM=`<svg class="lk" viewBox="0 -104.57 311.4 106.15" role="img" aria-label="everl"><path fill="currentColor" d="M39.18 1.58Q27.8 1.58 18.94 -3.1Q10.08 -7.78 5.04 -16.13Q0 -24.49 0 -35Q0 -45.51 4.97 -53.8Q9.94 -62.08 18.44 -66.83Q26.93 -71.58 37.59 -71.58Q47.96 -71.58 55.88 -67.12Q63.81 -62.65 68.34 -54.73Q72.88 -46.81 72.88 -36.58Q72.88 -34.71 72.66 -32.62Q72.45 -30.53 71.87 -27.8L11.52 -27.65V-42.78L62.51 -42.92L53 -36.58Q52.86 -42.63 51.13 -46.59Q49.4 -50.56 46.02 -52.64Q42.63 -54.73 37.74 -54.73Q32.55 -54.73 28.73 -52.36Q24.92 -49.98 22.83 -45.66Q20.74 -41.34 20.74 -35.14Q20.74 -28.95 22.97 -24.56Q25.21 -20.16 29.31 -17.79Q33.42 -15.41 39.03 -15.41Q44.22 -15.41 48.4 -17.21Q52.57 -19.01 55.74 -22.61L67.84 -10.51Q62.65 -4.47 55.31 -1.44Q47.96 1.58 39.18 1.58Z M101.98 0 72.3 -70H96.07L116.23 -11.67H105.86L126.03 -70H149.36L119.69 0Z M188.25 1.58Q176.87 1.58 168.01 -3.1Q159.16 -7.78 154.12 -16.13Q149.07 -24.49 149.07 -35Q149.07 -45.51 154.04 -53.8Q159.01 -62.08 167.51 -66.83Q176.01 -71.58 186.67 -71.58Q197.04 -71.58 204.96 -67.12Q212.88 -62.65 217.42 -54.73Q221.95 -46.81 221.95 -36.58Q221.95 -34.71 221.74 -32.62Q221.52 -30.53 220.95 -27.8L160.6 -27.65V-42.78L211.58 -42.92L202.08 -36.58Q201.93 -42.63 200.21 -46.59Q198.48 -50.56 195.09 -52.64Q191.71 -54.73 186.81 -54.73Q181.63 -54.73 177.81 -52.36Q173.99 -49.98 171.9 -45.66Q169.81 -41.34 169.81 -35.14Q169.81 -28.95 172.05 -24.56Q174.28 -20.16 178.38 -17.79Q182.49 -15.41 188.11 -15.41Q193.29 -15.41 197.47 -17.21Q201.65 -19.01 204.81 -22.61L216.91 -10.51Q211.73 -4.47 204.38 -1.44Q197.04 1.58 188.25 1.58Z M229.01 0V-70H251.05V0ZM251.05 -38.46 241.83 -45.66Q244.57 -57.9 251.05 -64.67Q257.53 -71.44 269.05 -71.44Q274.09 -71.44 277.91 -69.93Q281.73 -68.42 284.61 -65.25L271.5 -48.68Q270.06 -50.27 267.9 -51.13Q265.74 -52 263 -52Q257.53 -52 254.29 -48.61Q251.05 -45.23 251.05 -38.46Z M289.36 0V-104.57H311.4V0Z"/></svg>`;
 const LOGO=(c='#101A3C')=>`<span class="logo" style="color:${c}">${LK}</span>`;
@@ -482,17 +503,20 @@ aintro:()=>`<div class="screen aint">
  <div class="abody"><h2 class="sh">Safety comes first</h2>
  <div class="alist">${[['si_shield','Everyone is age checked','Verified 18+ before anyone can see them.'],['si_eyeoff','Private until you both say yes','No name, photo or profile on show.'],['si_clip','Boundaries agreed up front','You both see each other’s limits first.']].map(([i,t,d])=>`<div><span class="ii">${SI[i]}</span><span><b>${t}</b><span class="d">${d}</span></span></div>`).join('')}</div></div>
  <div class="foot"><button class="btn ink" id="aGo">Continue, I’m 18+</button><p class="sub" style="text-align:center">One quick check. We only get a yes or no.</p></div></div>`,
-aq:()=>{const k=S.aEdit||QESS[S.aIdx],Q=QS[k],sel=S.ad[k]||new Set(),n=sel.size,edit=!!S.aEdit;
- const opts=Q.one?`<div role="radiogroup" aria-label="${Q.q}" style="display:flex;flex-direction:column;gap:8px">${Q.o.map(([t,d])=>`<button class="choice area" role="radio" aria-checked="${sel.has(t)}" data-aopt="${k}|${t}"><span style="flex:1"><span class="ct">${t}</span>${d?`<span class="sub">${d}</span>`:''}</span><span class="rd">${IC.check}</span></button>`).join('')}</div>`
+amore:()=>`<div class="screen aqn"><div class="aqbg" aria-hidden="true"></div><div class="scroll" style="justify-content:center">
+ <div><h1 class="lt">Want sharper matches?</h1><p class="body" style="margin-top:8px">Five quick, private questions about who you’re into, the vibe and kinks. All optional.</p></div></div>
+ <div class="foot"><button class="btn ink" id="amoreGo">Keep going</button><button class="link" id="amoreSkip" style="color:#fff">Not now</button></div></div>`,
+aq:()=>{const k=S.aEdit||QF()[S.aIdx],Q=QS[k],sel=S.ad[k]||new Set(),n=sel.size,edit=!!S.aEdit;
+ const opts=(Q.one&&Q.o.length<=6)?`<div role="radiogroup" aria-label="${Q.q}" style="display:flex;flex-direction:column;gap:8px">${Q.o.map(([t,d])=>`<button class="choice area" role="radio" aria-checked="${sel.has(t)}" data-aopt="${k}|${t}"><span style="flex:1"><span class="ct">${t}</span>${d?`<span class="sub">${d}</span>`:''}</span><span class="rd">${IC.check}</span></button>`).join('')}</div>`
  :`<div class="chips">${Q.o.map(([t])=>`<button class="chip" aria-pressed="${sel.has(t)}" data-aopt="${k}|${t}">${t}</button>`).join('')}</div>`;
- return `<div class="screen"><div class="scroll">
- ${edit?nb(''):`<div class="navrow"><button class="round" data-aback aria-label="Back">${IC.back}</button><div class="prog"><i style="width:${((S.aIdx+1)/QESS.length*100).toFixed(1)}%"></i></div><button class="skip" data-anext>Skip</button></div>`}
+ return `<div class="screen aqn"><div class="aqbg" aria-hidden="true"></div><div class="scroll">
+ ${edit?nb(''):`<div class="navrow"><button class="round" data-aback aria-label="Back">${IC.back}</button><div class="prog"><i style="width:${((S.aIdx+1)/QF().length*100).toFixed(1)}%"></i></div><button class="skip" data-anext>Skip</button></div>`}
  <div><p class="kick">${Q.sec}</p><h1 class="lt" style="margin-top:4px">${Q.q}</h1>${Q.d?`<p class="body" style="margin-top:8px">${Q.d}</p>`:''}</div>
  ${opts}<div style="height:16px;flex:none"></div></div>
  ${Q.one&&!edit?'':`<div class="foot"><button class="btn ink" data-anext>${edit?'Done':(n?'Continue':'Skip for now')}</button></div>`}</div>`},
 adetails:()=>`<div class="screen"><div class="scroll">${nb('Your details')}
  <p class="body">Add as much or as little as you like. More detail means better matches tonight.</p>
- ${QSECS.map(sec=>`<p class="sh" style="margin-top:8px">${sec}${sec==='Private'?' <span class="sub" style="font-weight:400">Only shared if you both agree</span>':''}</p><div class="list">${Object.entries(QS).filter(([,Q])=>Q.sec===sec).map(([k,Q])=>`<button class="row" data-aedit="${k}"><span class="t" style="flex:none">${Q.l}</span><span class="e" style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%">${qVal(k)||'Not set'} ${chev}</span></button>`).join('')}</div>`).join('')}
+ ${QSECS.map(sec=>`<p class="sh" style="margin-top:8px">${sec}${sec==='Private'?' <span class="sub" style="font-weight:400">Only shared if you both agree</span>':''}</p><div class="list">${Object.entries(QS).filter(([k,Q])=>Q.sec===sec&&!(k==='role'&&roleOff())).map(([k,Q])=>`<button class="row" data-aedit="${k}"><span class="t" style="flex:none">${Q.l}</span><span class="e" style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%">${qVal(k)||'Not set'} ${chev}</span></button>`).join('')}</div>`).join('')}
  </div></div>`,
 
 ahome:()=>`<div class="screen"><div class="scroll">
@@ -596,7 +620,8 @@ function turnOn(){
 }
 function note(msg){document.querySelectorAll('.note').forEach(n=>n.remove());const n=document.createElement('div');n.className='note';n.setAttribute('role','status');n.textContent=msg;app.append(n);setTimeout(()=>{n.style.opacity=0;setTimeout(()=>n.remove(),220)},2600)}
 function areaSheet(){sheet(`<h2 class="t3" style="margin-top:8px">Choose an area</h2><div class="pick"><button data-loc><span class="ii">${IC.pin}</span><span><b>Use my current location</b></span></button>${AREAS.map(([t,d,live])=>`<button data-area="${t}" ${live?'':'aria-disabled="true"'}><span style="flex:1"><b>${t}</b><span class="d">${d}</span></span>${S.area===t?`<span class="ck">${IC.check}</span>`:''}</button>`).join('')}</div><p class="sub">Manchester. You can change your city in settings.</p>`)}
-function aNext(){if(S.aEdit){S.aEdit=null;back();return}if(S.aIdx>=QESS.length-1&&S.onb){nav('city');return}if(S.aIdx>=QESS.length-1){S.aReady=true;S.screen='main';S.tab='home';hist.length=0;render();note('You’re set up. Add more any time under Showing as.');return}S.aIdx++;render();const sc=app.querySelector('.scroll');if(sc)sc.scrollTop=0}
+function aDone(){if(S.onb){nav('city');return}S.aReady=true;S.screen='main';S.tab='home';hist.length=0;render();note('You’re set up. Add more any time under Showing as.')}
+function aNext(){if(S.aEdit){S.aEdit=null;back();return}if(S.aIdx>=QF().length-1){if(!S.aMore&&!S.aMoreAsked){S.aMoreAsked=true;S.screen='amore';render();return}aDone();return}S.aIdx++;render();const sc=app.querySelector('.scroll');if(sc)sc.scrollTop=0}
 function turnOff(){S.live=false;clearTimeout(reqTimer);render(false)}
 function incoming(){
   const t=document.createElement('button');t.className='toast';t.innerHTML=`<span class="av c2" style="width:38px;height:38px;font:600 13px var(--text)">CO</span><span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">${S.mode==='adult'?'Someone nearby wants to meet.':'Cedar Otter 478 wants to meet for karaoke. 40 m away.'}</span></span>`;
@@ -645,6 +670,8 @@ app.addEventListener('click',e=>{
   if(t.id==='aGo'){const start=()=>{S.aIdx=0;S.aEdit=null;nav('aq')};if(S.verified)start();else{S.afterVerify=start;turnOn()}return}
   if(t.dataset.aopt){const i=t.dataset.aopt.indexOf('|'),k=t.dataset.aopt.slice(0,i),v=t.dataset.aopt.slice(i+1),Q=QS[k];const set=S.ad[k]||(S.ad[k]=new Set());if(Q.one){set.clear();set.add(v);render(false);if(!S.aEdit)setTimeout(aNext,260);return}set.has(v)?set.delete(v):set.add(v);keep();return}
   if(t.hasAttribute('data-anext')){aNext();return}
+  if(t.id==='amoreGo'){S.aMore=true;S.aIdx=QCORE().length;S.screen='aq';render();return}
+  if(t.id==='amoreSkip'){aDone();return}
   if(t.hasAttribute('data-aback')){if(S.aIdx===0){back();return}S.aIdx--;render();return}
   if(t.dataset.aedit){S.aEdit=t.dataset.aedit;nav('aq');return}
   if(t.hasAttribute('data-arefine')){S.aEdit=null;nav('adetails');return}
