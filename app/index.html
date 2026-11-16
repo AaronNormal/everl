@@ -1,6 +1,6 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Everl app</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#101A3C">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Everl"><link rel="manifest" href="manifest.webmanifest">
 
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -227,6 +227,27 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .grp{display:flex;flex-direction:column;gap:10px}.grp .sh{margin:0}
 .privt{display:inline-flex;align-items:center;gap:6px;font:500 13px var(--text);color:var(--sub)}.privt svg{width:14px;height:14px}
 .plus{border-radius:16px;box-shadow:0 0 0 1px var(--hair);padding:16px;display:flex;flex-direction:column;gap:4px}
+
+.ahero{position:relative;flex:1 1 auto;min-height:170px;background:#111 var(--ufm,url(img/upformore.jpg)) 50% 22%/cover no-repeat;display:flex;flex-direction:column;justify-content:space-between;padding:calc(16px + var(--top)) 20px 20px;color:#fff;isolation:isolate}
+.aint .abody{flex:none;padding:24px 20px 8px;display:flex;flex-direction:column;gap:16px}.aint .abody .sh{margin:0;font:600 17px var(--text)}
+.alist{display:flex;flex-direction:column;gap:18px}.alist>div{display:flex;gap:14px;align-items:flex-start}.alist .ii{width:24px;height:24px;flex:none;color:var(--ink);margin-top:1px}.alist b{display:block;font:600 16px/1.3 var(--text)}.alist .d{display:block;font:400 15px/1.4 var(--text);color:var(--sub);margin-top:2px}
+.aint .foot{flex:none;background:none;padding-top:16px}
+@media (min-width:501px){.ahero{padding-top:62px}}
+.ahero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,0) 50%,rgba(0,0,0,.72) 100%)}
+.ahtxt p{margin:0;font:600 15px var(--text);opacity:.85}
+.ahtxt h1{margin:4px 0 0;font:700 34px/1.1 var(--display);letter-spacing:-.022em;text-wrap:balance}
+.glassb{background:rgba(255,255,255,.22)!important;color:#fff;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.modesw.dark{background:rgba(0,0,0,.28);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.modesw.dark button{color:rgba(255,255,255,.85)}.modesw.dark button[aria-pressed="true"]{background:#fff;color:var(--ink)}
+.feat{padding:8px 0}
+.badge18{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:13px;background:rgba(255,255,255,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font:700 13px var(--text);letter-spacing:.02em}
+.ahtxt h1{margin-top:10px!important}
+.modesw.dark{background:rgba(0,0,0,.45)}.modesw.dark button{color:#fff}
+.aint .abody{padding:24px 20px 0!important;gap:20px!important}.aint .abody .sh{font:700 20px/1.2 var(--display)!important;letter-spacing:-.01em}
+.alist{gap:20px!important}.alist .ii{color:var(--navy)!important}
+.aint .foot{padding-top:24px!important}
+
+/* 18+ intro look options */
+.aint{background:#0b0c0f;color:#fff}.aint .sh,.alist b{color:#fff}.alist .d,.aint .foot .sub{color:rgba(255,255,255,.62)}.alist .ii{color:#fff!important}.aint #aGo{background:#fff;color:#0b0c0f}.ahero::after{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,0) 45%,#0b0c0f 100%)}
 /* go-available moment */
 .fx{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
 .fx .ring{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--green);opacity:0;animation:ring 1200ms cubic-bezier(.2,.7,.2,1) forwards}
@@ -335,6 +356,7 @@ const QS={
  vibe2:{l:'Vibe',sec:'Tonight',q:'What’s the vibe?',d:'Pick any.',o:[['Long and slow'],['Straight to it'],['Deep and hard'],['Rough'],['Tender'],['Passionate'],['Sensual'],['Dominant'],['Dirty talk'],['No talking'],['No strings'],['Discreet and quick'],['All night']]},
  kinks:{l:'Kinks',sec:'Tonight',q:'Any kinks?',d:'Optional. Pick any.',o:[['Vanilla'],['Roleplay'],['Leather and gear'],['Toys'],['Spanking'],['Restraint'],['Sensory play'],['Watersports'],['Exhibitionist'],['Voyeur'],['Group'],['Prefer not to say']]},
  where:{l:'Where',sec:'Boundaries',q:'Where are you happy to meet?',one:1,o:[['Indoor only'],['Outdoor only'],['Indoor and outdoor'],['Car']]}};
+const SI={"si_shield": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M12 3l7.5 2.8v5.7c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V5.8z\"/><path d=\"M8.8 12.2l2.2 2.2 4.3-4.6\"/></svg>", "si_eyeoff": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3l18 18\"/><path d=\"M10.6 5.1A10.4 10.4 0 0112 5c5.8 0 9.5 7 9.5 7a17 17 0 01-3.1 4M6.6 6.6C3.9 8.4 2.5 12 2.5 12s3.7 7 9.5 7c1.6 0 3-.4 4.3-1\"/><path d=\"M9.9 9.9a3 3 0 004.2 4.2\"/></svg>", "si_clip": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"4.5\" width=\"14\" height=\"17\" rx=\"2.5\"/><path d=\"M9 4.5V3.8A1.3 1.3 0 0110.3 2.5h3.4A1.3 1.3 0 0115 3.8v.7\"/><path d=\"M9 13l2 2 4-4.2\"/></svg>"};
 const QESS=['gender','age','role','oGender','far','into','want','bound'];
 const QSECS=['About you','Private','Who you’re open to','Tonight','Boundaries'];
 const qVal=k=>[...(S.ad[k]||[])].join(', ');
@@ -454,11 +476,12 @@ live:()=>`<div class="screen"><div class="scroll">
  <div class="sec"><h2>This week</h2></div>
  <div class="list">${['run','games'].map(k=>{const T=TH[k];return `<button class="row" data-room="${k}"><span class="ri" style="background:${T.bg}">${T.e[0]}</span><span style="flex:1;min-width:0"><span class="t" style="display:block;font-weight:600">${T.t}</span><span class="d">${T.m}</span></span><span class="e">${places(k).replace(' places','')} ${chev}</span></button>`}).join('')}</div>
  </div>${tabs()}</div>`,
-aintro:()=>`<div class="screen"><div class="scroll">
- ${S.onb?`<div class="navrow"><button class="round" data-back aria-label="Back">${IC.back}</button><span></span></div>`:`<div class="hrow">${modeSw()}<span></span></div>`}
- <div><h1 class="lt" style="margin-top:8px">A different kind of tonight</h1><p class="body" style="margin-top:8px">Up for more is Everl’s 18+ side, for meeting someone nearby who wants the same thing tonight.</p></div>
- <div>${[['pin','Someone nearby, tonight','Real people a few minutes away who are open to more right now. No grid to scroll.'],['people','One match at a time','You both say yes, or nothing happens.'],['eye','Anonymous by design','No profile, photos or name until you both choose to meet.'],['lock','Discreet, always','Nothing on your home screen, and nothing on your bank statement says Everl.']].map(([i,t,d])=>`<div class="feat"><span class="ii">${IC[i]}</span><span><b>${t}</b><span class="d">${d}</span></span></div>`).join('')}</div>
- </div><div class="foot"><button class="btn ink" id="aGo">Continue, I’m 18+</button><p class="sub" style="text-align:center">Next is a quick, anonymous age check. We only ever get a yes or no.</p></div></div>`,
+aintro:()=>`<div class="screen aint">
+ <div class="ahero"><div class="ahtop">${S.onb?`<button class="round glassb" data-back aria-label="Back">${IC.back}</button>`:`<div class="modesw dark">${modeSw().replace('<div class="modesw" role="group" aria-label="Mode">','').replace(/<\/div>$/,'')}</div>`}</div>
+  <div class="ahtxt"><span class="badge18">18+</span><h1>Meet someone nearby tonight</h1></div></div>
+ <div class="abody"><h2 class="sh">Safety comes first</h2>
+ <div class="alist">${[['si_shield','Everyone is age checked','Verified 18+ before anyone can see them.'],['si_eyeoff','Private until you both say yes','No name, photo or profile on show.'],['si_clip','Boundaries agreed up front','You both see each other’s limits first.']].map(([i,t,d])=>`<div><span class="ii">${SI[i]}</span><span><b>${t}</b><span class="d">${d}</span></span></div>`).join('')}</div></div>
+ <div class="foot"><button class="btn ink" id="aGo">Continue, I’m 18+</button><p class="sub" style="text-align:center">One quick check. We only get a yes or no.</p></div></div>`,
 aq:()=>{const k=S.aEdit||QESS[S.aIdx],Q=QS[k],sel=S.ad[k]||new Set(),n=sel.size,edit=!!S.aEdit;
  const opts=Q.one?`<div role="radiogroup" aria-label="${Q.q}" style="display:flex;flex-direction:column;gap:8px">${Q.o.map(([t,d])=>`<button class="choice area" role="radio" aria-checked="${sel.has(t)}" data-aopt="${k}|${t}"><span style="flex:1"><span class="ct">${t}</span>${d?`<span class="sub">${d}</span>`:''}</span><span class="rd">${IC.check}</span></button>`).join('')}</div>`
  :`<div class="chips">${Q.o.map(([t])=>`<button class="chip" aria-pressed="${sel.has(t)}" data-aopt="${k}|${t}">${t}</button>`).join('')}</div>`;
@@ -649,6 +672,7 @@ $('#reset').onclick=()=>{Object.assign(S,{screen:'splash',live:false,verified:fa
 {const ph=new URLSearchParams(location.search).get('photo');if(/^[A-F]$/.test(ph||''))document.documentElement.style.setProperty('--splash',`url(img/splash-${ph}.jpg)`)}
 {const q=new URLSearchParams(location.search).get('screen');if(q==='home'||q==='rooms'||q==='you'){S.screen='main';S.tab=q;S.interests.add('Pub quiz')}else if(q==='room'){S.screen='room';S.room=new URLSearchParams(location.search).get('room')||'quiz'}else if(q==='live'){S.live=true;S.screen='main';S.tab='home'}else if(q&&q!=='main'&&typeof V[q]==='function'){S.screen=q;S.interests.add('Pub quiz')}}
 if(new URLSearchParams(location.search).get('verified'))S.verified=true;
+{const u=new URLSearchParams(location.search).get('ufm');if(/^[1-4]$/.test(u||''))document.documentElement.style.setProperty('--ufm',`url(img/upformore-${u}.jpg)`)}
 {const u=new URLSearchParams(location.search);if(u.get('mode')==='adult'){S.mode='adult';if(u.get('ready'))S.aReady=true}if(u.get('aq'))S.aIdx=+u.get('aq')}
 render(false);
 </script>
