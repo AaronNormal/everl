@@ -217,6 +217,16 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .tabs svg{width:24px;height:24px}
 .tav{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 10px var(--text);color:var(--navy);flex:none}
 .tabs button[aria-current="page"] .tav{box-shadow:0 0 0 2px var(--ink)}
+
+/* adult mode */
+.modesw{display:inline-flex;background:var(--fill);border-radius:18px;padding:2px}
+.modesw button{height:32px;padding:0 14px;border-radius:16px;font:600 13px var(--text);color:var(--sub)}
+.modesw button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.hrow{display:flex;align-items:center;justify-content:space-between;margin-right:-8px}
+.feat{display:flex;gap:14px;align-items:flex-start;padding:10px 0}.feat .ii{width:24px;height:24px;color:var(--ink);flex:none;margin-top:2px}.feat b{display:block;font:600 17px var(--text)}.feat span.d{font:400 15px var(--text);color:var(--sub)}
+.grp{display:flex;flex-direction:column;gap:10px}.grp .sh{margin:0}
+.privt{display:inline-flex;align-items:center;gap:6px;font:500 13px var(--text);color:var(--sub)}.privt svg{width:14px;height:14px}
+.plus{border-radius:16px;box-shadow:0 0 0 1px var(--hair);padding:16px;display:flex;flex-direction:column;gap:4px}
 /* go-available moment */
 .fx{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
 .fx .ring{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--green);opacity:0;animation:ring 1200ms cubic-bezier(.2,.7,.2,1) forwards}
@@ -302,8 +312,36 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 const $=s=>document.querySelector(s);
 const app=$('#app');
 const AREAS=[['Northern Quarter','Live now',1],['Ancoats','Opens 4 December'],['Gay Village','Opens 4 December'],['Spinningfields','Opens in January']];
+
+const AS=[
+ {t:'About you',d:'Optional. The more you add, the better we can match you with someone who fits tonight.',g:[
+  ['gender','Gender',['Man','Woman','Non-binary','Trans man','Trans woman'],1],
+  ['age','Age',['18–24','25–34','35–44','45–54','55–64','65–74','75+'],1],
+  ['build','Build',['Slim','Average','Athletic','Muscular','Curvy','Larger'],1],
+  ['height','Height',['Under 5′5″','5′5″ to 5′9″','5′10″ to 6′1″','Over 6′1″'],1],
+  ['features','Features',['Tattoos','Piercings','Beard','Glasses','Short hair','Long hair']]]},
+ {t:'Private details',d:'All optional and private. Only shown to a match if you both agree.',priv:1,g:[
+  ['role','Role',['Top','Vers top','Versatile','Vers bottom','Bottom','Side','Power bottom','Power top','Dominant','Submissive','Switch']],
+  ['orient','Orientation',['Straight','Gay','Bi','Queer','Pansexual','Curious'],1],
+  ['health','Health',['Tested regularly','On PrEP','Prefer not to say']],
+  ['cut','Anatomy',['Cut','Uncut','Prefer not to say'],1],
+  ['goods','Size and shape',['Small','Average','Above average','Big','Thick','Extra thick','Wide','Tight','Toned','Veiny','Prefer not to say']]]},
+ {t:'Who you’re open to',d:'These rank people for you. They never hide anyone.',g:[
+  ['oGender','Open to',['Men','Women','Non-binary','Trans men','Trans women','Everyone']],
+  ['oAge','Ages',['18–24','25–34','35–44','45–54','55–64','65–74','75+']],
+  ['oEth','Ethnicities',['White','Asian','Black','Mixed','Other','Open to all']],
+  ['oOrient','Orientations',['Straight','Gay','Bi','Queer','Pansexual','Curious','Open to any']],
+  ['far','How far',['Right here','Walking distance','This area','This city','Anywhere nearby'],1]]},
+ {t:'Tonight',d:'What you’re into right now. Change it every night if you like.',g:[
+  ['into','Into',['A drink first','Straight to it','Slow build','No small talk','Chat first']],
+  ['want','Right now I want',['Give oral','Receive oral','Rimming','Penetration','Kissing','Hands only','Mutual','Massage','Toys','Group','Just company','See where it goes']],
+  ['vibe2','Vibe',['Long and slow','Straight to it','Deep and hard','Rough','Tender','Passionate','Sensual','Dominant','Dirty talk','No talking','No strings','Discreet and quick','All night']],
+  ['kinks','Kinks',['Vanilla','Roleplay','Leather and gear','Toys','Spanking','Restraint','Sensory play','Watersports','Exhibitionist','Voyeur','Group','Prefer not to say']]]},
+ {t:'Your boundaries',d:'We show both of you each other’s boundaries before you meet.',g:[
+  ['bound','Boundaries',['Safe sex only','Bareback okay','No pain','Sober only','No drugs','Non-smoker','No names','No photos without asking','Discretion essential']],
+  ['where','Where',['Indoor only','Outdoor only','Indoor and outdoor','Car'],1]]}];
 const CITIES=[['Manchester','Live now',1],['Leeds','Opening soon'],['Somewhere else','Tell us where you are']];
-const S={city:'Manchester',town:'',waitlisted:false,leeds:false,seen:false,screen:'splash',mode:'social',interests:new Set(['A pint','Karaoke']),q:'',showAll:false,vibe:new Set(),want:new Set(),must:new Set(),showMust:false,area:'Northern Quarter',codename:'Ochre Wren 641',cc:'c1',verified:false,live:false,secs:3600,tab:'home',joined:{},settings:{alerts:true,lock:false},roomTab:'tonight'};
+const S={aReady:false,aStep:0,ad:{},nudge:false,afterVerify:null,city:'Manchester',town:'',waitlisted:false,leeds:false,seen:false,screen:'splash',mode:'social',interests:new Set(['A pint','Karaoke']),q:'',showAll:false,vibe:new Set(),want:new Set(),must:new Set(),showMust:false,area:'Northern Quarter',codename:'Ochre Wren 641',cc:'c1',verified:false,live:false,secs:3600,tab:'home',joined:{},settings:{alerts:true,lock:false},roomTab:'tonight'};
 let timer=null,reqTimer=null;
 const LK=`<svg class="lk" viewBox="0 -104.57 511.92 106.15" role="img" aria-label="everl"><rect y="-100" width="164.52" height="100" rx="50" fill="#34C759"/><circle cx="114.52" cy="-50" r="41.94" fill="#fff"/><path fill="currentColor" d="M239.69 1.58Q228.31 1.58 219.46 -3.1Q210.6 -7.78 205.56 -16.13Q200.52 -24.49 200.52 -35Q200.52 -45.51 205.49 -53.8Q210.45 -62.08 218.95 -66.83Q227.45 -71.58 238.11 -71.58Q248.48 -71.58 256.4 -67.12Q264.32 -62.65 268.86 -54.73Q273.4 -46.81 273.4 -36.58Q273.4 -34.71 273.18 -32.62Q272.96 -30.53 272.39 -27.8L212.04 -27.65V-42.78L263.03 -42.92L253.52 -36.58Q253.38 -42.63 251.65 -46.59Q249.92 -50.56 246.53 -52.64Q243.15 -54.73 238.25 -54.73Q233.07 -54.73 229.25 -52.36Q225.43 -49.98 223.35 -45.66Q221.26 -41.34 221.26 -35.14Q221.26 -28.95 223.49 -24.56Q225.72 -20.16 229.83 -17.79Q233.93 -15.41 239.55 -15.41Q244.73 -15.41 248.91 -17.21Q253.09 -19.01 256.26 -22.61L268.36 -10.51Q263.17 -4.47 255.82 -1.44Q248.48 1.58 239.69 1.58Z M302.49 0 272.82 -70H296.59L316.75 -11.67H306.38L326.54 -70H349.88L320.21 0Z M388.77 1.58Q377.39 1.58 368.53 -3.1Q359.67 -7.78 354.63 -16.13Q349.59 -24.49 349.59 -35Q349.59 -45.51 354.56 -53.8Q359.53 -62.08 368.03 -66.83Q376.52 -71.58 387.18 -71.58Q397.55 -71.58 405.47 -67.12Q413.4 -62.65 417.93 -54.73Q422.47 -46.81 422.47 -36.58Q422.47 -34.71 422.25 -32.62Q422.04 -30.53 421.46 -27.8L361.11 -27.65V-42.78L412.1 -42.92L402.59 -36.58Q402.45 -42.63 400.72 -46.59Q398.99 -50.56 395.61 -52.64Q392.22 -54.73 387.33 -54.73Q382.14 -54.73 378.32 -52.36Q374.51 -49.98 372.42 -45.66Q370.33 -41.34 370.33 -35.14Q370.33 -28.95 372.56 -24.56Q374.8 -20.16 378.9 -17.79Q383.01 -15.41 388.62 -15.41Q393.81 -15.41 397.99 -17.21Q402.16 -19.01 405.33 -22.61L417.43 -10.51Q412.24 -4.47 404.9 -1.44Q397.55 1.58 388.77 1.58Z M429.53 0V-70H451.57V0ZM451.57 -38.46 442.35 -45.66Q445.08 -57.9 451.57 -64.67Q458.05 -71.44 469.57 -71.44Q474.61 -71.44 478.43 -69.93Q482.24 -68.42 485.13 -65.25L472.02 -48.68Q470.58 -50.27 468.42 -51.13Q466.26 -52 463.52 -52Q458.05 -52 454.81 -48.61Q451.57 -45.23 451.57 -38.46Z M489.88 0V-104.57H511.92V0Z"/></svg>`, WM=`<svg class="lk" viewBox="0 -104.57 311.4 106.15" role="img" aria-label="everl"><path fill="currentColor" d="M39.18 1.58Q27.8 1.58 18.94 -3.1Q10.08 -7.78 5.04 -16.13Q0 -24.49 0 -35Q0 -45.51 4.97 -53.8Q9.94 -62.08 18.44 -66.83Q26.93 -71.58 37.59 -71.58Q47.96 -71.58 55.88 -67.12Q63.81 -62.65 68.34 -54.73Q72.88 -46.81 72.88 -36.58Q72.88 -34.71 72.66 -32.62Q72.45 -30.53 71.87 -27.8L11.52 -27.65V-42.78L62.51 -42.92L53 -36.58Q52.86 -42.63 51.13 -46.59Q49.4 -50.56 46.02 -52.64Q42.63 -54.73 37.74 -54.73Q32.55 -54.73 28.73 -52.36Q24.92 -49.98 22.83 -45.66Q20.74 -41.34 20.74 -35.14Q20.74 -28.95 22.97 -24.56Q25.21 -20.16 29.31 -17.79Q33.42 -15.41 39.03 -15.41Q44.22 -15.41 48.4 -17.21Q52.57 -19.01 55.74 -22.61L67.84 -10.51Q62.65 -4.47 55.31 -1.44Q47.96 1.58 39.18 1.58Z M101.98 0 72.3 -70H96.07L116.23 -11.67H105.86L126.03 -70H149.36L119.69 0Z M188.25 1.58Q176.87 1.58 168.01 -3.1Q159.16 -7.78 154.12 -16.13Q149.07 -24.49 149.07 -35Q149.07 -45.51 154.04 -53.8Q159.01 -62.08 167.51 -66.83Q176.01 -71.58 186.67 -71.58Q197.04 -71.58 204.96 -67.12Q212.88 -62.65 217.42 -54.73Q221.95 -46.81 221.95 -36.58Q221.95 -34.71 221.74 -32.62Q221.52 -30.53 220.95 -27.8L160.6 -27.65V-42.78L211.58 -42.92L202.08 -36.58Q201.93 -42.63 200.21 -46.59Q198.48 -50.56 195.09 -52.64Q191.71 -54.73 186.81 -54.73Q181.63 -54.73 177.81 -52.36Q173.99 -49.98 171.9 -45.66Q169.81 -41.34 169.81 -35.14Q169.81 -28.95 172.05 -24.56Q174.28 -20.16 178.38 -17.79Q182.49 -15.41 188.11 -15.41Q193.29 -15.41 197.47 -17.21Q201.65 -19.01 204.81 -22.61L216.91 -10.51Q211.73 -4.47 204.38 -1.44Q197.04 1.58 188.25 1.58Z M229.01 0V-70H251.05V0ZM251.05 -38.46 241.83 -45.66Q244.57 -57.9 251.05 -64.67Q257.53 -71.44 269.05 -71.44Q274.09 -71.44 277.91 -69.93Q281.73 -68.42 284.61 -65.25L271.5 -48.68Q270.06 -50.27 267.9 -51.13Q265.74 -52 263 -52Q257.53 -52 254.29 -48.61Q251.05 -45.23 251.05 -38.46Z M289.36 0V-104.57H311.4V0Z"/></svg>`;
 const LOGO=(c='#101A3C')=>`<span class="logo" style="color:${c}">${LK}</span>`;
@@ -355,13 +393,18 @@ function tcard(k,seed,o={}){const T=TH[k];return `<button class="tc${T.ink?' ink
 const nb=(t,left='back')=>`<div class="nb">${left==='back'?`<button data-back aria-label="Back">${IC.back}</button>`:left==='close'?`<button data-endmeet aria-label="Close">${IC.x}</button>`:'<span></span>'}<span class="nbt">${t}</span><span></span></div>`;
 const ini=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('');
 const places=k=>{const T=TH[k];return `${T.spots[0]+(S.joined[k]?1:0)} of ${T.spots[1]} places`};
+
+const modeSw=()=>`<div class="modesw" role="group" aria-label="Mode"><button data-setmode="social" aria-pressed="${S.mode!=='adult'}">Social</button><button data-setmode="adult" aria-pressed="${S.mode==='adult'}">Up for more</button></div>`;
+const bellBtn=()=>`<button class="ib" data-go="notifs" aria-label="Notifications${S.seen?'':', 2 new'}">${IC.bell}${S.seen?'':'<span class="bd"></span>'}</button>`;
+const areaHead=k=>`<div class="hd"><div class="hrow">${modeSw()}${bellBtn()}</div><p class="kick" style="margin-top:12px">${k}</p><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button></div>`;
+const aSum=()=>{const v=['gender','age','role','into'].flatMap(k=>[...(S.ad[k]||[])]);return v.length?v.slice(0,4).join(', '):'Not set yet'};
 function tile(k,o={}){const T=TH[k];return `<button class="tile${o.wide?' wide':''}" data-room="${k}" style="${o.w?`width:${o.w}px`:''}"><span class="tl" style="background:${T.bg}"><span class="te">${T.e[0]}</span></span><span class="tt">${T.t}</span><span class="tm">${T.m}</span><span class="tm">${places(k)}</span></button>`}
 function sw(on,label,id){return `<button class="sw" role="switch" aria-checked="${on}" aria-label="${label}" ${id?`id="${id}"`:''}></button>`}
 const TI={home:['<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 10.2L12 4l8 6.2V19a1 1 0 01-1 1h-4.5v-5.5h-5V20H5a1 1 0 01-1-1z"/></svg>','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.4l8.6 6.6V19.2c0 .9-.7 1.6-1.6 1.6h-4.6v-6h-4.8v6H5c-.9 0-1.6-.7-1.6-1.6V10z"/></svg>'],
  you:['<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8.2" r="3.9"/><path d="M4.6 20.2c.9-3.8 3.8-5.8 7.4-5.8s6.5 2 7.4 5.8" stroke-linecap="round"/></svg>','<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8.2" r="4.6"/><path d="M3.8 20.1c.9-4.4 4.2-6.6 8.2-6.6s7.3 2.2 8.2 6.6c.1.5-.3.9-.8.9H4.6c-.5 0-.9-.4-.8-.9z"/></svg>'],
  rooms:['<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15.5" rx="3.5"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke-linecap="round"/></svg>','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.2 3a1 1 0 012 0v1.2h5.6V3a1 1 0 012 0v1.2H17A3.6 3.6 0 0120.6 8v1.2H3.4V8A3.6 3.6 0 017 4.2h.2zM3.4 10.8h17.2V17A3.6 3.6 0 0117 20.6H7A3.6 3.6 0 013.4 17z"/></svg>']};
 function tabs(){const on=k=>S.tab===k;const av=`<span class="tav ${S.cc}">${ini(S.codename)}</span>`;
- return `<nav class="tabs nav-a" aria-label="Tabs"><button data-tab="home" aria-label="Home" ${on('home')?'aria-current="page"':''}>${TI.home[on('home')?1:0]}<span>Home</span></button><button data-tab="rooms" aria-label="Rooms" ${on('rooms')?'aria-current="page"':''}>${TI.rooms[on('rooms')?1:0]}<span>Rooms</span></button><button data-tab="you" aria-label="You" ${on('you')?'aria-current="page"':''}>${TI.you[on('you')?1:0]}<span>You</span></button></nav>`}
+ return `<nav class="tabs nav-a" aria-label="Tabs"><button data-tab="home" aria-label="Home" ${on('home')?'aria-current="page"':''}>${TI.home[on('home')?1:0]}<span>Home</span></button>${S.mode==='adult'?'':`<button data-tab="rooms" aria-label="Rooms" ${on('rooms')?'aria-current="page"':''}>${TI.rooms[on('rooms')?1:0]}<span>Rooms</span></button>`}<button data-tab="you" aria-label="You" ${on('you')?'aria-current="page"':''}>${TI.you[on('you')?1:0]}<span>You</span></button></nav>`}
 const fmt=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
 const prog=(n,r='<span style="width:44px"></span>')=>`<div class="navrow"><button class="round" data-back aria-label="Back">${IC.back}</button><div class="prog"><i style="width:${(n/6*100).toFixed(1)}%"></i></div>${r}</div>`;
 
@@ -397,8 +440,8 @@ codename:()=>`<div class="screen"><div class="scroll" style="align-items:center;
  <div style="margin:32px 0 8px"><span class="av ${S.cc}" style="width:120px;height:120px;font:700 40px var(--display)">${ini(S.codename)}</span></div>
  <h1 class="lt">${S.codename}</h1><p class="body" style="max-width:300px">This is your codename. It’s the only name others see until you both agree to meet. No photos or real names are shared.</p></div>
  <div class="foot"><button class="btn ink" data-go="home">Continue</button><button class="link" id="newName">Generate a different codename</button></div></div>`,
-home:()=>S.live?V.live():`<div class="screen"><div class="scroll">
- <div class="hd"><p class="kick">Going out in</p><div class="top" style="align-items:center"><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button><button class="ib" data-go="notifs" aria-label="Notifications${S.seen?'':', 2 new'}">${IC.bell}${S.seen?'':'<span class="bd"></span>'}</button></div></div>
+home:()=>S.mode==='adult'?(S.aReady?V.ahome():V.aintro()):S.live?V.live():`<div class="screen"><div class="scroll">
+ ${areaHead('Going out in')}
  <button class="avail card" id="homeSw" role="switch" aria-checked="false" aria-label="Go available for one hour"><span class="top" style="align-items:center"><span style="flex:1"><span class="ttl" style="display:block">Go available</span><span class="sub">Visible to people nearby for 1 hour</span></span><span class="sw" aria-hidden="true"></span></span><span class="who"><span style="display:flex">${[['c2','CO'],['c3','MW'],['c4','SF']].map(([c,n],i)=>`<span class="av ${c}" style="width:28px;height:28px;font:600 11px var(--text);margin-left:${i?4:0}px">${n}</span>`).join('')}</span><span><b>12 people</b> available within 400 m</span></span></button>
  <div class="sec"><h2>Tonight</h2><button data-tab="rooms">See all</button></div>
  <div class="tiles">${['quiz','karaoke','drinks','padel'].map(k=>tile(k,{w:220})).join('')}</div>
@@ -406,12 +449,35 @@ home:()=>S.live?V.live():`<div class="screen"><div class="scroll">
  <div class="list">${['run','games'].map(k=>{const T=TH[k];return `<button class="row" data-room="${k}"><span class="ri" style="background:${T.bg}">${T.e[0]}</span><span style="flex:1;min-width:0"><span class="t" style="display:block;font-weight:600">${T.t}</span><span class="d">${T.m}</span></span><span class="e">${places(k).replace(' places','')} ${chev}</span></button>`}).join('')}</div>
  </div>${tabs()}</div>`,
 live:()=>`<div class="screen"><div class="scroll">
- <div class="hd"><p class="kick">Going out in</p><div class="top" style="align-items:center"><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button><button class="ib" data-go="notifs" aria-label="Notifications${S.seen?'':', 2 new'}">${IC.bell}${S.seen?'':'<span class="bd"></span>'}</button></div></div>
+ ${areaHead('Going out in')}
  <div class="hero"><div class="hr"><span class="hb">You’re available</span>${sw(true,'Available','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`<span class="av ${c}" style="width:28px;height:28px;margin-left:${i?4:0}px;font:600 11px var(--text);background:#fff">${['CO','SH','LF'][i]}</span>`).join('')}</span><span><b>3 nearby</b> share your interests</span></div></div>
  <div class="sec"><h2>Tonight</h2><button data-tab="rooms">See all</button></div>
  <div class="tiles">${['quiz','karaoke','drinks','padel'].map(k=>tile(k,{w:220})).join('')}</div>
  <div class="sec"><h2>This week</h2></div>
  <div class="list">${['run','games'].map(k=>{const T=TH[k];return `<button class="row" data-room="${k}"><span class="ri" style="background:${T.bg}">${T.e[0]}</span><span style="flex:1;min-width:0"><span class="t" style="display:block;font-weight:600">${T.t}</span><span class="d">${T.m}</span></span><span class="e">${places(k).replace(' places','')} ${chev}</span></button>`}).join('')}</div>
+ </div>${tabs()}</div>`,
+aintro:()=>`<div class="screen"><div class="scroll">
+ <div class="hrow">${modeSw()}<span></span></div>
+ <div><h1 class="lt" style="margin-top:8px">A different kind of tonight</h1><p class="body" style="margin-top:8px">Up for more is Everl’s 18+ side, for meeting someone nearby who wants the same thing tonight.</p></div>
+ <div>${[['pin','Someone nearby, tonight','Real people a few minutes away who are open to more right now. No grid to scroll.'],['people','One match at a time','You both say yes, or nothing happens.'],['eye','Anonymous by design','No profile, photos or name until you both choose to meet.'],['lock','Discreet, always','Nothing on your home screen, and nothing on your bank statement says Everl.']].map(([i,t,d])=>`<div class="feat"><span class="ii">${IC[i]}</span><span><b>${t}</b><span class="d">${d}</span></span></div>`).join('')}</div>
+ </div><div class="foot"><button class="btn ink" id="aGo">Continue, I’m 18+</button><p class="sub" style="text-align:center">Next is a quick, anonymous age check. We only ever get a yes or no.</p></div></div>`,
+aset:()=>{const st=AS[S.aStep],last=S.aStep===AS.length-1;return `<div class="screen"><div class="scroll">
+ <div class="navrow"><button class="round" data-astep="-1" aria-label="Back">${IC.back}</button><div class="prog"><i style="width:${((S.aStep+1)/AS.length*100).toFixed(1)}%"></i></div><button class="skip" data-astep="1">Skip</button></div>
+ <div><h1 class="lt">${st.t}</h1><p class="body" style="margin-top:8px">${st.d}</p>${st.priv?`<p class="privt" style="margin-top:8px">${IC.lock}Private</p>`:''}</div>
+ ${st.g.map(([k,l,opts,one])=>`<div class="grp"><p class="sh">${l}${one?'':'<span class="sub" style="font-weight:400"> (pick any)</span>'}</p><div class="chips sm">${opts.map(o=>`<button class="chip" aria-pressed="${!!(S.ad[k]&&S.ad[k].has(o))}" data-ad="${k}|${one?1:0}|${o}">${o}</button>`).join('')}</div></div>`).join('')}
+ <div style="height:16px;flex:none"></div></div>
+ <div class="foot"><button class="btn ink" data-astep="1">${last?'Save, I’m ready':'Continue'}</button></div></div>`},
+ahome:()=>`<div class="screen"><div class="scroll">
+ ${areaHead('Up for more in')}
+ ${S.live?`<div class="hero"><div class="hr"><span class="hb">You’re live</span>${sw(true,'Open to meeting','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`<span class="av ${c}" style="width:28px;height:28px;margin-left:${i?4:0}px;font:600 11px var(--text);background:#fff">${['CO','SH','LF'][i]}</span>`).join('')}</span><span><b>3 nearby</b> match what you’re after</span></div></div>`
+ :`<button class="avail card" id="homeSw" role="switch" aria-checked="false" aria-label="Open to meeting for one hour"><span class="top" style="align-items:center"><span style="flex:1"><span class="ttl" style="display:block">Open to meeting</span><span class="sub">Visible to people nearby who are up for it, for 1 hour</span></span><span class="sw" aria-hidden="true"></span></span><span class="who"><span><b>7 people</b> up for it within a mile</span></span></button>`}
+ <div class="list">
+  <button class="row" data-arefine><span class="ic">${IC.you||IC.people}</span><span style="flex:1;min-width:0"><span class="t" style="display:block">Showing as</span><span class="d">${aSum()}</span></span><span class="e">Edit ${chev}</span></button>
+  <div class="row"><span class="ic">${IC.bell}</span><span style="flex:1;min-width:0"><span class="t" style="display:block">Nudge me when someone’s around</span><span class="d">Shows as a plain Everl alert</span></span><span class="e">${sw(S.nudge,'Nudge me','setNudge')}</span></div>
+ </div>
+ <div class="sec"><h2>Everl+</h2></div>
+ <div class="list">${[['refresh','The Line-up','Several meets in one night, at your times'],['pin','Zones and travel','Be findable where you’re heading, not just where you are'],['clock','Forecast','See who’s around this week']].map(([i,t,d])=>`<div class="row"><span class="ic">${IC[i]}</span><span style="flex:1;min-width:0"><span class="t" style="display:block">${t}</span><span class="d">${d}</span></span></div>`).join('')}</div>
+ <button class="btn ink">Try Everl+ free for 3 days</button><p class="sub" style="text-align:center;margin-top:-8px">Then £14.99 a month. Cancel any time.</p>
  </div>${tabs()}</div>`,
 rooms:()=>`<div class="screen"><div class="scroll">
  <div class="top"><h1 class="lt">Rooms</h1><button class="ib" aria-label="Start a room">${IC.plus}</button></div>
@@ -477,8 +543,8 @@ function render(anim=true){
 }
 const go=(s,anim=true)=>{if(s==='home'){S.screen='main';S.tab='home'}else S.screen=s;render(anim)};
 const hist=[];
-function nav(s){hist.push({screen:S.screen,tab:S.tab,room:S.room});go(s)}
-function back(){const h=hist.pop();if(!h){go('splash');return}S.screen=h.screen;S.tab=h.tab;S.room=h.room;render()}
+function nav(s){hist.push({screen:S.screen,tab:S.tab,room:S.room,aStep:S.aStep});go(s)}
+function back(){const h=hist.pop();if(!h){go('splash');return}S.screen=h.screen;S.tab=h.tab;S.room=h.room;if(h.aStep!=null)S.aStep=h.aStep;render()}
 
 function sheet(html){const sc=document.createElement('div');sc.className='scrim';const sh=document.createElement('div');sh.className='sheet';sh.setAttribute('role','dialog');sh.setAttribute('aria-modal','true');sh.innerHTML='<div class="grab"></div>'+html;app.append(sc,sh);sc.onclick=()=>close();function close(){sc.remove();sh.remove()}sh.close=close;return sh}
 
@@ -495,8 +561,8 @@ function turnOn(){
    <h2 class="t2" style="text-align:center">Verify your age</h2><p class="sub" style="text-align:center;margin-top:-8px">Required once before other people can see you.</p>
    <div class="list" style="background:var(--bg);box-shadow:none">${[['check','','Everyone on Everl is verified the same way'],['eye','','Shufti runs the check. Everl only receives the result'],['clock','','Takes about a minute, and you only do it once']].map(([i,c,t])=>`<div class="row" style="padding:8px 0"><span class="ic">${IC[i]}</span><span style="font-size:15px;line-height:1.35">${t}</span></div>`).join('')}</div>
    <button class="btn ink" id="ver">Continue</button><button class="link" id="notnow">Not now</button>`);
-   sh.querySelector('#ver').onclick=()=>{const b=sh.querySelector('#ver');b.textContent='Checking…';b.disabled=true;setTimeout(()=>{S.verified=true;sh.close();turnOn()},1100)};
-   sh.querySelector('#notnow').onclick=()=>{sh.close();render(false)};return}
+   sh.querySelector('#ver').onclick=()=>{const b=sh.querySelector('#ver');b.textContent='Checking…';b.disabled=true;setTimeout(()=>{S.verified=true;sh.close();const n=S.afterVerify||turnOn;S.afterVerify=null;n()},1100)};
+   sh.querySelector('#notnow').onclick=()=>{S.afterVerify=null;sh.close();render(false)};return}
   S.live=true;S.secs=3600;S.screen='main';S.tab='home';render(false);requestAnimationFrame(celebrate);
   clearTimeout(reqTimer);reqTimer=setTimeout(()=>{if(S.live&&!document.querySelector('.sheet'))incoming()},4000);
 }
@@ -504,15 +570,18 @@ function note(msg){document.querySelectorAll('.note').forEach(n=>n.remove());con
 function areaSheet(){sheet(`<h2 class="t3" style="margin-top:8px">Choose an area</h2><div class="pick"><button data-loc><span class="ii">${IC.pin}</span><span><b>Use my current location</b></span></button>${AREAS.map(([t,d,live])=>`<button data-area="${t}" ${live?'':'aria-disabled="true"'}><span style="flex:1"><b>${t}</b><span class="d">${d}</span></span>${S.area===t?`<span class="ck">${IC.check}</span>`:''}</button>`).join('')}</div><p class="sub">Manchester. You can change your city in settings.</p>`)}
 function turnOff(){S.live=false;clearTimeout(reqTimer);render(false)}
 function incoming(){
-  const t=document.createElement('button');t.className='toast';t.innerHTML=`<span class="av c2" style="width:38px;height:38px;font:600 13px var(--text)">CO</span><span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">Cedar Otter 478 wants to meet for karaoke. 40 m away.</span></span>`;
+  const t=document.createElement('button');t.className='toast';t.innerHTML=`<span class="av c2" style="width:38px;height:38px;font:600 13px var(--text)">CO</span><span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">${S.mode==='adult'?'Someone nearby wants to meet.':'Cedar Otter 478 wants to meet for karaoke. 40 m away.'}</span></span>`;
   app.append(t);const open=()=>{t.remove();request()};t.onclick=open;
 }
 function request(){
   const sh=sheet(`<div style="display:flex;justify-content:space-between;align-items:center"><span class="sub">Expires in <span id="exp">4:59</span></span><button class="round" id="cl" aria-label="Close">${IC.x}</button></div>
    <div style="display:flex;justify-content:center"><span class="av c2" style="width:88px;height:88px;font:700 28px var(--display)">CO</span></div>
-   <div style="text-align:center"><p class="sub">40 m away</p><h2 class="t2" style="margin-top:4px">Cedar Otter 478 wants to meet for karaoke</h2></div>
+   ${S.mode==='adult'?`<div style="text-align:center"><p class="sub">120 m away</p><h2 class="t2" style="margin-top:4px">Cedar Otter 478 is up for it tonight</h2></div>
+   <div class="grp"><p class="sh">Into</p><div class="chips sm">${['A drink first','Versatile','Kissing'].map(t=>`<span class="chip" aria-pressed="true">${t}</span>`).join('')}</div></div>
+   <div class="grp"><p class="sh">Their boundaries</p><div class="chips sm">${['Safe sex only','Sober only','No photos without asking'].map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>
+   <p class="sub">They’ll see your boundaries too. Neither of you is identified unless you both accept.</p>`:`<div style="text-align:center"><p class="sub">40 m away</p><h2 class="t2" style="margin-top:4px">Cedar Otter 478 wants to meet for karaoke</h2></div>
    <div class="chips" style="justify-content:center"><span class="chip" aria-pressed="true"><i>🎤</i>Karaoke</span><span class="chip" aria-pressed="true"><i>🍸</i>Cocktails</span></div>
-   <p class="sub" style="text-align:center">Neither of you is identified unless you both accept. If you do, Everl suggests a public place halfway between you.</p>
+   <p class="sub" style="text-align:center">Neither of you is identified unless you both accept. If you do, Everl suggests a public place halfway between you.</p>`}
    <div class="brow"><button class="btn soft" id="dec">Decline</button><button class="btn ink" style="flex:1.4" id="acc">Accept</button></div>`);
   let s=299;const iv=setInterval(()=>{s--;const e=sh.querySelector('#exp');if(!e){clearInterval(iv);return}e.textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`},1000);
   sh.querySelector('#cl').onclick=sh.querySelector('#dec').onclick=()=>{clearInterval(iv);sh.close()};
@@ -542,6 +611,12 @@ app.addEventListener('click',e=>{
   if(t.dataset.showall!==undefined){S.showAll=!S.showAll;keep();return}
   if(t.dataset.vb){const [k,v]=t.dataset.vb.split('|');S[k].has(v)?S[k].delete(v):S[k].add(v);keep();return}
   if(t.dataset.must!==undefined){S.showMust=true;keep();return}
+  if(t.dataset.setmode){const m=t.dataset.setmode;if(m===S.mode)return;S.live=false;clearTimeout(reqTimer);S.mode=m;S.screen='main';S.tab='home';hist.length=0;render();return}
+  if(t.id==='aGo'){const start=()=>{S.aStep=0;nav('aset')};if(S.verified)start();else{S.afterVerify=start;turnOn()}return}
+  if(t.dataset.astep){const d=+t.dataset.astep;if(d<0){if(S.aStep===0){back();return}S.aStep--;render();return}if(S.aStep>=AS.length-1){S.aReady=true;S.screen='main';S.tab='home';hist.length=0;render();note('You’re set up. Turn on Open to meeting when you’re ready.');return}S.aStep++;render();const sc=app.querySelector('.scroll');if(sc)sc.scrollTop=0;return}
+  if(t.dataset.ad){const [k,one,v]=t.dataset.ad.split('|');const set=S.ad[k]||(S.ad[k]=new Set());if(set.has(v))set.delete(v);else{if(one==='1')set.clear();set.add(v)}keep();return}
+  if(t.hasAttribute('data-arefine')){S.aStep=0;nav('aset');return}
+  if(t.id==='setNudge'){S.nudge=!S.nudge;t.setAttribute('aria-checked',S.nudge);return}
   if(t.hasAttribute('data-areapick')){areaSheet();return}
   if(t.hasAttribute('data-loc')){S.area='Northern Quarter';render(false);note('You’re in the Northern Quarter, so we’ve set it as your area.');return}
   if(t.dataset.city){S.city=t.dataset.city;S.waitlisted=false;render(false);return}
@@ -565,5 +640,6 @@ $('#reset').onclick=()=>{Object.assign(S,{screen:'splash',live:false,verified:fa
 {const ph=new URLSearchParams(location.search).get('photo');if(/^[A-F]$/.test(ph||''))document.documentElement.style.setProperty('--splash',`url(img/splash-${ph}.jpg)`)}
 {const q=new URLSearchParams(location.search).get('screen');if(q==='home'||q==='rooms'||q==='you'){S.screen='main';S.tab=q;S.interests.add('Pub quiz')}else if(q==='room'){S.screen='room';S.room=new URLSearchParams(location.search).get('room')||'quiz'}else if(q==='live'){S.live=true;S.screen='main';S.tab='home'}else if(q&&q!=='main'&&typeof V[q]==='function'){S.screen=q;S.interests.add('Pub quiz')}}
 if(new URLSearchParams(location.search).get('verified'))S.verified=true;
+{const u=new URLSearchParams(location.search);if(u.get('mode')==='adult'){S.mode='adult';if(u.get('ready'))S.aReady=true}if(u.get('astep'))S.aStep=+u.get('astep')}
 render(false);
 </script>
