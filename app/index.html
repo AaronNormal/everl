@@ -268,7 +268,7 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .aqn .nb button{color:#fff}
 
 /* mode cards: Apple style */
-.mcards{display:flex;flex-direction:column;gap:14px;padding:4px}
+.mcards{display:flex;flex-direction:column;gap:14px;padding:4px 4px 20px}
 .mcard{display:flex;flex-direction:column;gap:14px;text-align:left;padding:18px;border-radius:22px;background:var(--card);box-shadow:0 0 0 1px var(--hair);transition:box-shadow 150ms ease,background-color 150ms ease,transform 120ms ease}
 .mcard:active{transform:scale(.99)}
 .mtop{display:flex;justify-content:space-between;align-items:flex-start}
@@ -319,11 +319,11 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 @media (prefers-reduced-motion:reduce){.mpills i{animation:none!important}}
 
 /* mode cards: Apple Invites style */
-.icard{position:relative;display:flex;align-items:flex-end;height:176px;border-radius:24px;overflow:hidden;text-align:left;padding:18px;color:#fff;isolation:isolate;transition:transform 140ms ease,box-shadow 160ms ease}
+.icard{position:relative;display:flex;align-items:flex-end;min-height:176px;border-radius:24px;overflow:hidden;text-align:left;padding:18px;color:#fff;isolation:isolate;transition:transform 140ms ease,box-shadow 160ms ease}
 .icard:active{transform:scale(.985)}
 .icard.soc{background:#1E7BF2}
 .icard.ufm{background:#5B2BB5}
-.ipat{position:absolute;inset:0;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 50%,transparent 72%);mask-image:linear-gradient(180deg,#000 50%,transparent 72%)}
+.ipat{position:absolute;inset:0;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 80%);mask-image:linear-gradient(180deg,#000 55%,transparent 80%)}
 .ipat i{position:absolute;font:30px/1 var(--emoji);font-style:normal;opacity:.95}
 .icard::before{content:none}
 .itx b{display:block;font:800 28px/1.1 var(--display);letter-spacing:-.02em;text-shadow:0 1px 8px rgba(0,0,0,.2)}
@@ -347,6 +347,13 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .search:focus-within{box-shadow:inset 0 0 0 1.5px var(--acc)}
 .aqn .prog i{background:#fff}.aqn .chip[aria-pressed="true"]{background:#fff;color:#121212}.aqn .choice[aria-checked="true"]{background:#fff;box-shadow:none}.aqn .choice[aria-checked="true"] .rd{background:#121212}.aqn .skip{color:#fff}
 .tabscreen .scroll{padding-bottom:140px}
+
+/* mode screen: balanced lines, compact cards */
+.mcards~*,.lt{text-wrap:balance}
+.scroll>.body{text-wrap:balance}
+.itx span{display:block;text-wrap:balance}
+.icard{min-height:156px!important;padding:16px 18px!important}
+.itx b{font-size:26px!important}
 /* go-available moment */
 .fx{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
 .fx .ring{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--green);opacity:0;animation:ring 1200ms cubic-bezier(.2,.7,.2,1) forwards}
@@ -519,6 +526,12 @@ const nb=(t,left='back')=>`<div class="nb">${left==='back'?`<button data-back ar
 const ini=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('');
 const places=k=>{const T=TH[k];return `${T.spots[0]+(S.joined[k]?1:0)} of ${T.spots[1]} places`};
 
+const MCOPY={
+ now:{t:'How do you want to meet people?',l:'Everl helps you meet people nearby, in person, tonight.',s:'Meet friends for a pint, a game or a quiz.',u:'Meet someone nearby, 18+ only. Anonymous until you both say yes.'},
+ a:{t:'How do you want to meet people?',l:'Tell Everl what you’re up for and it finds people close by who want the same thing, today or this week.',s:'Make friends over a pint, padel, karaoke or a pub quiz. Join a group or meet one to one.',u:'For adults who want something more. 18+ only, and nobody knows who you are until you both say yes.'},
+ b:{t:'What do you want from Everl?',l:'Everl matches you with people near you who want the same thing, then suggests a public place to meet.',s:'New friends and people to do things with, from a quiz night to a Sunday run.',u:'Meet someone nearby who’s up for more. 18+ only, and anonymous until you both say yes.'},
+ c:{t:'How do you want to meet?',l:'Real people near you, up for the same thing as you. Meet in person, not on a screen.',s:'Friends, plans and things to do, from a pint to padel.',u:'Something more, with someone nearby. 18+ and anonymous until you both say yes.'}};
+const MC=()=>MCOPY[new URLSearchParams(location.search).get('copy')]||MCOPY.c;
 const modeSw=()=>`<div class="modesw" role="group" aria-label="Mode"><button data-setmode="social" aria-pressed="${S.mode!=='adult'}">Social</button><button data-setmode="adult" aria-pressed="${S.mode==='adult'}">Up for more</button></div>`;
 const bellBtn=()=>`<button class="ib" data-go="notifs" aria-label="Notifications${S.seen?'':', 2 new'}">${IC.bell}${S.seen?'':'<span class="bd"></span>'}</button>`;
 const areaHead=k=>`<div class="hd"><p class="kick">${k}</p><div class="top" style="align-items:center"><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button>${bellBtn()}</div></div>`;
@@ -537,9 +550,9 @@ const V={
 splash:()=>`<div class="screen splash" data-light><div class="ph" role="img" aria-label="Friends playing padel under floodlights"></div><div class="sc"></div>
  <div class="brand">${LOGO('#fff')}<p>Meet people nearby, in person.</p></div>
  <div class="foot"><button class="btn white" data-go="mode">${IC.apple} Continue with Apple</button><button class="btn mail" data-go="mode"><span class="mi">${IC.mail}</span> Continue with email</button><button class="login" id="logIn">Already on Everl? <b>Log in</b></button><p class="legal">18+ only. By continuing you agree to our <a href="#" data-legal>Terms</a> and <a href="#" data-legal>Privacy Policy</a>.</p></div></div>`,
-mode:()=>`<div class="screen"><div class="scroll">${prog(1)}<h1 class="lt">What are you looking for?</h1><p class="body">You can switch between them any time.</p>
- <div role="radiogroup" aria-label="What are you looking for?" class="mcards">
-  ${[['social','soc','Social','Friends, activities and dates',['🎾','🍺','🎤','🧠','☕','🎲']],['adult','ufm','Up for more','Casual, no-strings meetups nearby',['🌙','🍸','✨','🕶️','🔥','💋']]].map(([k,c,t,d,em])=>`<button class="icard ${c}" role="radio" aria-checked="${(S.mode==='adult')===(k==='adult')}" data-mode="${k}"><span class="ipat" aria-hidden="true">${Array.from({length:10},(_,n)=>{const r=n<5?0:1,col=r?n-5:n;return `<i style="left:${(r?col*19+8:col*17+3).toFixed(1)}%;top:${r?44:8}%;transform:rotate(${((n*37)%24)-12}deg)">${em[(n*2+r)%em.length]}</i>`}).join('')}</span><span class="rd">${IC.check}</span><span class="itx"><b>${t}</b><span>${d}</span></span></button>`).join('')}
+mode:()=>`<div class="screen"><div class="scroll">${prog(1)}<h1 class="lt">${MC().t}</h1><p class="body">${MC().l}</p>
+ <div role="radiogroup" aria-label="How do you want to meet people?" class="mcards">
+  ${[['social','soc','Social',''+MC().s+'',['🎾','🍺','🎤','🧠','☕','🎲']],['adult','ufm','Up for more',''+MC().u+'',['🌙','🍸','✨','🕶️','🔥','💋']]].map(([k,c,t,d,em])=>`<button class="icard ${c}" role="radio" aria-checked="${(S.mode==='adult')===(k==='adult')}" data-mode="${k}"><span class="ipat" aria-hidden="true">${Array.from({length:10},(_,n)=>{const r=n<5?0:1,col=r?n-5:n;return `<i style="left:${(r?col*19+8:col*17+3).toFixed(1)}%;top:${r?20:4}%;transform:rotate(${((n*37)%24)-12}deg)">${em[(n*2+r)%em.length]}</i>`}).join('')}</span><span class="rd">${IC.check}</span><span class="itx"><b>${t}</b><span>${d}</span></span></button>`).join('')}
  </div>
  </div>
  <div class="foot"><button class="btn ink" id="modeGo">Continue</button><p class="sub agel"><span class="ai">${IC.shield}</span>Everyone on Everl is a verified adult.</p></div></div>`,
