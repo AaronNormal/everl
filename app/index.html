@@ -209,6 +209,32 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .seg button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
+
+/* tab bars */
+.tabs.nav-a{left:16px;right:16px;bottom:calc(12px + var(--bot));height:64px;padding:6px;border:0;border-radius:32px;background:rgba(255,255,255,.78);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:0 10px 30px rgba(0,0,0,.10),0 0 0 .5px rgba(0,0,0,.08);align-items:center;justify-content:space-between;gap:4px}
+.tabs.nav-a button{flex:1;width:auto;height:52px;border-radius:26px;gap:2px;font:600 11px var(--text);color:#8e8e93;transition:background-color 200ms ease,color 200ms ease}
+.tabs.nav-a button[aria-current="page"]{background:rgba(120,120,128,.14);color:var(--ink)}
+.tabs svg{width:24px;height:24px}
+.tav{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 10px var(--text);color:var(--navy);flex:none}
+.tabs button[aria-current="page"] .tav{box-shadow:0 0 0 2px var(--ink)}
+/* go-available moment */
+.fx{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+.fx .ring{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--green);opacity:0;animation:ring 1200ms cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes ring{0%{width:24px;height:24px;opacity:.9}100%{width:1100px;height:1100px;opacity:0}}
+.fx .bit{position:absolute;width:8px;height:12px;border-radius:2px;opacity:0;animation:bit 1100ms cubic-bezier(.15,.7,.3,1) forwards}
+@keyframes bit{0%{transform:translate(0,0) rotate(0);opacity:1}70%{opacity:1}100%{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+.hero.pop{animation:pop 420ms cubic-bezier(.3,1.4,.5,1)}
+@keyframes pop{0%{transform:scale(.97)}100%{transform:none}}
+.hero.lit{animation:lit 650ms cubic-bezier(.2,.8,.2,1) both}
+@keyframes lit{from{clip-path:circle(0px at var(--cx) var(--cy))}to{clip-path:circle(160% at var(--cx) var(--cy))}}
+.hero.lit .clock,.hero.lit .hs,.hero.lit .hb{animation:rise 420ms cubic-bezier(.2,.8,.2,1) both}
+.hero.lit .hb{animation-delay:180ms}.hero.lit .clock{animation-delay:240ms}.hero.lit .hs{animation-delay:300ms}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero.lit .who>span:last-child{animation:rise 420ms cubic-bezier(.2,.8,.2,1) 620ms both}
+.hero.lit .who .av{animation:popin 520ms cubic-bezier(.3,1.5,.5,1) both}
+@keyframes popin{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fx{display:none}.hero.pop,.hero.lit,.hero.lit *{animation:none!important}}
+
 /* ===== v6 design reset (audit S1–S6, R1–R8) ===== */
 .kick{font:400 15px var(--text);letter-spacing:0;text-transform:none;color:var(--sub)}
 .sh{font:600 15px var(--text);color:var(--ink);text-transform:none;letter-spacing:0;margin:8px 0 -4px}
@@ -250,11 +276,11 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .irow>svg,.irow .ii{width:22px;height:22px;flex:none;color:var(--sub);margin-top:1px}.irow .ii svg{width:22px;height:22px}
 .irow b{display:block;font:400 17px var(--text)}.irow span.d{font:400 15px var(--text);color:var(--sub)}
 /* available hero (R3) */
-.hero{background:var(--green);color:var(--green-ink);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:4px}
+.hero{background:#e8f8ec;color:var(--ink);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:4px}.hero .hs{font:400 15px var(--text);color:var(--sub)}.hero .who{display:flex;align-items:center;gap:8px;margin-top:12px;font:400 15px var(--text);color:var(--sub)}.hero .who b{color:var(--ink);font-weight:600}
 .hero .hr{display:flex;align-items:center;justify-content:space-between}
-.hero .hb{font:600 17px var(--text)}
+.hero .hb{font:600 17px var(--text);color:#1a7f37}
 .hero .clock{font:700 34px/1.1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.hero .sw[aria-checked="true"]{background:var(--green);box-shadow:0 0 0 2px #fff}
+.hero .sw[aria-checked="true"]{background:var(--green)}
 .ri{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font:20px var(--emoji);flex:none}
 .prof{display:flex;align-items:center;gap:16px;padding:8px 0}
 .hd{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}.hd .top{margin:0 -8px 0 0}
@@ -331,7 +357,11 @@ const ini=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('');
 const places=k=>{const T=TH[k];return `${T.spots[0]+(S.joined[k]?1:0)} of ${T.spots[1]} places`};
 function tile(k,o={}){const T=TH[k];return `<button class="tile${o.wide?' wide':''}" data-room="${k}" style="${o.w?`width:${o.w}px`:''}"><span class="tl" style="background:${T.bg}"><span class="te">${T.e[0]}</span></span><span class="tt">${T.t}</span><span class="tm">${T.m}</span><span class="tm">${places(k)}</span></button>`}
 function sw(on,label,id){return `<button class="sw" role="switch" aria-checked="${on}" aria-label="${label}" ${id?`id="${id}"`:''}></button>`}
-function tabs(){return `<nav class="tabs" aria-label="Tabs"><button data-tab="home" ${S.tab==='home'?'aria-current="page"':''}>${IC.home}Home</button><button data-tab="rooms" ${S.tab==='rooms'?'aria-current="page"':''}>${IC.rooms}Rooms</button><button data-tab="you" ${S.tab==='you'?'aria-current="page"':''}>${IC.you}You</button></nav>`}
+const TI={home:['<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 10.2L12 4l8 6.2V19a1 1 0 01-1 1h-4.5v-5.5h-5V20H5a1 1 0 01-1-1z"/></svg>','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.4l8.6 6.6V19.2c0 .9-.7 1.6-1.6 1.6h-4.6v-6h-4.8v6H5c-.9 0-1.6-.7-1.6-1.6V10z"/></svg>'],
+ you:['<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8.2" r="3.9"/><path d="M4.6 20.2c.9-3.8 3.8-5.8 7.4-5.8s6.5 2 7.4 5.8" stroke-linecap="round"/></svg>','<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8.2" r="4.6"/><path d="M3.8 20.1c.9-4.4 4.2-6.6 8.2-6.6s7.3 2.2 8.2 6.6c.1.5-.3.9-.8.9H4.6c-.5 0-.9-.4-.8-.9z"/></svg>'],
+ rooms:['<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15.5" rx="3.5"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke-linecap="round"/></svg>','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.2 3a1 1 0 012 0v1.2h5.6V3a1 1 0 012 0v1.2H17A3.6 3.6 0 0120.6 8v1.2H3.4V8A3.6 3.6 0 017 4.2h.2zM3.4 10.8h17.2V17A3.6 3.6 0 0117 20.6H7A3.6 3.6 0 013.4 17z"/></svg>']};
+function tabs(){const on=k=>S.tab===k;const av=`<span class="tav ${S.cc}">${ini(S.codename)}</span>`;
+ return `<nav class="tabs nav-a" aria-label="Tabs"><button data-tab="home" aria-label="Home" ${on('home')?'aria-current="page"':''}>${TI.home[on('home')?1:0]}<span>Home</span></button><button data-tab="rooms" aria-label="Rooms" ${on('rooms')?'aria-current="page"':''}>${TI.rooms[on('rooms')?1:0]}<span>Rooms</span></button><button data-tab="you" aria-label="You" ${on('you')?'aria-current="page"':''}>${TI.you[on('you')?1:0]}<span>You</span></button></nav>`}
 const fmt=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
 const prog=(n,r='<span style="width:44px"></span>')=>`<div class="navrow"><button class="round" data-back aria-label="Back">${IC.back}</button><div class="prog"><i style="width:${(n/6*100).toFixed(1)}%"></i></div>${r}</div>`;
 
@@ -377,8 +407,7 @@ home:()=>S.live?V.live():`<div class="screen"><div class="scroll">
  </div>${tabs()}</div>`,
 live:()=>`<div class="screen"><div class="scroll">
  <div class="hd"><p class="kick">Going out in</p><div class="top" style="align-items:center"><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button><button class="ib" data-go="notifs" aria-label="Notifications${S.seen?'':', 2 new'}">${IC.bell}${S.seen?'':'<span class="bd"></span>'}</button></div></div>
- <div class="hero"><div class="hr"><span class="hb">You’re available</span>${sw(true,'Available','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div style="font-size:15px">Turns off by itself. You’ll get a notification when someone wants to meet.</div></div>
- <div class="row" style="border:0"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`<span class="av ${c}" style="width:32px;height:32px;margin-left:${i?4:0}px;font:600 11px var(--text)">${['CO','SH','LF'][i]}</span>`).join('')}</span><span><span class="t" style="display:block;font-weight:600">3 people nearby share your interests</span><span class="d">${[...S.interests].slice(0,3).join(', ')}</span></span></div>
+ <div class="hero"><div class="hr"><span class="hb">You’re available</span>${sw(true,'Available','liveSw')}</div><div class="clock" id="clock">${fmt(S.secs)}</div><div class="hs">We’ll tell you when someone wants to meet.</div><div class="who"><span style="display:flex">${['c2','c3','c4'].map((c,i)=>`<span class="av ${c}" style="width:28px;height:28px;margin-left:${i?4:0}px;font:600 11px var(--text);background:#fff">${['CO','SH','LF'][i]}</span>`).join('')}</span><span><b>3 nearby</b> share your interests</span></div></div>
  <div class="sec"><h2>Tonight</h2><button data-tab="rooms">See all</button></div>
  <div class="tiles">${['quiz','karaoke','drinks','padel'].map(k=>tile(k,{w:220})).join('')}</div>
  <div class="sec"><h2>This week</h2></div>
@@ -420,7 +449,7 @@ you:()=>`<div class="screen"><div class="scroll">
  </div>
  </div>${tabs()}</div>`,
 notifs:()=>{S.seen=true;return `<div class="screen"><div class="scroll">${nb('Notifications')}
- <div class="list">${[['quiz','Pub quiz is filling up','3 of 6 places taken for tonight at 8:30pm','quiz',1],['games','Ancoats opens on 4 December','You’ll be notified the night it goes live','',1],['karaoke','4 people want karaoke tonight','Go available to be seen','',0]].map(([th,t,d,room,isNew])=>`<button class="row" ${room?`data-room="${room}"`:''} style="padding:8px 0"><span class="ri" style="background:${TH[th].bg}">${th==='games'?'📍':TH[th].e[0]}</span><span style="flex:1;min-width:0"><span class="t" style="display:block;font-weight:${isNew?600:400}">${t}</span><span class="d">${d}</span></span>${isNew?'<span class="dot" style="background:#007aff"></span>':''}</button>`).join('')}</div></div></div>`},
+ <div class="list">${[['quiz','Pub quiz is filling up','3 of 6 places taken for tonight at 8:30pm','quiz',1],['games','Ancoats opens on 4 December','You’ll be notified the night it goes live','',1],['karaoke','4 people want karaoke tonight','Go available to be seen','',0]].map(([th,t,d,room,isNew])=>`<button class="row" ${room?`data-room="${room}"`:''} style="padding:8px 0"><span class="ri" style="background:${TH[th].bg}">${th==='games'?'📍':TH[th].e[0]}</span><span style="flex:1;min-width:0"><span class="t" style="display:block;font-weight:${isNew?600:400}">${t}</span><span class="d">${d}</span></span></button>`).join('')}</div></div></div>`},
 meet:()=>`<div class="screen"><div class="scroll">
  ${nb('Meeting point','close')}
  <div class="map"><svg width="100%" height="100%" viewBox="0 0 350 250" preserveAspectRatio="xMidYMid slice" aria-label="Map showing you, Cedar Otter 478 and the meeting point"><rect width="350" height="250" fill="#e9efe4"/><g stroke="#fff" stroke-width="14" fill="none"><path d="M-10 70L360 110"/><path d="M60-10L110 260"/><path d="M230-10L260 260"/><path d="M-10 190L360 170"/></g><rect x="140" y="125" width="70" height="36" rx="6" fill="#d7e8cf"/><path d="M80 210C110 170 150 150 170 140" stroke="#121212" stroke-width="4" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/><path d="M280 60C250 100 210 125 178 138" stroke="#121212" stroke-width="4" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/><circle cx="80" cy="210" r="12" fill="#ef6a5b" stroke="#fff" stroke-width="3"/><circle cx="280" cy="60" r="12" fill="#5b6cf0" stroke="#fff" stroke-width="3"/><circle cx="174" cy="139" r="20" fill="#34c759" stroke="#fff" stroke-width="4"/><text x="174" y="146" text-anchor="middle" font-size="18">🎤</text></svg></div>
@@ -453,6 +482,14 @@ function back(){const h=hist.pop();if(!h){go('splash');return}S.screen=h.screen;
 
 function sheet(html){const sc=document.createElement('div');sc.className='scrim';const sh=document.createElement('div');sh.className='sheet';sh.setAttribute('role','dialog');sh.setAttribute('aria-modal','true');sh.innerHTML='<div class="grab"></div>'+html;app.append(sc,sh);sc.onclick=()=>close();function close(){sc.remove();sh.remove()}sh.close=close;return sh}
 
+function celebrate(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const sw=$('#liveSw'),hero=$('.hero');if(!sw||!hero)return;
+  const a=app.getBoundingClientRect(),r=sw.getBoundingClientRect(),h=hero.getBoundingClientRect();
+  hero.style.setProperty('--cx',(r.left-h.left+r.width/2)+'px');hero.style.setProperty('--cy',(r.top-h.top+r.height/2)+'px');
+  hero.querySelectorAll('.who .av').forEach((v,i)=>v.style.animationDelay=(420+i*90)+'ms');
+  hero.classList.add('lit');
+  try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}
+}
 function turnOn(){
   if(!S.verified){const sh=sheet(`<div style="display:flex;justify-content:center;margin-top:8px"><span style="width:72px;height:72px;border-radius:22px;background:var(--fill);color:var(--ink);display:grid;place-items:center"><span style="width:32px;height:32px">${IC.shield}</span></span></div>
    <h2 class="t2" style="text-align:center">Verify your age</h2><p class="sub" style="text-align:center;margin-top:-8px">Required once before other people can see you.</p>
@@ -460,14 +497,14 @@ function turnOn(){
    <button class="btn ink" id="ver">Continue</button><button class="link" id="notnow">Not now</button>`);
    sh.querySelector('#ver').onclick=()=>{const b=sh.querySelector('#ver');b.textContent='Checking…';b.disabled=true;setTimeout(()=>{S.verified=true;sh.close();turnOn()},1100)};
    sh.querySelector('#notnow').onclick=()=>{sh.close();render(false)};return}
-  S.live=true;S.secs=3600;S.screen='main';S.tab='home';render();
+  S.live=true;S.secs=3600;S.screen='main';S.tab='home';render(false);requestAnimationFrame(celebrate);
   clearTimeout(reqTimer);reqTimer=setTimeout(()=>{if(S.live&&!document.querySelector('.sheet'))incoming()},4000);
 }
 function note(msg){document.querySelectorAll('.note').forEach(n=>n.remove());const n=document.createElement('div');n.className='note';n.setAttribute('role','status');n.textContent=msg;app.append(n);setTimeout(()=>{n.style.opacity=0;setTimeout(()=>n.remove(),220)},2600)}
 function areaSheet(){sheet(`<h2 class="t3" style="margin-top:8px">Choose an area</h2><div class="pick"><button data-loc><span class="ii">${IC.pin}</span><span><b>Use my current location</b></span></button>${AREAS.map(([t,d,live])=>`<button data-area="${t}" ${live?'':'aria-disabled="true"'}><span style="flex:1"><b>${t}</b><span class="d">${d}</span></span>${S.area===t?`<span class="ck">${IC.check}</span>`:''}</button>`).join('')}</div><p class="sub">Manchester. You can change your city in settings.</p>`)}
 function turnOff(){S.live=false;clearTimeout(reqTimer);render(false)}
 function incoming(){
-  const t=document.createElement('button');t.className='toast';t.innerHTML=`<span class="ti"><svg viewBox="0 0 38 38"><rect width="38" height="38" fill="#101A3C"/><rect x="2.28" y="8.97" width="33.44" height="20.06" rx="10.03" fill="#34C759"/><circle cx="25.69" cy="19" r="8.41" fill="#fff"/></svg></span><span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">Cedar Otter 478 wants to meet for karaoke. 40 m away.</span></span>`;
+  const t=document.createElement('button');t.className='toast';t.innerHTML=`<span class="av c2" style="width:38px;height:38px;font:600 13px var(--text)">CO</span><span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">Cedar Otter 478 wants to meet for karaoke. 40 m away.</span></span>`;
   app.append(t);const open=()=>{t.remove();request()};t.onclick=open;
 }
 function request(){
@@ -527,5 +564,6 @@ app.addEventListener('pointerdown',e=>{const b=e.target.closest('#safety');if(!b
 $('#reset').onclick=()=>{Object.assign(S,{screen:'splash',live:false,verified:false,tab:'home',joined:{},secs:3600});hist.length=0;clearTimeout(reqTimer);render()};
 {const ph=new URLSearchParams(location.search).get('photo');if(/^[A-F]$/.test(ph||''))document.documentElement.style.setProperty('--splash',`url(img/splash-${ph}.jpg)`)}
 {const q=new URLSearchParams(location.search).get('screen');if(q==='home'||q==='rooms'||q==='you'){S.screen='main';S.tab=q;S.interests.add('Pub quiz')}else if(q==='room'){S.screen='room';S.room=new URLSearchParams(location.search).get('room')||'quiz'}else if(q==='live'){S.live=true;S.screen='main';S.tab='home'}else if(q&&q!=='main'&&typeof V[q]==='function'){S.screen=q;S.interests.add('Pub quiz')}}
+if(new URLSearchParams(location.search).get('verified'))S.verified=true;
 render(false);
 </script>
