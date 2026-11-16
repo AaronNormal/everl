@@ -354,6 +354,14 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .itx span{display:block;text-wrap:balance}
 .icard{min-height:156px!important;padding:16px 18px!important}
 .itx b{font-size:26px!important}
+
+/* codename */
+.cnav{width:168px;height:168px;border-radius:50%;display:grid;place-items:center;margin:24px 0 8px;box-shadow:0 12px 30px rgba(0,0,0,.14),inset 0 0 0 6px rgba(255,255,255,.25);animation:cnpop 520ms cubic-bezier(.3,1.5,.5,1) both}
+.cnav span{font:84px/1 var(--emoji)}
+@keyframes cnpop{0%{transform:scale(.6) rotate(-14deg);opacity:0}100%{transform:none;opacity:1}}
+.shuf{height:40px;padding:0 16px;border-radius:20px;background:var(--fill);font:600 15px var(--text);color:var(--ink);transition:transform 120ms ease}
+.shuf:active{transform:scale(.95) rotate(-4deg)}
+@media (prefers-reduced-motion:reduce){.cnav{animation:none}}
 /* go-available moment */
 .fx{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
 .fx .ring{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--green);opacity:0;animation:ring 1200ms cubic-bezier(.2,.7,.2,1) forwards}
@@ -532,6 +540,8 @@ const MCOPY={
  b:{t:'What do you want from Everl?',l:'Everl matches you with people near you who want the same thing, then suggests a public place to meet.',s:'New friends and people to do things with, from a quiz night to a Sunday run.',u:'Meet someone nearby who’s up for more. 18+ only, and anonymous until you both say yes.'},
  c:{t:'How do you want to meet?',l:'Real people near you, up for the same thing as you. Meet in person, not on a screen.',s:'Friends, plans and things to do, from a pint to padel.',u:'Something more, with someone nearby. 18+ and anonymous until you both say yes.'}};
 const MC=()=>MCOPY[new URLSearchParams(location.search).get('copy')]||MCOPY.c;
+const CN_COL={Ochre:'#D39A2C',Cedar:'#B0603A',Amber:'#F2A93B',Teal:'#17A2A1',Plum:'#8E4A8C',Moss:'#6E8B3D',Slate:'#5D6F82',Coral:'#F2705E'};
+const CN_ANI={Wren:'🐦',Otter:'🦦',Fox:'🦊',Hare:'🐇',Kite:'🦅',Lark:'🕊️',Heron:'🦩',Finch:'🐤'};
 const modeSw=()=>`<div class="modesw" role="group" aria-label="Mode"><button data-setmode="social" aria-pressed="${S.mode!=='adult'}">Social</button><button data-setmode="adult" aria-pressed="${S.mode==='adult'}">Up for more</button></div>`;
 const bellBtn=()=>`<button class="ib" data-go="notifs" aria-label="Notifications${S.seen?'':', 2 new'}">${IC.bell}${S.seen?'':'<span class="bd"></span>'}</button>`;
 const areaHead=k=>`<div class="hd"><p class="kick">${k}</p><div class="top" style="align-items:center"><button class="areab" data-areapick aria-label="Change area, currently ${S.area}"><span class="lt">${S.area}</span>${IC.down}</button>${bellBtn()}</div></div>`;
@@ -576,10 +586,12 @@ area:()=>`<div class="screen"><div class="scroll">${prog(5)}<h1 class="lt">Where
  <div role="radiogroup" aria-label="Where in Manchester do you go out?" style="display:flex;flex-direction:column;gap:8px">${AREAS.map(([t,d,live])=>`<button class="choice area" role="radio" aria-checked="${S.area===t}" data-area="${t}" ${live?'':'aria-disabled="true"'}><span style="flex:1"><span class="ct">${t}</span><span class="sub">${d}</span></span>${live?`<span class="rd">${IC.check}</span>`:''}</button>`).join('')}</div>
  <p class="sub" style="display:flex;gap:8px"><span style="width:16px;height:16px;flex:none">${IC.lock}</span>Everl uses your location only while you’re available. Your exact location is never shown to anyone.</p></div>
  <div class="foot"><button class="btn ink" data-go="codename">Continue</button></div></div>`,
-codename:()=>`<div class="screen"><div class="scroll" style="align-items:center;text-align:center">${prog(6)}
- <div style="margin:32px 0 8px"><span class="av ${S.cc}" style="width:120px;height:120px;font:700 40px var(--display)">${ini(S.codename)}</span></div>
- <h1 class="lt">${S.codename}</h1><p class="body" style="max-width:300px">This is your codename. It’s the only name others see until you both agree to meet. No photos or real names are shared.</p></div>
- <div class="foot"><button class="btn ink" data-go="home">Continue</button><button class="link" id="newName">Generate a different codename</button></div></div>`,
+codename:()=>{const [col,ani]=S.codename.split(' ');return `<div class="screen"><div class="scroll" style="align-items:center;text-align:center">${prog(6)}
+ <div class="cnav" style="background:${CN_COL[col]||'#5B6CF0'}" aria-hidden="true"><span>${CN_ANI[ani]||'🐾'}</span></div>
+ <p class="kick" style="margin-top:4px">Your codename</p><h1 class="lt" style="margin-top:-8px">${S.codename}</h1>
+ <button class="shuf" id="newName">🎲 Shuffle</button>
+ <p class="body" style="max-width:300px;text-wrap:balance">The only name others see until you both agree to meet. No photos or real names are shared.</p></div>
+ <div class="foot"><button class="btn ink" data-go="home">Continue</button></div></div>`},
 home:()=>S.mode==='adult'?(S.aReady?V.ahome():V.aintro()):S.live?V.live():`<div class="screen tabscreen"><div class="scroll">
  ${areaHead('Going out in')}
  <button class="avail card" id="homeSw" role="switch" aria-checked="false" aria-label="Go available for one hour"><span class="top" style="align-items:center"><span style="flex:1"><span class="ttl" style="display:block">Go available</span><span class="sub">Visible to people nearby for 1 hour</span></span><span class="sw" aria-hidden="true"></span></span><span class="who"><span style="display:flex">${[['c2','CO'],['c3','MW'],['c4','SF']].map(([c,n],i)=>`<span class="av ${c}" style="width:28px;height:28px;font:600 11px var(--text);margin-left:${i?4:0}px">${n}</span>`).join('')}</span><span><b>12 people</b> available within 400 m</span></span></button>
