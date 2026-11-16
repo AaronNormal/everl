@@ -266,6 +266,74 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .aqn .chip[aria-pressed="true"]{background:#fff;color:#121212;box-shadow:none}
 .aqn .foot{background:linear-gradient(180deg,rgba(11,12,15,0),#0b0c0f 24px)}.aqn .btn.ink{background:#fff;color:#121212}
 .aqn .nb button{color:#fff}
+
+/* mode cards: Apple style */
+.mcards{display:flex;flex-direction:column;gap:14px;padding:4px}
+.mcard{display:flex;flex-direction:column;gap:14px;text-align:left;padding:18px;border-radius:22px;background:var(--card);box-shadow:0 0 0 1px var(--hair);transition:box-shadow 150ms ease,background-color 150ms ease,transform 120ms ease}
+.mcard:active{transform:scale(.99)}
+.mtop{display:flex;justify-content:space-between;align-items:flex-start}
+.mic{width:52px;height:52px;border-radius:15px;display:grid;place-items:center}.mic svg{width:28px;height:28px}
+.mcard.soc .mic{background:#e6efff;color:#2a5bd7}
+.mcard.ufm .mic{background:#101A3C;color:#fff}
+.mcard .rd{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1.5px #c7c7cc;color:#fff}.mcard .rd svg{width:15px;height:15px;opacity:0}
+.mcard .mtx b{display:block;font:700 22px/1.2 var(--display);letter-spacing:-.015em;color:var(--ink)}.mcard .mtx span{font:400 15px var(--text);color:var(--sub)}
+.mtags{display:flex;flex-wrap:wrap;gap:6px}.mtags i{font-style:normal;font:500 13px var(--text);color:var(--ink);background:var(--fill);border-radius:12px;padding:5px 10px}
+.mcard[aria-checked="true"]{background:#eef0f6;box-shadow:0 0 0 2px var(--navy)}
+.mcard[aria-checked="true"] .rd{background:var(--navy);box-shadow:none}.mcard[aria-checked="true"] .rd svg{opacity:1}
+.mcard[aria-checked="true"] .mtags i{background:#fff}
+.agel{display:flex;align-items:center;justify-content:center;gap:6px;text-align:center}.agel .ai{width:16px;height:16px;display:inline-block;flex:none}
+
+.mtiles{display:flex;gap:8px}
+.mtiles i{font-style:normal;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font:22px/1 var(--emoji);box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.08)}
+.mcard[aria-checked="true"] .mtiles i{animation:tilepop 460ms cubic-bezier(.3,1.6,.5,1) both;animation-delay:var(--d)}
+@keyframes tilepop{0%{transform:scale(.6) rotate(-8deg);opacity:.4}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.mcard .mtiles i{animation:none!important}}
+
+/* mode cards: distinct sides */
+.mcard.soc{background:#eef4ff;box-shadow:none}
+.mcard.ufm{background:#101A3C;box-shadow:none;position:relative}
+.mcard.ufm .mtx b{color:#fff}.mcard.ufm .mtx span{color:rgba(255,255,255,.72)}
+.mcard.ufm .rd{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)}
+.mcard.ufm .mtx b::after{content:none;display:inline-block;margin-left:8px;vertical-align:3px;font:700 12px var(--text);padding:3px 8px;border-radius:10px;background:rgba(255,255,255,.16);color:#fff;letter-spacing:.02em}
+.mcard.soc[aria-checked="true"]{background:#eef4ff;box-shadow:0 0 0 3px #2a5bd7}.mcard.soc[aria-checked="true"] .rd{background:#2a5bd7}
+.mcard.ufm[aria-checked="true"]{background:#101A3C;box-shadow:0 0 0 3px #fff,0 0 0 5.5px #101A3C}.mcard.ufm[aria-checked="true"] .rd{background:#fff;color:#101A3C}
+.mcard.ufm .mtiles i{box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.mcard:not([aria-checked="true"]) .mtiles i{transition:transform 150ms ease}.mcard:active .mtiles i{transform:scale(.94)}
+
+/* Up for more card: night look */
+.mcard.ufm{overflow:hidden;isolation:isolate}
+.mstars{position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:
+  radial-gradient(120px 120px at 88% 18%,rgba(255,236,190,.28),rgba(255,236,190,0) 70%),
+  radial-gradient(1.4px 1.4px at 20% 22%,#fff 50%,transparent 51%),
+  radial-gradient(1.2px 1.2px at 52% 12%,rgba(255,255,255,.8) 50%,transparent 51%),
+  radial-gradient(1.6px 1.6px at 92% 78%,#fff 50%,transparent 51%),
+  radial-gradient(1.1px 1.1px at 36% 46%,rgba(255,255,255,.7) 50%,transparent 51%),
+  radial-gradient(1.3px 1.3px at 82% 62%,rgba(255,255,255,.75) 50%,transparent 51%),
+  radial-gradient(1px 1px at 12% 70%,rgba(255,255,255,.6) 50%,transparent 51%),
+  radial-gradient(1.2px 1.2px at 60% 80%,rgba(255,255,255,.65) 50%,transparent 51%)}
+.mpills{display:flex;flex-wrap:nowrap;gap:6px}
+.mpills i{white-space:nowrap;flex:none;font-style:normal;display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 12px 0 9px;border-radius:18px;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font:600 13px var(--text);color:#fff}
+.mpills em{font-style:normal;font:16px/1 var(--emoji)}
+.mcard.ufm[aria-checked="true"] .mpills i{animation:tilepop 460ms cubic-bezier(.3,1.6,.5,1) both;animation-delay:var(--d)}
+@media (prefers-reduced-motion:reduce){.mpills i{animation:none!important}}
+
+/* mode cards: Apple Invites style */
+.icard{position:relative;display:flex;align-items:flex-end;height:176px;border-radius:24px;overflow:hidden;text-align:left;padding:18px;color:#fff;isolation:isolate;transition:transform 140ms ease,box-shadow 160ms ease}
+.icard:active{transform:scale(.985)}
+.icard.soc{background:#1E7BF2}
+.icard.ufm{background:#5B2BB5}
+.ipat{position:absolute;inset:0;z-index:-1;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 50%,transparent 72%);mask-image:linear-gradient(180deg,#000 50%,transparent 72%)}
+.ipat i{position:absolute;font:30px/1 var(--emoji);font-style:normal;opacity:.95}
+.icard::before{content:none}
+.itx b{display:block;font:800 28px/1.1 var(--display);letter-spacing:-.02em;text-shadow:0 1px 8px rgba(0,0,0,.2)}
+.itx span{font:500 15px var(--text);color:rgba(255,255,255,.9)}
+.icard .rd{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.22);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 2px rgba(255,255,255,.9)}
+.icard .rd svg{width:16px;height:16px;opacity:0}
+.icard[aria-checked="true"]{box-shadow:0 0 0 3px #fff,0 0 0 5.5px var(--ink)}
+.icard[aria-checked="true"] .rd{background:#fff;color:var(--ink)}.icard[aria-checked="true"] .rd svg{opacity:1}
+.icard[aria-checked="true"] .ipat i{animation:tilepop 520ms cubic-bezier(.3,1.6,.5,1) both}
+.icard[aria-checked="false"]{filter:saturate(.85)}
 /* go-available moment */
 .fx{position:absolute;inset:0;pointer-events:none;z-index:30;overflow:hidden}
 .fx .ring{position:absolute;width:24px;height:24px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--green);opacity:0;animation:ring 1200ms cubic-bezier(.2,.7,.2,1) forwards}
@@ -456,10 +524,12 @@ const V={
 splash:()=>`<div class="screen splash" data-light><div class="ph" role="img" aria-label="Friends playing padel under floodlights"></div><div class="sc"></div>
  <div class="brand">${LOGO('#fff')}<p>Meet people nearby, in person.</p></div>
  <div class="foot"><button class="btn white" data-go="mode">${IC.apple} Continue with Apple</button><button class="btn mail" data-go="mode"><span class="mi">${IC.mail}</span> Continue with email</button><button class="login" id="logIn">Already on Everl? <b>Log in</b></button><p class="legal">18+ only. By continuing you agree to our <a href="#" data-legal>Terms</a> and <a href="#" data-legal>Privacy Policy</a>.</p></div></div>`,
-mode:()=>`<div class="screen"><div class="scroll">${prog(1)}<h1 class="lt">What are you looking for?</h1><p class="body">You can change this any time in settings.</p>
- <div role="radiogroup" aria-label="What are you looking for?" style="display:flex;flex-direction:column;gap:12px">${[['social',IC.people,'#e6efff','#2a5bd7','Social','Friends, activities and dates'],['adult',IC.moon,'#efe9ff','#6a45e8','Up for more','Meeting someone nearby tonight, 18+ only']].map(([k,ic,bg,fg,t,d])=>`<button class="choice" role="radio" aria-checked="${S.mode===k}" data-mode="${k}"><span class="ci" style="background:${bg};color:${fg}">${ic}</span><span><span class="ct">${t}</span><span class="sub">${d}</span></span><span class="rd">${IC.check}</span></button>`).join('')}</div>
+mode:()=>`<div class="screen"><div class="scroll">${prog(1)}<h1 class="lt">What are you looking for?</h1><p class="body">You can switch between them any time.</p>
+ <div role="radiogroup" aria-label="What are you looking for?" class="mcards">
+  ${[['social','soc','Social','Friends, activities and dates',['🎾','🍺','🎤','🧠','☕','🎲']],['adult','ufm','Up for more','Casual, no-strings meetups nearby',['🌙','🍸','✨','🕶️','🔥','💋']]].map(([k,c,t,d,em])=>`<button class="icard ${c}" role="radio" aria-checked="${(S.mode==='adult')===(k==='adult')}" data-mode="${k}"><span class="ipat" aria-hidden="true">${Array.from({length:10},(_,n)=>{const r=n<5?0:1,col=r?n-5:n;return `<i style="left:${(r?col*19+8:col*17+3).toFixed(1)}%;top:${r?44:8}%;transform:rotate(${((n*37)%24)-12}deg)">${em[(n*2+r)%em.length]}</i>`}).join('')}</span><span class="rd">${IC.check}</span><span class="itx"><b>${t}</b><span>${d}</span></span></button>`).join('')}
  </div>
- <div class="foot" style="gap:16px"><div class="agecard"><span class="ai">${IC.shield}</span><span><b>One-time age check</b><span>Everyone on Everl is 18+. Nobody can see you until you’ve checked.</span></span></div><button class="btn ink" id="modeGo">Continue</button></div></div>`,
+ </div>
+ <div class="foot"><button class="btn ink" id="modeGo">Continue</button><p class="sub agel"><span class="ai">${IC.shield}</span>Everyone on Everl is a verified adult.</p></div></div>`,
 interests:()=>{const n=S.interests.size;
  return `<div class="screen"><div class="scroll">${prog(2)}<h1 class="lt">What are you into?</h1><p class="body">Pick at least three. We match you with people nearby who like the same things.</p>
  <label class="search">${IC.search}<input id="intq" type="search" placeholder="Search interests, or add your own" value="${S.q.replace(/"/g,'&quot;')}" autocomplete="off" aria-label="Search interests"></label>
