@@ -36,7 +36,8 @@ Useful URL shortcuts:
 - **Colours:**
   - Available green `#34C759`. It is used ONLY for the switch and for being available, never for buttons or ticks.
   - Midnight navy `#101A3C`, the brand colour, also used for selected states.
-  - Paper `#F4F3EF` (background) and ink `#121212` (text and primary buttons).
+  - App: white `#FFFFFF` screens with Apple's cool grey `#F2F2F7` for controls, and ink `#121212` for text and primary buttons (changed 16 Nov 2026 after the UI audit; warm cream read as AI). The website keeps Paper `#F4F3EF`.
+  - No uppercase labels, no ` · ` separators, no divider lines between rows. Use plain wording or a second line.
 - **App icon:** a full-bleed navy square with the switch filling 88% of the width (option B). Profile avatars use 70%.
 - **Type:**
   - System font for everything (SF Pro, falling back to Inter Tight or Inter).
@@ -58,7 +59,9 @@ The owner is walking through the app screen by screen on the simulator. Done and
 3. **What are you into?** Search with add-your-own, 9 popular chips, and "Show all 28". The interest list matches the original everl.com app.
 4. **How you like to meet (optional):** What you're after, the vibe you want, and must-haves behind a link. Skip sits in the top bar, and nothing is pre-selected. The wording comes from the original app.
 
-**Next up:** the area screen (step 4 of 5), then codename, Home, go available, the request sheet, match, meeting point, Rooms, room detail, You and Notifications. These were all already polished in an earlier pass (nine fixes), but they haven't had the owner's one-by-one review yet.
+**Done 16 Nov 2026:** a full UI/UX audit (14 fixes): city step, area picker on Home, iOS navigation, calm room tiles, plain You screen.
+
+**Next up (was):** the area screen (step 4 of 5), then codename, Home, go available, the request sheet, match, meeting point, Rooms, room detail, You and Notifications. These were all already polished in an earlier pass (nine fixes), but they haven't had the owner's one-by-one review yet.
 
 **Open suggestion, not yet decided:** change the splash buttons to "Continue with Apple" (main), "Continue with email" (secondary) and "I already have an account" (text link). Ask the owner before doing it.
 
