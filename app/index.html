@@ -817,6 +817,43 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .bk .bwhen span.in{color:#4C8DFF}
 .bk .bsec button{color:#4C8DFF;font-weight:500}
 
+/* row variants */
+.bk .bico.tint{background:color-mix(in srgb,var(--t) 16%,#18181B);color:var(--t)}
+.bk .bico.now.tint{background:color-mix(in srgb,var(--t) 16%,#18181B);color:var(--t)}
+.bk .bcards{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:10px -20px 0;padding:0 20px 4px;scrollbar-width:none}
+.bk .bcards::-webkit-scrollbar{display:none}
+.bk .bcard{flex:none;width:176px;scroll-snap-align:start;border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:14px;text-align:left;color:#F5F5F7;background:#1C1C20;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.bk .bcard:active{transform:scale(.98)}
+.bk .bctop{display:flex;justify-content:space-between;align-items:flex-start}
+.bk .bctop b{font:600 17px var(--text);font-variant-numeric:tabular-nums}.bk .bctop b.now{color:#34C759}
+.bk .bcmain{display:flex;flex-direction:column;gap:2px;min-width:0}
+.bk .bcmain b{font:600 17px var(--text)}.bk .bcmain span{font:400 14px var(--text);color:#8E8E93;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bk .bcfoot{display:flex;align-items:center;gap:8px;font:400 13px var(--text);color:#8E8E93}.bk .bcfoot .in{color:#4C8DFF}
+.bk .bcard .bstack .orb{box-shadow:0 0 0 2px #1C1C20!important}
+
+/* plain rows: text only, no icons, tiles or lines */
+.bk .blist{gap:18px;margin-top:12px}
+.bk .brow.plain{gap:12px;min-height:0;padding:0;margin:0;width:100%}
+.bk .brow.plain .bmain b{font:500 17px var(--text);color:#F5F5F7}
+.bk .brow.plain .bmain span{font:400 14px var(--text);color:#8E8E93}
+.bk .brow.plain .bwhen b{font:500 17px var(--text);color:#F5F5F7}
+.bk .brow.plain .bwhen b.now{color:#34C759}
+.bk .brow.plain .bwhen span{font:400 14px var(--text);color:#8E8E93}
+.bk .brow.plain .bwhen span.in{color:#4C8DFF}
+
+/* rows: time, place and walk, Join */
+.bk .blist{gap:6px;margin-top:8px}
+.bk .brow.plain{display:flex;align-items:center;gap:8px;min-height:60px}
+.bk .brtap{flex:1;min-width:0;display:flex;align-items:center;gap:14px;text-align:left;color:#F5F5F7;min-height:60px}
+.bk .btm{width:52px;flex:none;font:500 17px var(--text);font-variant-numeric:tabular-nums;color:#F5F5F7}
+.bk .btm.now{color:#34C759}
+.bk .bjoin{flex:none;height:44px;display:grid;place-items:center;padding:0}
+.bk .bjoin span{display:grid;place-items:center;height:32px;min-width:72px;padding:0 14px;border-radius:16px;background:#26262B;color:#4C8DFF;font:600 15px var(--text)}
+.bk .bjoin.on span{color:#F5F5F7}
+.bk .bjoin[disabled] span{color:#8E8E93;background:#1C1C20}
+.bk .bjoin:active span{opacity:.6}
+.bk .bsec.bday{font:600 17px var(--text);margin-top:18px}
+
 /* ===== Look: black (sleek, mature). Switch with ?look=black ===== */
 [data-look="black"]{--bg:#0A0A0B;--card:#141416;--ink:#F5F5F7;--sub:#8E8E93;--mute:#636366;--hair:rgba(255,255,255,.08);--fill:#1C1C1E;--navy:#F5F5F7;--tint:#1C1C1E;--acc:#F5F5F7;--acc-soft:#1C1C1E;color-scheme:dark}
 [data-look="black"] body{background:#000}
@@ -1250,7 +1287,7 @@ app.addEventListener('click',e=>{
   if(t.id==='homeSw'){t.setAttribute('aria-checked','true');const k=t.querySelector('.sw');if(k)k.setAttribute('aria-checked','true');setTimeout(turnOn,180);return}
   if(t.id==='liveSw'){turnOff();return}
   if(t.dataset.room){S.room=t.dataset.room;nav('room');return}
-  if(t.dataset.join){const k=t.dataset.join;S.joined[k]=!S.joined[k];render(false);return}
+  if(t.dataset.join){const k=t.dataset.join,sc=document.querySelector('.screen .scroll'),y=sc?sc.scrollTop:0;S.joined[k]=!S.joined[k];render(false);const sc2=document.querySelector('.screen .scroll');if(sc2)sc2.scrollTop=y;if(S.joined[k])note(`You’ve joined ${TH[k].t}. We’ll tell you when it’s full.`);return}
   if(t.dataset.rt){S.roomTab=t.dataset.rt;render(false);return}
   if(t.id==='setAlerts'){S.settings.alerts=!S.settings.alerts;t.setAttribute('aria-checked',S.settings.alerts);return}
   if(t.id==='setLock'){S.settings.lock=!S.settings.lock;t.setAttribute('aria-checked',S.settings.lock);return}
@@ -1261,6 +1298,7 @@ app.addEventListener('click',e=>{
 app.addEventListener('pointerdown',e=>{const b=e.target.closest('#safety');if(!b)return;const d=$('#safeD');d.textContent='Keep holding…';const h=setTimeout(()=>{d.textContent='Location shared with Sam';b.querySelector('.e').textContent='Sent'},1200);const up=()=>{clearTimeout(h);if(d.textContent==='Keep holding…')d.textContent='Hold to share your location with Sam';removeEventListener('pointerup',up)};addEventListener('pointerup',up)});
 $('#reset').onclick=()=>{Object.assign(S,{screen:'splash',live:false,verified:false,tab:'home',joined:{},secs:3600});hist.length=0;clearTimeout(reqTimer);render()};
 {const ph=new URLSearchParams(location.search).get('photo');if(/^[A-F]$/.test(ph||''))document.documentElement.style.setProperty('--splash',`url(img/splash-${ph}.jpg)`)}
+{const r=new URLSearchParams(location.search).get('rows');if(r)S.rowsV=r}
 {const q=new URLSearchParams(location.search).get('screen');if(q==='home'||q==='rooms'||q==='you'){S.screen='main';S.tab=q;S.interests.add('Pub quiz')}else if(q==='room'){S.screen='room';S.room=new URLSearchParams(location.search).get('room')||'quiz'}else if(q==='live'){S.live=true;S.screen='main';S.tab='home'}else if(q&&q!=='main'&&typeof V[q]==='function'){S.screen=q;S.interests.add('Pub quiz')}}
 if(new URLSearchParams(location.search).get('verified'))S.verified=true;
 {document.documentElement.dataset.look='black';document.documentElement.dataset.tone='carbon';const lk=new URLSearchParams(location.search).get('look');if(lk)document.documentElement.dataset.look=lk}
@@ -1274,16 +1312,27 @@ if(new URLSearchParams(location.search).get('verified'))S.verified=true;
 const PINC={drinks:'#FFB36B',quiz:'#B99CFF',karaoke:'#FF7AB6',padel:'#7FD3FF',run:'#8BE3B0',games:'#FFE27A'};
 
 const ACT={
- drinks:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12l-1.4 6.2A4.7 4.7 0 0112 14a4.7 4.7 0 01-4.6-3.8z"/><path d="M12 14v6M8.5 20h7"/></svg>',
- quiz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.4a2.5 2.5 0 014.8.9c0 1.7-2.4 2.2-2.4 3.7"/><path d="M12 17.2h.01"/></svg>',
- karaoke:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg>',
- padel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10" cy="9" rx="6" ry="6.5"/><path d="M14.3 13.6L20 20"/><circle cx="18.5" cy="6" r="1.6"/></svg>',
- run:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="4.5" r="1.8"/><path d="M8 21l3-6 3 2 1-5 3 3M7 11l3-3 4 1"/></svg>',
- games:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M9 9h.01M15 9h.01M9 15h.01M15 15h.01M12 12h.01" stroke-width="2.6"/></svg>',
+ drinks:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11h1a3 3 0 0 1 0 6h-1"/><path d="M9 12v6"/><path d="M13 12v6"/><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z"/><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8"/></svg>',
+ quiz:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>',
+ karaoke:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><path d="M12 18v4"/><path d="M8 22h8"/></svg>',
+ padel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M6 4.6a9.5 9.5 0 0 1 0 14.8"/><path d="M18 4.6a9.5 9.5 0 0 0 0 14.8"/></svg>',
+ run:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.4C4 11.5 3 10.5 3 8c0-2.7 1.5-6 4.5-6C9.4 2 10 3.8 10 5.5c0 3.1-2 5.7-2 8.7V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.4c0-2.1 1-3.1 1-5.6 0-2.7-1.5-6-4.5-6C14.6 6 14 7.8 14 9.5c0 3.1 2 5.7 2 8.7V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/></svg>',
+ games:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h.01"/><path d="M16 8h.01"/><path d="M12 12h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/></svg>',
  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
  shuffle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h4v4M20 4l-7 7M4 20l6-6M16 20h4v-4M20 20l-5-5M4 4l5 5"/></svg>'};
 const BTIME={quiz:'20:30',karaoke:'21:30',drinks:'Now',padel:'22:00',run:'Sun 09:00',games:'Thu 19:00'};
-const brows=ks=>`<div class="blist">${ks.map(k=>{const T=TH[k],t=BTIME[k],now=t==='Now',j=S.joined[k],left=T.spots[1]-T.spots[0]-(j?1:0),st=j?'You’re in':left?`${left} spot${left>1?'s':''} left`:'Full';return `<button class="brow" data-room="${k}" aria-label="${T.t}, ${now?'on now':t}, ${T.where}, ${st}"><span class="bico${now?' now':''}" aria-hidden="true">${ACT[k]||ACT.pin}</span><span class="bmain"><b>${T.t}</b><span>${T.where}</span></span><span class="bwhen"><b${now?' class="now"':''}>${now?'On now':t}</b><span${j?' class="in"':''}>${st}</span></span></button>`}).join('')}</div>`;
+const RTINT={drinks:'#E0B04A',quiz:'#A98BFF',karaoke:'#FF6FA8',padel:'#7BD88F',games:'#5CC8D6',run:'#6FA8FF'};
+const RV=()=>S.rowsV||'d';
+const rstat=k=>{const T=TH[k],j=S.joined[k],left=T.spots[1]-T.spots[0]-(j?1:0);return j?'You’re in':left?`${left} spot${left>1?'s':''} left`:'Full'};
+const rico=(k,now)=>{const v=RV(),c=RTINT[k];return `<span class="bico${now?' now':''}${v!=='a'?' tint':''}" style="${v!=='a'?`--t:${c}`:''}" aria-hidden="true">${ACT[k]||ACT.pin}</span>`};
+const rorbs=(k,n=3)=>{const ns=Object.values(OTHERS),o=Object.keys(TH).indexOf(k);return `<span class="bstack">${[0,1,2].slice(0,Math.min(n,3)).map(i=>AV(ns[(o+i)%ns.length],22)).join('')}</span>`};
+const WALK={drinks:2,quiz:4,karaoke:6,padel:14,games:5,run:16},BDAY={games:'Thursday',run:'Sunday'};
+const brow1=k=>{const T=TH[k],t=BTIME[k],now=t==='Now',j=!!S.joined[k],left=T.spots[1]-T.spots[0]-(j?1:0),tm=now?'Now':t.split(' ').pop(),day=BDAY[k]?BDAY[k]+' ':'';
+ const sub=`${T.where.split(',')[0]}, ${WALK[k]||5} min walk${!j&&left>0&&left<=2?`, ${left} left`:''}`;
+ return `<div class="brow plain"><button class="brtap" data-room="${k}" aria-label="${T.t}, ${now?'on now':day+tm}, ${sub}"><span class="btm${now?' now':''}">${tm}</span><span class="bmain"><b>${T.t}</b><span>${sub}</span></span></button><button class="bjoin${j?' on':''}" data-join="${k}" ${!j&&!left?'disabled':''} aria-label="${j?`Leave ${T.t}`:`Join ${T.t}`}"><span>${j?'Joined':left?'Join':'Full'}</span></button></div>`};
+const bgroups=ks=>{const g={};ks.forEach(k=>{const d=BDAY[k]||'Tonight';(g[d]=g[d]||[]).push(k)});return Object.entries(g).map(([d,l])=>`<p class="bsec bday">${d}</p>${brows(l)}`).join('')};
+const bcard=k=>{const T=TH[k],t=BTIME[k],now=t==='Now',st=rstat(k);return `<button class="bcard" data-room="${k}" aria-label="${T.t}, ${now?'on now':t}, ${T.where}, ${st}"><span class="bctop">${rico(k,false)}<b class="${now?'now':''}">${now?'On now':t}</b></span><span class="bcmain"><b>${T.t}</b><span>${T.where}</span></span><span class="bcfoot">${rorbs(k,T.spots[0])}<span${S.joined[k]?' class="in"':''}>${st}</span></span></button>`};
+const brows=(ks,tonight)=>RV()==='c'&&tonight?`<div class="bcards">${ks.map(bcard).join('')}</div>`:`<div class="blist">${ks.map(brow1).join('')}</div>`;
 
 function bmapSvg(){const st=[];const r=(a,b)=>a+Math.random()*(b-a);
  let o='<svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect class="mbg" width="400" height="420" fill="#0D0D0F"/>';
@@ -1376,14 +1425,12 @@ function homeBlack(){return `<div class="screen tabscreen bk bkhome${S.live?' li
  :`<div class="bstat"><p class="bs1">Offline</p><p class="bs2">Go available and people nearby who want the same thing can see you.</p></div><button class="bgo" id="homeSw" role="switch" aria-checked="false" aria-label="Go available for one hour"><span class="gdot"></span>Go available<span class="sw" aria-hidden="true"></span></button>`}
  ${S.live?'':`<div class="bnums" style="margin-top:16px"><div class="bnum"><b class="c1">12</b><span>people nearby</span></div><div class="bnum"><b class="c2">4</b><span>rooms tonight</span></div></div>`}
  <p class="bsec">Tonight<button data-tab="rooms">See all</button></p>
- ${brows(['drinks','quiz','karaoke','padel'])}
- <p class="bsec">This week</p>
- ${brows(['games','run'])}
+ ${brows(['drinks','quiz','karaoke','padel'],1)}
  </div></div>${tabs()}</div>`}
-function roomsBlack(){const ks=S.roomTab==='mine'?Object.keys(S.joined).filter(k=>S.joined[k]):S.roomTab==='week'?['games','run','padel']:['drinks','quiz','karaoke','padel'];return `<div class="screen tabscreen bk"><div class="scroll">
+function roomsBlack(){const ks=S.roomTab==='mine'?Object.keys(S.joined).filter(k=>S.joined[k]):S.roomTab==='week'?['games','run']:['drinks','quiz','karaoke','padel'];return `<div class="screen tabscreen bk"><div class="scroll">
  <div class="top"><h1 class="lt">Rooms</h1><button class="ib" aria-label="Start a room">${IC.plus}</button></div>
  <div class="seg" role="tablist">${[['tonight','Tonight'],['week','This week'],['mine','Mine']].map(([k,l])=>`<button role="tab" aria-selected="${S.roomTab===k}" data-rt="${k}">${l}</button>`).join('')}</div>
- ${ks.length?brows(ks)+'<p class="bs2" style="font-size:15px;margin-top:8px">The exact venue appears once a room is full.</p>':'<p class="bs2" style="margin-top:24px">Rooms you join show up here.</p>'}
+ ${ks.length?(S.roomTab==='tonight'?brows(ks):bgroups(ks))+'<p class="bs2" style="font-size:15px;margin-top:8px">The exact venue appears once a room is full.</p>':'<p class="bs2" style="margin-top:24px">Rooms you join show up here.</p>'}
  </div>${tabs()}</div>`}
 if(document.documentElement.dataset.look==='black'){const H=V.home,R=V.rooms,L=V.live;V.home=()=>S.mode==='adult'?H():homeBlack();V.live=()=>homeBlack();V.rooms=()=>roomsBlack()}
 
