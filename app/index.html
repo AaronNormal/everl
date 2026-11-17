@@ -1489,9 +1489,7 @@ function roomBlack(k){const T=TH[k],j=!!S.joined[k],n=T.spots[0]+(j?1:0),left=T.
  </div><div class="bbar">${j?`<span class="bl"><b>You’re in</b><span>${whenTxt(k)}</span></span><button class="bbtn ghost" data-join="${k}">Leave</button>`:`<span class="bl"><b>${left>0?`${left} ${left===1?'spot':'spots'} left`:'Full'}</b><span>${whenTxt(k)}</span></span><button class="bbtn" data-join="${k}">Join</button>`}</div></div>`}
 function meetBlack(){return `<div class="screen bk bkmeet"><div class="scroll">
  <div class="bmap">${bmapSvg()}
-  <svg class="broute" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M24 76 Q34 58 52 44" stroke="#F5F5F7" stroke-width="1.4" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke-width:5px"/><path d="M84 62 Q70 50 52 44" stroke="#F5F5F7" stroke-opacity=".35" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke-width:5px"/></svg>
   <span class="bpeep" style="left:24%;top:76%;opacity:1;animation:none">${AV(S.codename,40)}</span>
-  <span class="bpeep" style="left:84%;top:62%;opacity:1;animation:none">${AV(OTHERS.CO,36)}</span>
   <span class="bvenue" aria-hidden="true">${ACT.karaoke}</span>
   <button class="bclose" data-endmeet aria-label="Close">${IC.x}</button>
   <div class="binstr"><b>Left onto Oldham Street</b><span>In 120 m</span></div>
@@ -1499,7 +1497,7 @@ function meetBlack(){return `<div class="screen bk bkmeet"><div class="scroll">
  </div>
  <div class="bsheet" style="padding-bottom:28px"><div class="grab"></div>
   <p class="beta">4 min</p><p class="betal">Meet at Lane 7, Oldham Street. Bar entrance.</p>
-  <div class="bperson">${AV(OTHERS.CO,44)}<span style="flex:1"><b>Cedar Otter 478</b><span class="d">2 min away and heading over</span></span></div>
+  <div class="bperson">${AV(OTHERS.CO,44)}<span style="flex:1"><b>Cedar Otter 478</b><span class="d">Also going to Lane 7</span></span></div>
   <div class="bduo"><button class="bbtn" id="dirs">Directions</button><button class="bbtn grey" id="bmsg">Message</button></div>
   <button class="bcancel" data-endmeet>Cancel meeting</button>
  </div></div></div>`}
