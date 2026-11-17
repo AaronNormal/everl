@@ -1,6 +1,6 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Everl app</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Everl"><link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"><script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" defer></script><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="theme-color" content="#ffffff"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Everl"><link rel="manifest" href="manifest.webmanifest">
 
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -724,7 +724,7 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .bups span{font:500 14px var(--text);padding:7px 12px;border-radius:9999px;background:var(--surface-3);color:var(--ink)}
 .bups span.none{background:none;padding:0;color:var(--ink-2)}
 .bedit{height:44px;min-width:44px;padding:0 10px;margin:-5px 0;font:600 14px var(--text);color:var(--accent)}
-.bnear{display:flex;align-items:center;gap:12px;margin-top:14px;padding:14px;border-radius:16px;background:linear-gradient(180deg,#1C1C20,#151518);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.bnear{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,#1C1C20,#151518);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
 .bstack{display:flex;flex:none}.bstack .orb{margin-left:-6px!important;box-shadow:0 0 0 2px #1A1A1E!important;font-size:0!important}.bstack .orb:first-child{margin-left:0!important}
 .bnear p{margin:0;font:400 14px/1.4 var(--text);color:var(--ink-2)}.bnear p b{color:var(--ink);font-weight:600}
 .bduo2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
@@ -738,10 +738,30 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .bvis .vdot{width:8px;height:8px;border-radius:50%;background:var(--live)}
 .bsheet .grab{display:block;width:96px;height:28px;margin:-10px auto -2px;background:none;position:relative;touch-action:none}
 .bsheet .grab::before{content:"";position:absolute;left:29px;right:29px;top:11px;height:5px;border-radius:3px;background:rgba(255,255,255,.22)}
-.bkhome.live .bmap{height:clamp(300px,44vh,380px)!important}
+.bkhome.live .bmap{height:clamp(280px,40vh,350px)!important}
 .bkhome.smin .bmap{height:calc(100vh - 230px)!important;transition:height 380ms cubic-bezier(.32,.72,0,1)}
 .bkhome.smin .bsheet>*:not(.grab):not(.bstrow):not(.bduo2){display:none}
 .bkhome.smin .bsheet{padding-bottom:12px}
+
+/* ===== real map ===== */
+.lmap{position:absolute!important;inset:0;z-index:0;background:#161618}
+.bmap.real>svg,.bmap.real .bglow,.bmap.real .bring{display:none}
+.lmk{width:0;height:0;overflow:visible}
+.lmk .bme,.lmk .bpeep,.lmk .bpin{position:absolute;left:0!important;top:0!important}
+.lmk .bme{transform:translate(-50%,-50%)}
+.lmk .bpin{translate:-50% -50%}
+.lmap .maplibregl-ctrl-top-right{top:calc(var(--top) + 90px);right:4px}
+.lmap .maplibregl-ctrl-attrib{background:rgba(20,20,23,.7)!important;color:rgba(245,245,247,.6);font:400 11px var(--text)}
+.lmap .maplibregl-ctrl-attrib a{color:inherit}
+.lmap .maplibregl-ctrl-attrib-button{filter:invert(1);opacity:.5}
+.bmap.real .brecent{bottom:44px}
+.brecent{position:absolute;right:16px;bottom:44px;z-index:4;width:40px;height:40px;border-radius:20px;display:none;place-items:center;background:rgba(20,20,23,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--ink);box-shadow:0 6px 16px rgba(0,0,0,.45)}
+.brecent.on{display:grid}.brecent svg{width:18px;height:18px}
+.bvis.warn .vdot{background:var(--ink-2)}
+.bfor{margin:8px 0 0;font:500 14px var(--text);color:var(--ink-2)}
+.bfor+.bups{margin-top:8px}
+.bpriv{display:inline-flex;align-items:center;gap:8px;background:none!important;padding:0!important;color:var(--ink)!important;font:400 15px/1.35 var(--text)!important;flex:1;min-width:0}
+.bpriv i{width:16px;height:16px;flex:none;color:var(--ink-2)}.bpriv i svg{width:16px;height:16px}
 /* map: friendly, no radar */
 .bring,.bpuck{display:none!important}
 .bglow{background:radial-gradient(circle,rgba(255,196,120,.22) 0%,rgba(255,196,120,.08) 35%,rgba(255,196,120,0) 65%)!important;animation:none!important}
@@ -884,7 +904,7 @@ const S={range:400,sheetMin:false,aMore:false,aMoreAsked:false,onb:false,aReady:
 let timer=null,reqTimer=null;
 const LK=`<svg class="lk" viewBox="0 -104.57 511.92 106.15" role="img" aria-label="everl"><rect y="-100" width="164.52" height="100" rx="50" fill="#34C759"/><circle cx="114.52" cy="-50" r="41.94" fill="#fff"/><path fill="currentColor" d="M239.69 1.58Q228.31 1.58 219.46 -3.1Q210.6 -7.78 205.56 -16.13Q200.52 -24.49 200.52 -35Q200.52 -45.51 205.49 -53.8Q210.45 -62.08 218.95 -66.83Q227.45 -71.58 238.11 -71.58Q248.48 -71.58 256.4 -67.12Q264.32 -62.65 268.86 -54.73Q273.4 -46.81 273.4 -36.58Q273.4 -34.71 273.18 -32.62Q272.96 -30.53 272.39 -27.8L212.04 -27.65V-42.78L263.03 -42.92L253.52 -36.58Q253.38 -42.63 251.65 -46.59Q249.92 -50.56 246.53 -52.64Q243.15 -54.73 238.25 -54.73Q233.07 -54.73 229.25 -52.36Q225.43 -49.98 223.35 -45.66Q221.26 -41.34 221.26 -35.14Q221.26 -28.95 223.49 -24.56Q225.72 -20.16 229.83 -17.79Q233.93 -15.41 239.55 -15.41Q244.73 -15.41 248.91 -17.21Q253.09 -19.01 256.26 -22.61L268.36 -10.51Q263.17 -4.47 255.82 -1.44Q248.48 1.58 239.69 1.58Z M302.49 0 272.82 -70H296.59L316.75 -11.67H306.38L326.54 -70H349.88L320.21 0Z M388.77 1.58Q377.39 1.58 368.53 -3.1Q359.67 -7.78 354.63 -16.13Q349.59 -24.49 349.59 -35Q349.59 -45.51 354.56 -53.8Q359.53 -62.08 368.03 -66.83Q376.52 -71.58 387.18 -71.58Q397.55 -71.58 405.47 -67.12Q413.4 -62.65 417.93 -54.73Q422.47 -46.81 422.47 -36.58Q422.47 -34.71 422.25 -32.62Q422.04 -30.53 421.46 -27.8L361.11 -27.65V-42.78L412.1 -42.92L402.59 -36.58Q402.45 -42.63 400.72 -46.59Q398.99 -50.56 395.61 -52.64Q392.22 -54.73 387.33 -54.73Q382.14 -54.73 378.32 -52.36Q374.51 -49.98 372.42 -45.66Q370.33 -41.34 370.33 -35.14Q370.33 -28.95 372.56 -24.56Q374.8 -20.16 378.9 -17.79Q383.01 -15.41 388.62 -15.41Q393.81 -15.41 397.99 -17.21Q402.16 -19.01 405.33 -22.61L417.43 -10.51Q412.24 -4.47 404.9 -1.44Q397.55 1.58 388.77 1.58Z M429.53 0V-70H451.57V0ZM451.57 -38.46 442.35 -45.66Q445.08 -57.9 451.57 -64.67Q458.05 -71.44 469.57 -71.44Q474.61 -71.44 478.43 -69.93Q482.24 -68.42 485.13 -65.25L472.02 -48.68Q470.58 -50.27 468.42 -51.13Q466.26 -52 463.52 -52Q458.05 -52 454.81 -48.61Q451.57 -45.23 451.57 -38.46Z M489.88 0V-104.57H511.92V0Z"/></svg>`, WM=`<svg class="lk" viewBox="0 -104.57 311.4 106.15" role="img" aria-label="everl"><path fill="currentColor" d="M39.18 1.58Q27.8 1.58 18.94 -3.1Q10.08 -7.78 5.04 -16.13Q0 -24.49 0 -35Q0 -45.51 4.97 -53.8Q9.94 -62.08 18.44 -66.83Q26.93 -71.58 37.59 -71.58Q47.96 -71.58 55.88 -67.12Q63.81 -62.65 68.34 -54.73Q72.88 -46.81 72.88 -36.58Q72.88 -34.71 72.66 -32.62Q72.45 -30.53 71.87 -27.8L11.52 -27.65V-42.78L62.51 -42.92L53 -36.58Q52.86 -42.63 51.13 -46.59Q49.4 -50.56 46.02 -52.64Q42.63 -54.73 37.74 -54.73Q32.55 -54.73 28.73 -52.36Q24.92 -49.98 22.83 -45.66Q20.74 -41.34 20.74 -35.14Q20.74 -28.95 22.97 -24.56Q25.21 -20.16 29.31 -17.79Q33.42 -15.41 39.03 -15.41Q44.22 -15.41 48.4 -17.21Q52.57 -19.01 55.74 -22.61L67.84 -10.51Q62.65 -4.47 55.31 -1.44Q47.96 1.58 39.18 1.58Z M101.98 0 72.3 -70H96.07L116.23 -11.67H105.86L126.03 -70H149.36L119.69 0Z M188.25 1.58Q176.87 1.58 168.01 -3.1Q159.16 -7.78 154.12 -16.13Q149.07 -24.49 149.07 -35Q149.07 -45.51 154.04 -53.8Q159.01 -62.08 167.51 -66.83Q176.01 -71.58 186.67 -71.58Q197.04 -71.58 204.96 -67.12Q212.88 -62.65 217.42 -54.73Q221.95 -46.81 221.95 -36.58Q221.95 -34.71 221.74 -32.62Q221.52 -30.53 220.95 -27.8L160.6 -27.65V-42.78L211.58 -42.92L202.08 -36.58Q201.93 -42.63 200.21 -46.59Q198.48 -50.56 195.09 -52.64Q191.71 -54.73 186.81 -54.73Q181.63 -54.73 177.81 -52.36Q173.99 -49.98 171.9 -45.66Q169.81 -41.34 169.81 -35.14Q169.81 -28.95 172.05 -24.56Q174.28 -20.16 178.38 -17.79Q182.49 -15.41 188.11 -15.41Q193.29 -15.41 197.47 -17.21Q201.65 -19.01 204.81 -22.61L216.91 -10.51Q211.73 -4.47 204.38 -1.44Q197.04 1.58 188.25 1.58Z M229.01 0V-70H251.05V0ZM251.05 -38.46 241.83 -45.66Q244.57 -57.9 251.05 -64.67Q257.53 -71.44 269.05 -71.44Q274.09 -71.44 277.91 -69.93Q281.73 -68.42 284.61 -65.25L271.5 -48.68Q270.06 -50.27 267.9 -51.13Q265.74 -52 263 -52Q257.53 -52 254.29 -48.61Q251.05 -45.23 251.05 -38.46Z M289.36 0V-104.57H311.4V0Z"/></svg>`;
 const LOGO=(c='#101A3C')=>`<span class="logo" style="color:${c}">${LK}</span>`;
-const IC={
+const IC={nav:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 4 4 11l7 2 2 7z"/></svg>',
  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 16V11a6 6 0 0112 0v5l1.5 2h-15zM10 20a2 2 0 004 0"/></svg>',
@@ -1109,6 +1129,7 @@ function render(anim=true){
   const scr=app.firstElementChild;if(anim)scr.classList.add('enter');
   const light=S.screen==='splash';
   $('#sbar').classList.toggle('light',light);$('#hi').classList.toggle('light',light);
+  if(document.getElementById('lmap'))mountMap(false);
   if(S.live&&S.screen==='main'&&S.tab==='home'){timer=setInterval(()=>{S.secs=Math.max(0,S.secs-1);const c=$('#clock');if(c)c.textContent=fmt(S.secs);const m=$('#clockm');if(m)m.textContent=minLeft()},1000)}
 }
 const go=(s,anim=true)=>{if(s==='mode')S.onb=true;if(s==='home'){S.onb=false;if(S.mode==='adult')S.aReady=true;S.screen='main';S.tab='home'}else S.screen=s;render(anim)};
@@ -1197,7 +1218,8 @@ app.addEventListener('click',e=>{
   if(t.hasAttribute('data-arefine')){S.aEdit=null;nav('adetails');return}
   if(t.id==='setNudge'){S.nudge=!S.nudge;t.setAttribute('aria-checked',S.nudge);return}
   if(t.id==='upEdit'){upSheet();return}
-  if(t.id==='bvis'){rangeSheet();return}
+  if(t.id==='bvis'){if(locSt()==='off'){locate(true);note('If nothing happens, allow location for Everl in Settings.');return}if(locSt()==='far'){note(`When you’re in ${S.area}, people nearby can see you.`);return}rangeSheet();return}
+  if(t.id==='recenter'){MAP.moved=false;mountMap(true);return}
   if(t.dataset.peep){peepSheet(t.dataset.peep);return}
   if(t.id==='addTime'){S.secs=Math.min(S.secs+1800,3*3600);const m=$('#clockm');if(m)m.textContent=minLeft();note('Added 30 minutes. You’re available for '+minLeft().replace(' left','')+'.');return}
   if(t.id==='bsafe'){note('Sam can see where you are until you stop being available. Change this in You.');return}
@@ -1262,22 +1284,78 @@ function bmapSvg(){const st=[];const r=(a,b)=>a+Math.random()*(b-a);
 const PEEPS=[['CO',22,48,'Karaoke'],['MW',88,56,'A pint'],['SF',62,72,'Pub quiz'],['SH',86,80,'Padel']];
 const minLeft=()=>`${Math.max(1,Math.ceil(S.secs/60))} min left`;
 const ATAG={CO:'A drink first',MW:'Kissing',SF:'Chat first',SH:'Slow build'};const ptag=n=>S.mode==='adult'?ATAG[n]:(PEEPS.find(p=>p[0]===n)||[])[3];
-const peepsHtml=()=>PEEPS.map(([n,x,y],i,_,tag=ptag(n))=>`<button class="bpeep bpeepb" data-peep="${n}" aria-label="${OTHERS[n]}, up for ${tag}" style="left:${x}%;top:${y}%;--d:${300+i*180}ms;--f:${3.2+i*.7}s">${AV(OTHERS[n],36)}<i class="ptag">${tag}</i></button>`).join('');
-const visPill=()=>`<button class="bvis" id="bvis"><span class="vdot"></span>Visible within a ${({200:2,400:5,1000:12})[S.range||400]} min walk</button>`;
-function liveSheet(adult){const ups=adult?[...(S.ad.want||[]),...(S.ad.into||[])].slice(0,2):[...S.interests].slice(0,4);
+const peepsHtml=()=>PEEPS.map(([n,x,y],i,_,tag=ptag(n),ad=S.mode==='adult')=>`<button class="bpeep bpeepb" data-peep="${n}" aria-label="${OTHERS[n]}, ${ad?'wants the same tonight':'up for '+tag}" style="left:${x}%;top:${y}%;--d:${300+i*180}ms;--f:${3.2+i*.7}s">${AV(OTHERS[n],36)}${ad?'':`<i class="ptag">${tag}</i>`}</button>`).join('');
+const visPill=()=>{const st=locSt();const t=st==='off'?'Location is off':st==='far'?`You’re not in ${S.area} yet`:st==='wait'?'Finding you':`Visible within a ${({200:2,400:5,1000:12})[S.range||400]} min walk`;return `<button class="bvis${st==='off'||st==='far'?' warn':''}" id="bvis"><span class="vdot"></span>${t}</button>`};
+const DAY=()=>['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()];
+function liveSheet(adult){const ups=[...S.interests].slice(0,3),n=(S.ad.want?S.ad.want.size:0)+(S.ad.into?S.ad.into.size:0);
  return `<div class="bstrow"><p class="bs1 live">Available</p><span class="bleft" id="clockm">${minLeft()}</span></div>
- <div class="bups">${ups.length?ups.map(t=>`<span>${t}</span>`).join(''):'<span class="none">Nothing picked yet</span>'}<button class="bedit" ${adult?'data-aedit="want"':'id="upEdit"'}>Edit</button></div>
- <div class="bnear"><span class="bstack">${PEEPS.slice(0,3).map(([n])=>AV(OTHERS[n],28)).join('')}</span><p><b>3 nearby ${adult?'want the same tonight':'share your interests'}.</b> Requests usually arrive within 10 minutes on a Thursday.</p></div>
+ ${adult?`<p class="bfor">Up for more</p><div class="bups"><span class="bpriv"><i>${IC.lock}</i>${n?`${n} pick${n>1?'s':''}, hidden until you match`:'Nothing picked for tonight yet'}</span><button class="bedit" data-aedit="want">Edit</button></div>`
+ :`<p class="bfor">Going out for</p><div class="bups">${ups.length?ups.map(t=>`<span>${t}</span>`).join(''):'<span class="none">Nothing picked yet</span>'}<button class="bedit" id="upEdit">Edit</button></div>`}
+ <div class="bnear"><span class="bstack">${PEEPS.slice(0,3).map(([n])=>AV(OTHERS[n],28)).join('')}</span><p><b>3 nearby ${adult?'want the same tonight':'share your interests'}.</b> Requests usually arrive within 10 minutes on a ${DAY()}.</p></div>
  <div class="bduo2"><button class="bbtn grey" id="addTime">+30 min</button><button class="bbtn grey" id="liveSw">Stop</button></div>
- <button class="bsafe" id="bsafe"><span>${IC.shield}</span>Sam, your safety contact, can see you while you’re live</button>`}
+ <button class="bsafe" id="bsafe"><span>${IC.shield}</span>Sam, your safety contact, can see you</button>`}
 function upSheet(){const sh=sheet(`<h2 class="t3" style="margin-top:8px">What are you up for?</h2><p class="sub" style="margin-top:-8px">People see this when you’re available.</p><div class="chips">${INT.slice(0,12).map(([e,t])=>`<button class="chip" aria-pressed="${S.interests.has(t)}" data-upint="${esc(t)}">${esc(t)}</button>`).join('')}</div><button class="btn ink" id="upDone">Done</button>`);
  sh.addEventListener('click',e=>{const c=e.target.closest('[data-upint]');if(c){const t=c.dataset.upint;S.interests.has(t)?S.interests.delete(t):S.interests.add(t);c.setAttribute('aria-pressed',S.interests.has(t));return}if(e.target.closest('#upDone')){sh.close();render(false)}})}
 function rangeSheet(){const sh=sheet(`<h2 class="t3" style="margin-top:8px">How far can people see you?</h2><div class="pick">${[[200,'2 min walk','Just this street'],[400,'5 min walk','The streets around you'],[1000,'12 min walk','The whole area']].map(([m,l,d])=>`<button data-range="${m}"><span style="flex:1"><b>Within a ${l}</b><span class="d">${d}</span></span>${(S.range||400)===m?`<span class="ck">${IC.check}</span>`:''}</button>`).join('')}</div>`);
- sh.addEventListener('click',e=>{const b=e.target.closest('[data-range]');if(b){S.range=+b.dataset.range;sh.close();render(false)}})}
-function peepSheet(n){const nm=OTHERS[n],tag=ptag(n);sheet(`<div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:8px;text-align:center">${AV(nm,72)}<h2 class="t3">${nm}</h2><p class="sub">Up for ${tag?tag.toLowerCase():'the same as you'} tonight, like you. About a 4 min walk.</p><p class="sub">You both stay anonymous until you both say yes.</p></div>`)}
+ sh.addEventListener('click',e=>{const b=e.target.closest('[data-range]');if(b){S.range=+b.dataset.range;MAP.moved=false;sh.close();render(false)}})}
+function peepSheet(n){const nm=OTHERS[n],tag=ptag(n),ad=S.mode==='adult',o=POFF[n]||[100,100],mins=Math.max(1,Math.round(Math.hypot(o[0],o[1])/80));sheet(`<div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:8px;text-align:center">${AV(nm,72)}<h2 class="t3">${nm}</h2><p class="sub">${ad?'Wants the same as you tonight':'Up for '+tag.toLowerCase()+' tonight, like you'}. About a ${mins} min walk.</p><p class="sub">You both stay anonymous until you both say yes.</p></div>`)}
+
+/* ===== real map: MapLibre + OpenFreeMap (free, no key), real location ===== */
+const AREAC={'Northern Quarter':[53.4838,-2.2353],'Ancoats':[53.4846,-2.2262],'Gay Village':[53.4770,-2.2367],'Spinningfields':[53.4806,-2.2516]};
+const POFF={CO:[-210,55],MW:[200,70],SF:[90,-55],SH:[240,-95]};            /* metres east, north of you */
+const ROFF={drinks:[-240,10],quiz:[0,130],karaoke:[250,-45]};            /* rooms around the area centre */
+const offset=([la,ln],[e,n])=>[la+n/111320,ln+e/(111320*Math.cos(la*Math.PI/180))];
+const distM=(a,b)=>{const R=6371e3,r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r;const h=Math.sin(dl/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const LL=([la,ln])=>[ln,la];
+const MAP={marks:[]};
+function locate(force){if(!navigator.geolocation){S.locState='off';return}
+ if(S.locState&&S.locState!=='off'&&!force)return;S.locState='wait';
+ navigator.geolocation.getCurrentPosition(p=>{S.loc=[p.coords.latitude,p.coords.longitude];S.locState='on';refreshMap()},()=>{S.loc=null;S.locState='off';refreshMap()},{enableHighAccuracy:true,timeout:10000,maximumAge:60000})}
+const locSt=()=>{if(S.loc){const c=AREAC[S.area]||AREAC['Northern Quarter'];return distM(S.loc,c)<3000?'ok':'far'}return S.locState||'wait'};
+function mePos(){const c=AREAC[S.area]||AREAC['Northern Quarter'];return locSt()==='ok'?S.loc:c}
+function refreshMap(){const p=$('#bvis');if(p)p.outerHTML=visPill();if(document.getElementById('lmap'))mountMap(true)}
+function circleGeo([la,ln],r){const pts=[];for(let i=0;i<=64;i++){const t=i/64*2*Math.PI;pts.push(LL(offset([la,ln],[Math.cos(t)*r,Math.sin(t)*r])))}return{type:'Feature',geometry:{type:'Polygon',coordinates:[pts]}}}
+function carbonise(m){const set=(id,k,v)=>{try{m.getLayer(id)&&m.setPaintProperty(id,k,v)}catch(e){}};
+ set('background','background-color','#161618');set('water','fill-color','#0E1620');set('building','fill-color','#202024');set('building','fill-outline-color','#26262B');
+ set('landuse_park','fill-color','#18201A');set('landuse_residential','fill-color','#18181B');
+ ['highway_minor','highway_path'].forEach(id=>set(id,'line-color','#2A2A30'));['highway_major_inner','highway_major_subtle','highway_motorway_inner','highway_motorway_subtle'].forEach(id=>set(id,'line-color','#34343B'));
+ ['highway_name_other','highway_name_motorway','place_other','place_suburb','water_name'].forEach(id=>{set(id,'text-color','#7C7C84');set(id,'text-halo-color','#161618')})}
+function mountMap(recenter){
+ const ph=document.getElementById('lmap');if(!ph)return;
+ if(!window.maplibregl){window.addEventListener('load',()=>mountMap(true),{once:true});return}
+ if(!S.locState)locate();
+ const area=AREAC[S.area]||AREAC['Northern Quarter'],me=mePos(),fresh=ph!==MAP.el;
+ if(!MAP.map){MAP.el=document.createElement('div');MAP.el.className='lmap';MAP.el.id='lmap';ph.replaceWith(MAP.el);
+  MAP.map=new maplibregl.Map({container:MAP.el,style:'https://tiles.openfreemap.org/styles/dark',center:LL(me),zoom:16,attributionControl:false,dragRotate:false,pitchWithRotate:false,touchPitch:false,maxZoom:18.5,minZoom:12});
+  MAP.map.touchZoomRotate.disableRotation();
+  MAP.map.addControl(new maplibregl.AttributionControl({compact:true}),'top-right');
+  MAP.map.on('load',()=>{carbonise(MAP.map);MAP.map.addSource('range',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
+   MAP.map.addLayer({id:'range-fill',type:'fill',source:'range',paint:{'fill-color':'#4C8DFF','fill-opacity':.08}});
+   MAP.map.addLayer({id:'range-line',type:'line',source:'range',paint:{'line-color':'#4C8DFF','line-width':1.5,'line-opacity':.7}});
+   MAP.ready=true;drawRange();fitView();MAP.el.querySelectorAll('.maplibregl-compact-show').forEach(e=>e.classList.remove('maplibregl-compact-show'))});
+  MAP.map.on('dragstart',()=>{MAP.moved=true;const b=$('#recenter');if(b)b.classList.add('on')});
+  MAP.map.on('error',e=>console.warn('map',e&&e.error&&e.error.message))}
+ else if(fresh)ph.replaceWith(MAP.el);
+ const bm=MAP.el.closest('.bmap');bm.classList.add('real');MAP.map.resize();
+ if(fresh||!MAP.els)MAP.els={pins:[...bm.querySelectorAll(':scope > .bpin')],peeps:[...bm.querySelectorAll(':scope > .bpeep')],me:bm.querySelector(':scope > .bme')};
+ MAP.marks.forEach(m=>m.remove());MAP.marks=[];
+ const add=(el,ll)=>{if(!el)return;el.style.left='0';el.style.top='0';const w=document.createElement('div');w.className='lmk';w.appendChild(el);MAP.marks.push(new maplibregl.Marker({element:w,anchor:'center'}).setLngLat(LL(ll)).addTo(MAP.map))};
+ if(!S.live)MAP.els.pins.forEach(el=>add(el,offset(area,ROFF[el.dataset.room]||[0,0])));
+ if(S.live)MAP.els.peeps.forEach(el=>add(el,offset(me,POFF[el.dataset.peep]||[0,0])));
+ add(MAP.els.me,me);
+ MAP.me=me;drawRange();
+ MAP.area=area;if(recenter||!MAP.moved){MAP.moved=false;const b=$('#recenter');if(b)b.classList.remove('on');requestAnimationFrame(()=>{MAP.map.resize();fitView()})}
+}
+function fitView(){const m=MAP.map,c=m.getCanvas(),bm=MAP.el.closest('.bmap');if(!c.clientHeight||!bm)return;
+ const hd=bm.querySelector('.hd'),me=MAP.me,area=MAP.area,top=(hd?hd.offsetTop+hd.offsetHeight:90)+(S.live?44:34),bot=S.live?80:84,side=S.live?50:100;
+ const pts=S.live?[me,...Object.values(POFF).map(o=>offset(me,o))]:[me,...Object.values(ROFF).map(o=>offset(area,o))];
+ const lat=pts.map(p=>p[0]),lng=pts.map(p=>p[1]);
+ const cam=m.cameraForBounds([[Math.min(...lng),Math.min(...lat)],[Math.max(...lng),Math.max(...lat)]],{padding:{top,bottom:bot,left:side,right:side},maxZoom:17.5});
+ if(cam)m.jumpTo(cam)}
+function drawRange(){if(!MAP.ready)return;const src=MAP.map.getSource('range');if(!src)return;src.setData(S.live&&MAP.me&&document.querySelector('.bkhome.live')?circleGeo(MAP.me,S.range||400):{type:'FeatureCollection',features:[]})}
 function homeBlack(){return `<div class="screen tabscreen bk bkhome${S.live?' live':''}${S.sheetMin&&S.live?' smin':''}"><div class="scroll">
- <div class="bmap">${bmapSvg()}<span class="bglow"></span><span class="bme" aria-label="You">${AV(S.codename,46)}</span>${[['drinks','🍺','Drinks',62,44],['quiz','🧠','Pub quiz 20:30',4,62],['karaoke','🎤','Karaoke 21:30',56,74]].map(([k,e,l,x,y])=>`<button class="bpin" data-room="${k}" style="left:${x}%;top:${y}%"><i>${ACT[k]}</i>${l}</button>`).join('')}
-  ${S.live?peepsHtml()+visPill():''}
+ <div class="bmap">${bmapSvg()}<div id="lmap" class="lmap" aria-label="Map of ${S.area}"></div><span class="bglow"></span><span class="bme" aria-label="You">${AV(S.codename,46)}</span>${[['drinks','🍺','Drinks',62,44],['quiz','🧠','Pub quiz 20:30',4,62],['karaoke','🎤','Karaoke 21:30',56,74]].map(([k,e,l,x,y])=>`<button class="bpin" data-room="${k}" style="left:${x}%;top:${y}%"><i>${ACT[k]}</i>${l}</button>`).join('')}
+  ${S.live?peepsHtml()+visPill():''}<button class="brecent" id="recenter" aria-label="Back to where you are">${IC.nav}</button>
   ${areaHead('Going out in')}</div>
  <div class="bsheet"><button class="grab" id="grab" aria-label="${S.sheetMin?'Expand':'Collapse'}"></button>
  ${S.live?liveSheet(false)
@@ -1359,8 +1437,8 @@ function notifsBlack(){S.seen=true;const items=[['quiz','Pub quiz is filling up'
  return `<div class="screen bk"><div class="scroll">${nb('Notifications')}
  <div class="blist">${items.map(([ic,t,d,room,isNew,ago])=>`<button class="bnote${isNew?' new':''}" ${room?`data-room="${room}"`:''}><span class="bwell">${ACT[ic]}</span><span class="bmain"><b>${t}</b><span>${d}</span></span><span class="bago">${ago}</span></button>`).join('')}</div></div></div>`}
 function ahomeBlack(){const bd=[...(S.ad.bound||[])];return `<div class="screen tabscreen bk bkhome${S.live?' live':''}${S.sheetMin&&S.live?' smin':''}"><div class="scroll">
- <div class="bmap">${bmapSvg()}<span class="bglow"></span><span class="bme" aria-label="You">${AV(S.codename,46)}</span>
-  ${S.live?peepsHtml()+visPill():''}
+ <div class="bmap">${bmapSvg()}<div id="lmap" class="lmap" aria-label="Map of ${S.area}"></div><span class="bglow"></span><span class="bme" aria-label="You">${AV(S.codename,46)}</span>
+  ${S.live?peepsHtml()+visPill():''}<button class="brecent" id="recenter" aria-label="Back to where you are">${IC.nav}</button>
   ${areaHead('Up for more in')}</div>
  <div class="bsheet"><button class="grab" id="grab" aria-label="${S.sheetMin?'Expand':'Collapse'}"></button>
  ${S.live?liveSheet(true)
