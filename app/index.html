@@ -841,6 +841,12 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .bk .brow.plain .bwhen span{font:400 14px var(--text);color:#8E8E93}
 .bk .brow.plain .bwhen span.in{color:#4C8DFF}
 
+/* go available: one calm, solid button, no shimmer or switch */
+[data-tone="carbon"] .bk .bgo{background:#34C759!important;color:#04120A!important;box-shadow:none!important;height:56px;border-radius:16px;justify-content:center;padding:0 20px;font:600 17px var(--text)}
+[data-tone="carbon"] .bk .bgo::after{display:none!important}
+[data-tone="carbon"] .bk .bgo .sw,[data-tone="carbon"] .bk .bgo .gdot{display:none}
+.bk .bfine{margin:10px 0 0;text-align:center;font:400 13px var(--text);color:#8E8E93}
+
 /* rows: time, place and walk, Join */
 .bk .blist{gap:6px;margin-top:8px}
 .bk .brow.plain{display:flex;align-items:center;gap:8px;min-height:60px}
@@ -1355,7 +1361,7 @@ function liveSheet(adult){const ups=[...S.interests].slice(0,3),n=(S.ad.want?S.a
  ${adult?`<p class="bfor">Up for more</p><div class="bups"><span class="bpriv"><i>${IC.lock}</i>${n?`${n} pick${n>1?'s':''}, hidden until you match`:'Nothing picked for tonight yet'}</span><button class="bedit" data-aedit="want">Edit</button></div>`
  :`<p class="bfor">Going out for</p><div class="bups">${ups.length?ups.map(t=>`<span>${t}</span>`).join(''):'<span class="none">Nothing picked yet</span>'}<button class="bedit" id="upEdit">Edit</button></div>`}
  <div class="bnear"><span class="bstack">${PEEPS.slice(0,3).map(([n])=>AV(OTHERS[n],28)).join('')}</span><p><b>3 nearby ${adult?'want the same tonight':'share your interests'}.</b> Requests usually arrive within 10 minutes on a ${DAY()}.</p></div>
- <div class="bduo2"><button class="bbtn grey" id="addTime">+30 min</button><button class="bbtn grey" id="liveSw">Stop</button></div>
+ <div class="bduo2"><button class="bbtn grey" id="addTime">+30 min</button><button class="bbtn grey" id="liveSw">Go offline</button></div>
  <button class="bsafe" id="bsafe"><span>${IC.shield}</span>Sam, your safety contact, can see you</button>`}
 function upSheet(){const sh=sheet(`<h2 class="t3" style="margin-top:8px">What are you up for?</h2><p class="sub" style="margin-top:-8px">People see this when you’re available.</p><div class="chips">${INT.slice(0,12).map(([e,t])=>`<button class="chip" aria-pressed="${S.interests.has(t)}" data-upint="${esc(t)}">${esc(t)}</button>`).join('')}</div><button class="btn ink" id="upDone">Done</button>`);
  sh.addEventListener('click',e=>{const c=e.target.closest('[data-upint]');if(c){const t=c.dataset.upint;S.interests.has(t)?S.interests.delete(t):S.interests.add(t);c.setAttribute('aria-pressed',S.interests.has(t));return}if(e.target.closest('#upDone')){sh.close();render(false)}})}
@@ -1422,7 +1428,7 @@ function homeBlack(){return `<div class="screen tabscreen bk bkhome${S.live?' li
   ${areaHead('Going out in')}</div>
  <div class="bsheet"><button class="grab" id="grab" aria-label="${S.sheetMin?'Expand':'Collapse'}"></button>
  ${S.live?liveSheet(false)
- :`<div class="bstat"><p class="bs1">Offline</p><p class="bs2">Go available and people nearby who want the same thing can see you.</p></div><button class="bgo" id="homeSw" role="switch" aria-checked="false" aria-label="Go available for one hour"><span class="gdot"></span>Go available<span class="sw" aria-hidden="true"></span></button>`}
+ :`<div class="bstat"><p class="bs1">You’re offline</p><p class="bs2">For one hour, people nearby who want the same thing can see you. You stay anonymous until you both say yes.</p></div><button class="bgo" id="homeSw" aria-label="Go available for one hour">Go available for 1 hour</button><p class="bfine">You can stop any time. It also ends on its own.</p>`}
  ${S.live?'':`<div class="bnums" style="margin-top:16px"><div class="bnum"><b class="c1">12</b><span>people nearby</span></div><div class="bnum"><b class="c2">4</b><span>rooms tonight</span></div></div>`}
  <p class="bsec">Tonight<button data-tab="rooms">See all</button></p>
  ${brows(['drinks','quiz','karaoke','padel'],1)}
