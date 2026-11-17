@@ -908,6 +908,40 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 [data-look="black"] .map{background:#141416}
 [data-look="black"] .shuf{background:#1C1C1E;color:#F5F5F7}
 [data-look="black"] .cnav{box-shadow:0 12px 30px rgba(0,0,0,.5)}
+
+/* ===== ONE SYSTEM (17 Nov): green = live, white = main button, blue = tappable text and picks ===== */
+/* buttons */
+[data-look="black"] .bbtn{background:#F5F5F7!important;color:#0A0A0B!important;border-radius:16px;box-shadow:none}
+[data-look="black"] .bbtn.grey,[data-look="black"] .bduo .bbtn.grey,[data-look="black"] .bduo2 .bbtn.grey{background:#26262B!important;color:#F5F5F7!important}
+[data-look="black"] .bbtn.ghost{background:#26262B!important;color:#F5F5F7!important;box-shadow:none}
+[data-look="black"] .bduo .bbtn,[data-look="black"] .btake .bbtn{height:56px;border-radius:16px}
+.bk .bjoin span{color:#F5F5F7;background:#26262B}
+.bk .bjoin.on span{color:#8E8E93;background:#1C1C20}
+/* numbers and dates are not blue */
+[data-look="black"] .bnum b,[data-acc] .bnum b{color:#F5F5F7!important}
+[data-look="black"] .bdate{color:#F5F5F7}
+/* room pins: dark glass, white text */
+[data-look="black"] .bpin,[data-acc] .bpin,[data-acc="blue"] .bpin{background:rgba(28,28,32,.92)!important;color:#F5F5F7!important;box-shadow:0 6px 18px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.08)!important;border-radius:12px}
+[data-look="black"] .bpin i,[data-acc] .bpin i,[data-acc="blue"] .bpin i{background:rgba(255,255,255,.1)!important;color:#F5F5F7!important}
+[data-look="black"] .bvenue{background:#F5F5F7;color:#0A0A0B}
+/* type: one voice */
+.bk .bs1{font:600 34px/1.1 var(--display)!important;letter-spacing:-.03em}
+[data-look="black"] .bposter .bpt,[data-look="black"] .beta{font-weight:700!important;letter-spacing:-.035em}
+[data-look="black"] .bposter .bpt{font-size:56px}
+[data-look="black"] .beta{font-size:56px}
+/* boxes only where you act */
+[data-look="black"] .bposter{background:#1C1C20!important}
+[data-look="black"] .bposter .bpe{background:rgba(255,255,255,.08)!important;color:#F5F5F7!important}
+[data-look="black"] .bwell,[data-look="black"] .bnote.new .bwell{background:none!important;width:28px;color:#8E8E93}
+[data-look="black"] .bnote.new .bwell{color:#F5F5F7}
+.bk .bystat{margin:2px 0 0;text-align:center;font:400 15px var(--text);color:#8E8E93}
+/* getting around: one round back button */
+[data-look="black"] .nb button{width:40px;height:40px;border-radius:50%;background:#26262B;margin:2px 8px}
+[data-look="black"] .nb button svg{width:18px;height:18px}
+[data-look="black"] .bk h1.lt{margin:8px 0 4px}
+[data-look="black"] .byhead::before{display:none}
+[data-look="black"] .bshield{color:#F5F5F7}
+[data-look="black"] .bclose{width:40px;height:40px;background:#26262B}
 </style>
 
 <div class="side" aria-label="About this prototype">
@@ -1333,6 +1367,7 @@ const rstat=k=>{const T=TH[k],j=S.joined[k],left=T.spots[1]-T.spots[0]-(j?1:0);r
 const rico=(k,now)=>{const v=RV(),c=RTINT[k];return `<span class="bico${now?' now':''}${v!=='a'?' tint':''}" style="${v!=='a'?`--t:${c}`:''}" aria-hidden="true">${ACT[k]||ACT.pin}</span>`};
 const rorbs=(k,n=3)=>{const ns=Object.values(OTHERS),o=Object.keys(TH).indexOf(k);return `<span class="bstack">${[0,1,2].slice(0,Math.min(n,3)).map(i=>AV(ns[(o+i)%ns.length],22)).join('')}</span>`};
 const WALK={drinks:2,quiz:4,karaoke:6,padel:14,games:5,run:16},BDAY={games:'Thursday',run:'Sunday'};
+const whenTxt=k=>{const t=BTIME[k];return t==='Now'?'On now':BDAY[k]?`${BDAY[k]}, ${t.split(' ').pop()}`:`Tonight, ${t}`};
 const brow1=k=>{const T=TH[k],t=BTIME[k],now=t==='Now',j=!!S.joined[k],left=T.spots[1]-T.spots[0]-(j?1:0),tm=now?'Now':t.split(' ').pop(),day=BDAY[k]?BDAY[k]+' ':'';
  const sub=`${T.where.split(',')[0]}, ${WALK[k]||5} min walk${!j&&left>0&&left<=2?`, ${left} left`:''}`;
  return `<div class="brow plain"><button class="brtap" data-room="${k}" aria-label="${T.t}, ${now?'on now':day+tm}, ${sub}"><span class="btm${now?' now':''}">${tm}</span><span class="bmain"><b>${T.t}</b><span>${sub}</span></span></button><button class="bjoin${j?' on':''}" data-join="${k}" ${!j&&!left?'disabled':''} aria-label="${j?`Leave ${T.t}`:`Join ${T.t}`}"><span>${j?'Joined':left?'Join':'Full'}</span></button></div>`};
@@ -1399,8 +1434,8 @@ function mountMap(recenter){
   MAP.map.touchZoomRotate.disableRotation();
   MAP.map.addControl(new maplibregl.AttributionControl({compact:true}),'top-right');
   MAP.map.on('load',()=>{carbonise(MAP.map);MAP.map.addSource('range',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
-   MAP.map.addLayer({id:'range-fill',type:'fill',source:'range',paint:{'fill-color':'#4C8DFF','fill-opacity':.08}});
-   MAP.map.addLayer({id:'range-line',type:'line',source:'range',paint:{'line-color':'#4C8DFF','line-width':1.5,'line-opacity':.7}});
+   MAP.map.addLayer({id:'range-fill',type:'fill',source:'range',paint:{'fill-color':'#34C759','fill-opacity':.07}});
+   MAP.map.addLayer({id:'range-line',type:'line',source:'range',paint:{'line-color':'#34C759','line-width':1.5,'line-opacity':.6}});
    MAP.ready=true;drawRange();fitView();MAP.el.querySelectorAll('.maplibregl-compact-show').forEach(e=>e.classList.remove('maplibregl-compact-show'))});
   MAP.map.on('dragstart',()=>{MAP.moved=true;const b=$('#recenter');if(b)b.classList.add('on')});
   MAP.map.on('error',e=>console.warn('map',e&&e.error&&e.error.message))}
@@ -1428,15 +1463,15 @@ function homeBlack(){return `<div class="screen tabscreen bk bkhome${S.live?' li
   ${areaHead('Going out in')}</div>
  <div class="bsheet"><button class="grab" id="grab" aria-label="${S.sheetMin?'Expand':'Collapse'}"></button>
  ${S.live?liveSheet(false)
- :`<div class="bstat"><p class="bs1">You’re offline</p><p class="bs2">For one hour, people nearby who want the same thing can see you. You stay anonymous until you both say yes.</p></div><button class="bgo" id="homeSw" aria-label="Go available for one hour">Go available for 1 hour</button><p class="bfine">You can stop any time. It also ends on its own.</p>`}
- ${S.live?'':`<div class="bnums" style="margin-top:16px"><div class="bnum"><b class="c1">12</b><span>people nearby</span></div><div class="bnum"><b class="c2">4</b><span>rooms tonight</span></div></div>`}
+ :`<div class="bstat"><p class="bs1">You’re offline</p><p class="bs2">For one hour, people nearby who want the same thing can see you. You stay anonymous until you both say yes.</p></div><button class="bgo" id="homeSw" aria-label="Go available for one hour">Go available for 1 hour</button><p class="bfine">12 people nearby. Stop any time, or it ends on its own.</p>`}
+ 
  <p class="bsec">Tonight<button data-tab="rooms">See all</button></p>
  ${brows(['drinks','quiz','karaoke','padel'],1)}
  </div></div>${tabs()}</div>`}
 function roomsBlack(){const ks=S.roomTab==='mine'?Object.keys(S.joined).filter(k=>S.joined[k]):S.roomTab==='week'?['games','run']:['drinks','quiz','karaoke','padel'];return `<div class="screen tabscreen bk"><div class="scroll">
  <div class="top"><h1 class="lt">Rooms</h1><button class="ib" aria-label="Start a room">${IC.plus}</button></div>
  <div class="seg" role="tablist">${[['tonight','Tonight'],['week','This week'],['mine','Mine']].map(([k,l])=>`<button role="tab" aria-selected="${S.roomTab===k}" data-rt="${k}">${l}</button>`).join('')}</div>
- ${ks.length?(S.roomTab==='tonight'?brows(ks):bgroups(ks))+'<p class="bs2" style="font-size:15px;margin-top:8px">The exact venue appears once a room is full.</p>':'<p class="bs2" style="margin-top:24px">Rooms you join show up here.</p>'}
+ ${ks.length?(S.roomTab==='tonight'?brows(ks):bgroups(ks)):'<p class="bs2" style="margin-top:24px">Rooms you join show up here.</p>'}
  </div>${tabs()}</div>`}
 if(document.documentElement.dataset.look==='black'){const H=V.home,R=V.rooms,L=V.live;V.home=()=>S.mode==='adult'?H():homeBlack();V.live=()=>homeBlack();V.rooms=()=>roomsBlack()}
 
@@ -1447,14 +1482,14 @@ function roomBlack(k){const T=TH[k],j=!!S.joined[k],n=T.spots[0]+(j?1:0),left=T.
  const empty=Array.from({length:Math.max(0,left)},()=>'<span class="bseat">+</span>').join('');
  return `<div class="screen bk bkroom"><div class="scroll" style="padding-bottom:140px">${nb('')}
  <div class="bposter"><span class="bpe" aria-hidden="true">${ACT[k]||ACT.pin}</span><b>${T.t}</b><span class="bpt">${BTIME[k]}</span></div>
- <p class="bdate">${T.w}</p><p class="bsubl">Hosted by ${T.host}</p>
- <div class="bseats">${av}${empty}</div><p class="bseatl"><b>${n} of ${T.spots[1]} going.</b> ${left>0?`${left} ${left===1?'seat':'seats'} left`:'Room is full'}</p>
- <div class="block"><span class="ii">${left>0?IC.lock:IC.pin}</span><span><b>${left>0?'Venue revealed when the group is full':T.where}</b><span class="d">${left>0?'Everyone gets the address at the same time':'Your group is complete'}</span></span></div>
+ <p class="bdate">${whenTxt(k)}</p><p class="bsubl">Hosted by ${T.host}</p>
+ <div class="bseats">${av}${empty}</div><p class="bseatl"><b>${n} of ${T.spots[1]} going.</b> ${left>0?`${left} ${left===1?'spot':'spots'} left`:'Room is full'}</p>
+ <div class="block"><span class="ii">${IC.pin}</span><span><b>${T.where}</b><span class="d">${WALK[k]||5} min walk</span></span></div>
  <p class="babout">A relaxed ${T.t.toLowerCase()} for anyone nearby. Turn up, say hi to the host, and you’re in. If plans change, leave the room so someone else can join.</p>
- </div><div class="bbar">${j?`<span class="bl"><b>You’re in</b><span>We’ll send the venue when it’s full</span></span><button class="bbtn ghost" data-join="${k}">Leave</button>`:`<span class="bl"><b>${left>0?`${left} ${left===1?'seat':'seats'} left`:'Full'}</b><span>${T.m}</span></span><button class="bbtn" data-join="${k}">Join</button>`}</div></div>`}
+ </div><div class="bbar">${j?`<span class="bl"><b>You’re in</b><span>${whenTxt(k)}</span></span><button class="bbtn ghost" data-join="${k}">Leave</button>`:`<span class="bl"><b>${left>0?`${left} ${left===1?'spot':'spots'} left`:'Full'}</b><span>${whenTxt(k)}</span></span><button class="bbtn" data-join="${k}">Join</button>`}</div></div>`}
 function meetBlack(){return `<div class="screen bk bkmeet"><div class="scroll">
  <div class="bmap">${bmapSvg()}
-  <svg class="broute" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M24 76 Q34 58 52 44" stroke="#4C8DFF" stroke-width="1.4" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke-width:5px"/><path d="M84 62 Q70 50 52 44" stroke="#4C8DFF" stroke-opacity=".45" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke-width:5px"/></svg>
+  <svg class="broute" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M24 76 Q34 58 52 44" stroke="#F5F5F7" stroke-width="1.4" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke-width:5px"/><path d="M84 62 Q70 50 52 44" stroke="#F5F5F7" stroke-opacity=".35" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke-width:5px"/></svg>
   <span class="bpeep" style="left:24%;top:76%;opacity:1;animation:none">${AV(S.codename,40)}</span>
   <span class="bpeep" style="left:84%;top:62%;opacity:1;animation:none">${AV(OTHERS.CO,36)}</span>
   <span class="bvenue" aria-hidden="true">${ACT.karaoke}</span>
@@ -1471,9 +1506,11 @@ function meetBlack(){return `<div class="screen bk bkmeet"><div class="scroll">
 function youBlack(){return `<div class="screen tabscreen bk bkyou"><div class="scroll">
  <div class="byhead">${AV(S.codename,96)}<b>${S.codename}</b><span class="d">${S.area}. Member since November</span></div>
  ${modeSw()}
- <div class="bhero"><span class="n">8</span><span class="l">meetups so far</span></div>
- <div class="bstats"><div><b>11</b><span>People met</span></div><div><b>3</b><span>Rooms joined</span></div><div><b>4</b><span>Weeks in a row</span></div></div>
- <div class="btiles"><button class="btile"><span class="ii">${IC.shield}</span><b>Safety contact</b><span class="d">Sam</span></button><button class="btile" id="newName"><span class="ii">${IC.refresh}</span><b>New codename</b><span class="d">Shuffle yours</span></button></div>
+ <p class="bystat">8 meetups, 11 people met, 3 rooms joined</p>
+ <div class="bgroup">
+  <button class="row" id="bsafe"><span class="t">Safety contact</span><span class="e">Sam ${chev}</span></button>
+  <button class="row" id="newName"><span class="t">Codename</span><span class="e">Shuffle ${chev}</span></button>
+ </div>
  <div class="bgroup">
   <div class="row"><span class="t">Nearby alerts</span><span class="e">${sw(S.settings.alerts,'Nearby alerts','setAlerts')}</span></div>
   <div class="row"><span class="t">Face ID lock</span><span class="e">${sw(S.settings.lock,'Face ID lock','setLock')}</span></div>
@@ -1484,7 +1521,7 @@ function youBlack(){return `<div class="screen tabscreen bk bkyou"><div class="s
  </div>${tabs()}</div>`}
 function requestBlack(){const t=document.createElement('div');t.className='btake';t.setAttribute('role','dialog');t.setAttribute('aria-modal','true');
  const C=2*Math.PI*72;
- t.innerHTML=`<p class="cap">Wants to meet, 40 m away</p><div class="bring2"><svg viewBox="0 0 156 156"><circle class="bg" cx="78" cy="78" r="72" fill="none" stroke-width="5"/><circle class="fg" id="rq" cx="78" cy="78" r="72" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="0"/></svg>${AV(OTHERS.CO,120)}</div>
+ t.innerHTML=`<p class="cap">Wants to meet</p><div class="bring2"><svg viewBox="0 0 156 156"><circle class="bg" cx="78" cy="78" r="72" fill="none" stroke-width="5"/><circle class="fg" id="rq" cx="78" cy="78" r="72" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="0"/></svg>${AV(OTHERS.CO,120)}</div>
  <p class="who">Cedar Otter 478</p><p class="secs" id="rqs">0:30</p>
  <div class="chips"><span class="chip" aria-pressed="true">Karaoke</span><span class="chip" aria-pressed="true">Cocktails</span></div>
  <button class="bbtn" id="rqacc">Accept</button><button class="later" id="rqno">Not now</button>`;
@@ -1500,8 +1537,8 @@ function codenameBlack(){return `<div class="screen bk"><div class="scroll" styl
  <button class="bshuf" id="newName"><i>${ACT.shuffle}</i>Shuffle</button>
  <p class="bs2" style="text-align:center;margin:0 auto;text-wrap:balance">The only name others see until you both agree to meet. No photos or real names are shared.</p></div>
  <div class="foot"><button class="btn ink" data-go="home">Continue</button></div></div>`}
-function notifsBlack(){S.seen=true;const items=[['quiz','Pub quiz is filling up','3 of 6 places taken. Tonight at 20:30.','quiz',1,'2m'],['pin','Ancoats opens on 4 December','We’ll tell you the night it goes live.','',1,'1h'],['karaoke','4 people want karaoke tonight','Go available to be seen.','',0,'3h']];
- return `<div class="screen bk"><div class="scroll">${nb('Notifications')}
+function notifsBlack(){S.seen=true;const items=[['quiz','Pub quiz is filling up','3 spots left. Tonight, 20:30.','quiz',1,'2m'],['pin','Ancoats opens on 4 December','We’ll tell you the night it goes live.','',1,'1h'],['karaoke','4 people want karaoke tonight','Go available to be seen.','',0,'3h']];
+ return `<div class="screen bk"><div class="scroll">${nb('')}<h1 class="lt">Notifications</h1>
  <div class="blist">${items.map(([ic,t,d,room,isNew,ago])=>`<button class="bnote${isNew?' new':''}" ${room?`data-room="${room}"`:''}><span class="bwell">${ACT[ic]}</span><span class="bmain"><b>${t}</b><span>${d}</span></span><span class="bago">${ago}</span></button>`).join('')}</div></div></div>`}
 function ahomeBlack(){const bd=[...(S.ad.bound||[])];return `<div class="screen tabscreen bk bkhome${S.live?' live':''}${S.sheetMin&&S.live?' smin':''}"><div class="scroll">
  <div class="bmap">${bmapSvg()}<div id="lmap" class="lmap" aria-label="Map of ${S.area}"></div><span class="bglow"></span><span class="bme" aria-label="You">${AV(S.codename,46)}</span>
@@ -1509,8 +1546,8 @@ function ahomeBlack(){const bd=[...(S.ad.bound||[])];return `<div class="screen 
   ${areaHead('Up for more in')}</div>
  <div class="bsheet"><button class="grab" id="grab" aria-label="${S.sheetMin?'Expand':'Collapse'}"></button>
  ${S.live?liveSheet(true)
- :`<div class="bstat"><p class="bs1">Offline</p><p class="bs2">Go available and people nearby who are up for it can see you. Anonymous until you both say yes.</p></div><button class="bgo" id="homeSw" role="switch" aria-checked="false" aria-label="Go available for one hour"><span class="gdot"></span>Go available<span class="sw" aria-hidden="true"></span></button>`}
- ${S.live?'':`<div class="bnums" style="margin-top:16px"><div class="bnum"><b>7</b><span>up for it nearby</span></div><button class="bnum" data-aedit="far"><b>1 mi</b><span>your range</span></button></div>`}
+ :`<div class="bstat"><p class="bs1">You’re offline</p><p class="bs2">For one hour, people nearby who want the same thing can see you. You stay anonymous until you both say yes.</p></div><button class="bgo" id="homeSw" aria-label="Go available for one hour">Go available for 1 hour</button><p class="bfine">7 nearby. Stop any time, or it ends on its own.</p>`}
+ 
  <p class="bsec">You</p>
  <div class="bgroup">
   <button class="row" data-arefine><span class="t">Showing as</span><span class="e">${aSum()==='Not set yet'?'Not set':'Edit'} ${chev}</span></button>
