@@ -942,6 +942,13 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 [data-look="black"] .byhead::before{display:none}
 [data-look="black"] .bshield{color:#F5F5F7}
 [data-look="black"] .bclose{width:40px;height:40px;background:#26262B}
+/* clear labels: you, and the venue */
+[data-look="black"] .bme::after,[data-look="black"] .bkmeet .bpeep::after{content:"You";position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:6px;white-space:nowrap;font:600 12px var(--text);color:#F5F5F7;text-shadow:0 1px 4px rgba(0,0,0,.85)}
+[data-look="black"] .bkmeet .bpeep{position:absolute}
+[data-look="black"] .bvenue{width:auto;height:40px;padding:0 14px 0 10px;border-radius:20px;display:flex;align-items:center;gap:8px;background:#F5F5F7;color:#0A0A0B}
+[data-look="black"] .bvenue i{display:grid;place-items:center;width:22px;height:22px}
+[data-look="black"] .bvenue i svg{width:16px;height:16px}
+[data-look="black"] .bvenue b{font:600 14px var(--text);white-space:nowrap}
 </style>
 
 <div class="side" aria-label="About this prototype">
@@ -1490,13 +1497,13 @@ function roomBlack(k){const T=TH[k],j=!!S.joined[k],n=T.spots[0]+(j?1:0),left=T.
 function meetBlack(){return `<div class="screen bk bkmeet"><div class="scroll">
  <div class="bmap">${bmapSvg()}
   <span class="bpeep" style="left:24%;top:76%;opacity:1;animation:none">${AV(S.codename,40)}</span>
-  <span class="bvenue" aria-hidden="true">${ACT.karaoke}</span>
+  <span class="bvenue"><i aria-hidden="true">${ACT.karaoke}</i><b>Karaoke</b></span>
   <button class="bclose" data-endmeet aria-label="Close">${IC.x}</button>
   <div class="binstr"><b>Left onto Oldham Street</b><span>In 120 m</span></div>
   <button class="bshield" id="bshield" aria-label="Safety">${IC.shield}</button>
  </div>
  <div class="bsheet" style="padding-bottom:28px"><div class="grab"></div>
-  <p class="beta">4 min</p><p class="betal">Meet at Lane 7, Oldham Street. Bar entrance.</p>
+  <p class="beta">4 min</p><p class="betal">Karaoke at Lane 7, Oldham Street. Bar entrance.</p>
   <div class="bperson">${AV(OTHERS.CO,44)}<span style="flex:1"><b>Cedar Otter 478</b><span class="d">Also going to Lane 7</span></span></div>
   <div class="bduo"><button class="bbtn" id="dirs">Directions</button><button class="bbtn grey" id="bmsg">Message</button></div>
   <button class="bcancel" data-endmeet>Cancel meeting</button>
