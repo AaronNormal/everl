@@ -950,6 +950,28 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 [data-look="black"] .bvenue i svg{width:16px;height:16px}
 [data-look="black"] .bvenue b{font:600 14px var(--text);white-space:nowrap}
 [data-look="black"] .bring2 .fg{stroke:#F5F5F7!important}
+
+/* broken screens: parts */
+.bkstart .bfld{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.bkstart .bfld label{font:600 13px var(--text);color:#8E8E93}
+.bkstart .bfld input{height:50px;border-radius:14px;border:0;background:#1C1C20;color:#F5F5F7;padding:0 16px;font:400 16px var(--text);outline:none}
+.bkstart .bfld input::placeholder,.bktune .bs2{color:#8E8E93}
+.pchips{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{height:38px;padding:0 14px;border-radius:19px;background:#1C1C20;color:#F5F5F7;font:500 15px var(--text);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.pchip[aria-pressed="true"]{background:#F5F5F7;color:#0A0A0B;box-shadow:none}
+.bstep{display:flex;align-items:center;gap:18px;margin-top:4px}
+.bstep button{width:44px;height:44px;border-radius:50%;background:#26262B;color:#F5F5F7;font:500 22px var(--text)}
+.bstep b{font:600 28px var(--text);font-variant-numeric:tabular-nums;color:#F5F5F7;min-width:40px;text-align:center}
+.bk .bsec button{color:#8E8E93;font:400 15px var(--text);margin-left:auto}
+.bkplus .plist{margin:0;padding:0 0 0 0;list-style:none;display:flex;flex-direction:column;gap:12px;color:#F5F5F7;font:400 16px/1.4 var(--text)}
+.bkplus .plist li{padding-left:24px;position:relative;color:#C7C7CC}
+.bkplus .plist li::before{content:"";position:absolute;left:4px;top:8px;width:8px;height:8px;border-radius:50%;background:#F5F5F7}
+.bkplus .prow{display:flex;align-items:center;gap:12px;width:100%;color:#F5F5F7;text-align:left}
+.bkplus .prow b{font:600 17px var(--text)}
+.bkplus .prow .d{display:block;font:400 14px var(--text);color:#8E8E93;margin-top:2px}
+.bkplus .pbest{font:600 12px var(--text);font-style:normal;color:#0A0A0B;background:#F5F5F7;border-radius:8px;padding:2px 7px;margin-left:6px}
+.bkplus .pdot{width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 2px #5A5A60;flex:none}
+.bkplus .pdot.on{box-shadow:inset 0 0 0 7px #F5F5F7}
 </style>
 
 <div class="side" aria-label="About this prototype">
@@ -1167,7 +1189,7 @@ ahome:()=>`<div class="screen tabscreen"><div class="scroll">
  <button class="btn ink">Try Everl+ free for 3 days</button><p class="sub" style="text-align:center;margin-top:-8px">Then £14.99 a month. Cancel any time.</p>
  </div>${tabs()}</div>`,
 rooms:()=>`<div class="screen tabscreen"><div class="scroll">
- <div class="top"><h1 class="lt">Rooms</h1><button class="ib" aria-label="Start a room">${IC.plus}</button></div>
+ <div class="top"><h1 class="lt">Rooms</h1><button class="ib" data-go="start" aria-label="Start something">${IC.plus}</button></div>
  <div class="seg" role="tablist">${[['tonight','Tonight'],['week','This week'],['mine','Mine']].map(([k,l])=>`<button role="tab" aria-selected="${S.roomTab===k}" data-rt="${k}">${l}</button>`).join('')}</div>
  ${S.roomTab==='mine'&&!Object.values(S.joined).some(Boolean)?`<div style="text-align:center;padding:48px 20px;display:flex;flex-direction:column;gap:8px;align-items:center"><h2 class="t3">No rooms yet</h2><p class="sub">Rooms you join show up here, with the exact place once they fill.</p><button class="btn ink" style="margin-top:12px;padding:0 24px" data-rt="tonight">Browse tonight</button></div>`:
  `<div style="display:flex;flex-direction:column;gap:24px">${(S.roomTab==='mine'?Object.keys(S.joined).filter(k=>S.joined[k]):S.roomTab==='week'?['run','games','padel']:['quiz','karaoke','drinks']).map(k=>tile(k,{wide:1})).join('')}</div>
@@ -1480,9 +1502,9 @@ function homeBlack(){return `<div class="screen tabscreen bk bkhome${S.live?' li
  ${brows(['drinks','quiz','karaoke','padel'],1)}
  </div></div>${tabs()}</div>`}
 function roomsBlack(){const ks=S.roomTab==='mine'?Object.keys(S.joined).filter(k=>S.joined[k]):S.roomTab==='week'?['games','run']:['drinks','quiz','karaoke','padel'];return `<div class="screen tabscreen bk"><div class="scroll">
- <div class="top"><h1 class="lt">Rooms</h1><button class="ib" aria-label="Start a room">${IC.plus}</button></div>
+ <div class="top"><h1 class="lt">Rooms</h1><button class="ib" data-go="start" aria-label="Start something">${IC.plus}</button></div>
  <div class="seg" role="tablist">${[['tonight','Tonight'],['week','This week'],['mine','Mine']].map(([k,l])=>`<button role="tab" aria-selected="${S.roomTab===k}" data-rt="${k}">${l}</button>`).join('')}</div>
- ${ks.length?(S.roomTab==='tonight'?brows(ks):bgroups(ks)):'<p class="bs2" style="margin-top:24px">Rooms you join show up here.</p>'}
+ ${S.roomTab==='mine'&&(S.made||[]).length?`<div class="blist">${S.made.map(madeRow).join('')}</div>`:''}${ks.length?(S.roomTab==='tonight'?brows(ks):bgroups(ks)):(S.roomTab==='mine'&&(S.made||[]).length?'':'<p class="bs2" style="margin-top:24px">Rooms you join show up here.</p>')}
  </div>${tabs()}</div>`}
 if(document.documentElement.dataset.look==='black'){const H=V.home,R=V.rooms,L=V.live;V.home=()=>S.mode==='adult'?H():homeBlack();V.live=()=>homeBlack();V.rooms=()=>roomsBlack()}
 
@@ -1524,8 +1546,8 @@ function youBlack(){return `<div class="screen tabscreen bk bkyou"><div class="s
   <div class="row"><span class="t">Nearby alerts</span><span class="e">${sw(S.settings.alerts,'Nearby alerts','setAlerts')}</span></div>
   <div class="row"><span class="t">Face ID lock</span><span class="e">${sw(S.settings.lock,'Face ID lock','setLock')}</span></div>
   <button class="row" data-areapick><span class="t">Area</span><span class="e">${S.area} ${chev}</span></button>
-  <div class="row"><span class="t">Interests</span><span class="e">${S.interests.size} ${chev}</span></div>
-  <div class="row"><span class="t">Everl+</span><span class="e">${chev}</span></div>
+  <button class="row" data-go="tune"><span class="t">Interests</span><span class="e">${S.interests.size} ${chev}</span></button>
+  <button class="row" data-go="plus"><span class="t">Everl+</span><span class="e">${chev}</span></button>
  </div>
  </div>${tabs()}</div>`}
 function requestBlack(){const t=document.createElement('div');t.className='btake';t.setAttribute('role','dialog');t.setAttribute('aria-modal','true');
@@ -1568,6 +1590,69 @@ function ahomeBlack(){const bd=[...(S.ad.bound||[])];return `<div class="screen 
 if(document.documentElement.dataset.look==='black'){V.codename=codenameBlack;V.notifs=notifsBlack;V.ahome=ahomeBlack}
 if(new URLSearchParams(location.search).get('req'))setTimeout(()=>request(),400);
 if(document.documentElement.dataset.look==='black'){V.room=roomBlack;V.meet=meetBlack;const Y=V.you;V.you=()=>youBlack();request=requestBlack}
+
+/* ===== broken screens, now real (17 Nov): Start something, Tune your presence, Everl+ ===== */
+S.rm=S.rm||{name:'',area:'',spot:'',act:'drinks',cap:4,when:'Tonight',who:'Anyone nearby',verified:false};
+S.made=S.made||[];
+S.tune=S.tune||{vibe:new Set(['Low-key']),after:new Set(['See where it goes']),must:new Set(),match:'Balanced'};
+S.plan=S.plan||'annual';
+const RACT=[['drinks','🍺','Drinks'],['quiz','🧠','Pub quiz'],['karaoke','🎤','Karaoke'],['padel','🎾','Padel'],['games','🎲','Board games'],['run','🏃','Run club']];
+const pch=(on,attrs,label)=>`<button class="pchip" aria-pressed="${on}" ${attrs}>${label}</button>`;
+const madeRow=m=>`<button class="brow plain" data-room="" aria-label="${esc(m.name)}, ${esc(m.when)}"><span class="brtap" style="display:flex;gap:14px;align-items:center;text-align:left;color:#F5F5F7;min-height:60px;flex:1"><span class="btm">${esc(m.when).split(' ').pop()}</span><span class="bmain"><b>${esc(m.name)}</b><span>${esc(m.area)} · spot hidden until full</span></span></span><span class="bwhen"><b>${m.cap>1?`1 of ${m.cap}`:'Your room'}</b><span>${esc(m.who)}</span></span></button>`;
+const hdr=t=>nb(t);
+V.start=()=>{const r=S.rm;if(!r.area)r.area=S.area;const canGo=r.name.trim()&&r.area.trim();return `<div class="screen bk bkstart"><div class="scroll" style="padding-bottom:120px">${hdr('Start something')}
+ <p class="bs2" style="margin:6px 0 18px">A room gathers a small group at a real place. Everyone nearby can see the room and its area. The exact spot stays hidden until it fills, so only people who committed ever see where.</p>
+ <div class="bfld"><label for="rmName">Room name</label><input id="rmName" data-rkey="name" value="${esc(r.name)}" placeholder="e.g. Sunday padel" maxlength="40"></div>
+ <div class="bfld"><label for="rmArea">General area</label><input id="rmArea" data-rkey="area" value="${esc(r.area||S.area)}" placeholder="e.g. Northern Quarter" maxlength="40"></div>
+ <div class="bfld"><label for="rmSpot">Exact spot</label><input id="rmSpot" data-rkey="spot" value="${esc(r.spot)}" placeholder="Search a public place" maxlength="60"><p class="bfine" style="text-align:left;margin-top:6px">Hidden until the room fills. Only a real public place.</p></div>
+ <p class="bsec" style="margin-top:22px">Activity</p>
+ <div class="pchips">${RACT.map(([k,e,l])=>pch(r.act===k,`data-ract="${k}"`,`${e} ${l}`)).join('')}</div>
+ <p class="bsec" style="margin-top:22px">Capacity</p>
+ <div class="bstep"><button data-rcap="-1" aria-label="Fewer">−</button><b>${r.cap}</b><button data-rcap="1" aria-label="More">+</button></div>
+ <p class="bfine" style="text-align:left">Between 2 and 50 people.</p>
+ <p class="bsec" style="margin-top:22px">Open for</p>
+ <div class="pchips">${['Right now','Next hour','Tonight','Tomorrow','This weekend'].map(w=>pch(r.when===w,`data-rwhen="${w}"`,w)).join('')}</div>
+ <p class="bsec" style="margin-top:22px">Who can join</p>
+ <div class="pchips">${['Anyone nearby','Code only','By request'].map(w=>pch(r.who===w,`data-rwho="${w}"`,w)).join('')}</div>
+ <p class="bfine" style="text-align:left;margin-top:12px">Access is by the code, or by request. You never hand-pick people.</p>
+ </div><div class="bbar" style="justify-content:center"><button class="bbtn" id="rmCreate" ${canGo?'':'disabled'} style="width:100%;${canGo?'':'opacity:.4'}">Create room</button></div></div>`};
+V.tune=()=>{const t=S.tune;const grp=(title,set,key)=>`<p class="bsec" style="margin-top:22px">${title}</p><div class="pchips">${set.map(x=>pch(t[key].has(x),`data-tune="${key}" data-val="${esc(x)}"`,x)).join('')}</div>`;
+ return `<div class="screen bk bktune"><div class="scroll" style="padding-bottom:120px">${hdr('Tune your presence')}
+ <p class="bs2" style="margin:6px 0 4px">The more Everl knows, the better the match. It’s never a hard filter. Change it any time.</p>
+ <p class="bsec" style="margin-top:22px">Interests <button data-clearint>Clear all</button></p>
+ <div class="pchips">${INT.map(([e,x])=>pch(S.interests.has(x),`data-int="${esc(x)}"`,`${e} ${x}`)).join('')}</div>
+ ${grp('The vibe you want',['A laugh','Deep chat','Low-key','High energy','Quiet company','Up for anything'],'vibe')}
+ ${grp('What you’re after',['New friends','A date','An activity buddy','Someone for a thing','Just company','See where it goes'],'after')}
+ ${grp('Must-haves',['Sober','No small talk','Chilled pace','Just as friends','Dog-friendly','New in town'],'must')}
+ <p class="bsec" style="margin-top:22px">How we match you</p>
+ <div class="pchips">${['More like this','Balanced','Surprise me'].map(m=>pch(t.match===m,`data-tmatch="${m}"`,m)).join('')}</div>
+ <p class="bfine" style="text-align:left;margin-top:12px">Lines that help the right person find you. Never a filter on who you see.</p>
+ </div><div class="bbar" style="justify-content:center"><button class="bbtn" id="tuneSave" style="width:100%">Save presence</button></div></div>`};
+V.plus=()=>{const P={annual:['Annual','£14.99 a month','Billed £179 a year · save 17%','Best value'],monthly:['Monthly','£17.99 a month','Cancel any time'],pass:['30-day pass','£24 once','No auto-renew']};
+ return `<div class="screen bk bkplus"><div class="scroll" style="padding-bottom:140px">${hdr('Everl+')}
+ <h1 class="lt" style="margin-top:4px">Plan your presence</h1>
+ <p class="bs2" style="margin:8px 0 14px">Turn on, see who’s near, meet one. Everl+ lets you line up more than one, plan ahead, and see the week around you.</p>
+ <ul class="plist"><li>Plan several meets across your day, at your times and your place</li><li>More than one on the go, not just one at a time</li><li>Standing presence: be findable for what you’re into, always</li><li>Plan ahead when you travel</li><li>The week around you: who’s about and when</li></ul>
+ <p class="bsec" style="margin-top:22px">Choose a plan</p>
+ <div class="bgroup">${Object.entries(P).map(([k,[n,p,d,b]])=>`<button class="row prow" data-plan="${k}" aria-pressed="${S.plan===k}"><span style="flex:1;text-align:left"><b>${n}${b?` <em class="pbest">${b}</em>`:''}</b><span class="d">${p} · ${d}</span></span><span class="pdot ${S.plan===k?'on':''}"></span></button>`).join('')}</div>
+ </div><div class="bbar" style="justify-content:center;flex-direction:column;align-items:stretch;gap:6px"><button class="bbtn" id="plusTry" style="width:100%">Try 3 days free</button><p class="bfine" style="margin:0;text-align:center">You won’t be charged in this prototype.</p></div></div>`};
+
+/* one handler for the three screens */
+app.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+ if(t.dataset.ract){S.rm.act=t.dataset.ract;keep();return}
+ if(t.dataset.rcap){S.rm.cap=Math.min(50,Math.max(2,S.rm.cap+ +t.dataset.rcap));keep();return}
+ if(t.dataset.rwhen){S.rm.when=t.dataset.rwhen;keep();return}
+ if(t.dataset.rwho){S.rm.who=t.dataset.rwho;keep();return}
+ if(t.id==='rmCreate'){const r=S.rm;if(!r.name.trim()||!r.area.trim())return;S.made.unshift({name:r.name.trim(),area:r.area.trim(),when:r.who==='Code only'?`${r.when}`:r.when,cap:r.cap,who:r.who});S.rm={name:'',area:'',spot:'',act:r.act,cap:4,when:'Tonight',who:'Anyone nearby'};S.roomTab='mine';S.screen='main';S.tab='rooms';hist.length=0;render();note('Room created. Its spot stays hidden until it fills.');return}
+ if(t.dataset.tune){const k=t.dataset.tune,v=t.dataset.val;S.tune[k].has(v)?S.tune[k].delete(v):S.tune[k].add(v);keep();return}
+ if(t.dataset.clearint!==undefined){S.interests.clear();keep();return}
+ if(t.dataset.tmatch){S.tune.match=t.dataset.tmatch;keep();return}
+ if(t.id==='tuneSave'){note('Saved. This shapes who you’re matched with.');back();return}
+ if(t.dataset.plan){S.plan=t.dataset.plan;keep();return}
+ if(t.id==='plusTry'){note('Everl+ isn’t connected in this prototype yet. Nothing was charged.');return}
+});
+app.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.rkey;if(k){S.rm[k]=e.target.value;const b=document.getElementById('rmCreate');if(b){const ok=S.rm.name.trim()&&S.rm.area.trim();b.disabled=!ok;b.style.opacity=ok?'':'.4'}}});
+
 render(false);
 
 document.addEventListener('pointerdown',e=>{const g=e.target.closest('.bsheet .grab');if(!g||!S.live)return;const y0=e.clientY;let moved=false;
