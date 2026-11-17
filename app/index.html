@@ -803,6 +803,20 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .bk .bmain span{font:400 15px var(--text);color:#8E8E93;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bk .bcap{font:500 15px var(--text);color:#8E8E93;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:8px}
 .bk .bcap .chev{opacity:.5}
+/* ===== room rows, rebuilt ===== */
+.bk .blist{gap:4px;margin-top:6px}
+.bk .brow{gap:14px;min-height:68px;padding:0 4px;margin:0 -4px;width:calc(100% + 8px)}
+.bk .bico{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:#232327;color:#F5F5F7;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.bk .bico svg{width:22px;height:22px}
+.bk .bico.now{background:rgba(52,199,89,.16);color:#34C759}
+.bk .bmain{gap:2px}
+.bk .bwhen{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right}
+.bk .bwhen b{font:600 17px var(--text);letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;color:#F5F5F7}
+.bk .bwhen b.now{color:#34C759}
+.bk .bwhen span{font:400 13px var(--text);color:#8E8E93;white-space:nowrap}
+.bk .bwhen span.in{color:#4C8DFF}
+.bk .bsec button{color:#4C8DFF;font-weight:500}
+
 /* ===== Look: black (sleek, mature). Switch with ?look=black ===== */
 [data-look="black"]{--bg:#0A0A0B;--card:#141416;--ink:#F5F5F7;--sub:#8E8E93;--mute:#636366;--hair:rgba(255,255,255,.08);--fill:#1C1C1E;--navy:#F5F5F7;--tint:#1C1C1E;--acc:#F5F5F7;--acc-soft:#1C1C1E;color-scheme:dark}
 [data-look="black"] body{background:#000}
@@ -1268,8 +1282,8 @@ const ACT={
  games:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M9 9h.01M15 9h.01M9 15h.01M15 15h.01M12 12h.01" stroke-width="2.6"/></svg>',
  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
  shuffle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h4v4M20 4l-7 7M4 20l6-6M16 20h4v-4M20 20l-5-5M4 4l5 5"/></svg>'};
-const BTIME={quiz:'20:30',karaoke:'21:30',drinks:'Now',padel:'22:00',run:'Sun 9:00',games:'Thu 19:00'};
-const brows=ks=>`<div class="blist">${ks.map(k=>{const T=TH[k];return `<button class="brow" data-room="${k}"><span class="btime${BTIME[k]==='Now'?' now':''}">${BTIME[k]}</span><span class="bmain"><b>${T.t}</b><span>${T.where}</span></span><span class="bcap">${T.spots[0]+(S.joined[k]?1:0)}/${T.spots[1]} ${chev}</span></button>`}).join('')}</div>`;
+const BTIME={quiz:'20:30',karaoke:'21:30',drinks:'Now',padel:'22:00',run:'Sun 09:00',games:'Thu 19:00'};
+const brows=ks=>`<div class="blist">${ks.map(k=>{const T=TH[k],t=BTIME[k],now=t==='Now',j=S.joined[k],left=T.spots[1]-T.spots[0]-(j?1:0),st=j?'You’re in':left?`${left} spot${left>1?'s':''} left`:'Full';return `<button class="brow" data-room="${k}" aria-label="${T.t}, ${now?'on now':t}, ${T.where}, ${st}"><span class="bico${now?' now':''}" aria-hidden="true">${ACT[k]||ACT.pin}</span><span class="bmain"><b>${T.t}</b><span>${T.where}</span></span><span class="bwhen"><b${now?' class="now"':''}>${now?'On now':t}</b><span${j?' class="in"':''}>${st}</span></span></button>`}).join('')}</div>`;
 
 function bmapSvg(){const st=[];const r=(a,b)=>a+Math.random()*(b-a);
  let o='<svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect class="mbg" width="400" height="420" fill="#0D0D0F"/>';
