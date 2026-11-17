@@ -949,6 +949,7 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 [data-look="black"] .bvenue i{display:grid;place-items:center;width:22px;height:22px}
 [data-look="black"] .bvenue i svg{width:16px;height:16px}
 [data-look="black"] .bvenue b{font:600 14px var(--text);white-space:nowrap}
+[data-look="black"] .bring2 .fg{stroke:#F5F5F7!important}
 </style>
 
 <div class="side" aria-label="About this prototype">
@@ -1260,8 +1261,10 @@ function areaSheet(){sheet(`<h2 class="t3" style="margin-top:8px">Choose an area
 function aDone(){if(S.onb){nav('city');return}S.aReady=true;S.screen='main';S.tab='home';hist.length=0;render();note('You’re set up. Add more any time under Showing as.')}
 function aNext(){if(S.aEdit){S.aEdit=null;back();return}if(S.aIdx>=QF().length-1){if(!S.aMore&&!S.aMoreAsked){S.aMoreAsked=true;S.screen='amore';render();return}aDone();return}S.aIdx++;render();const sc=app.querySelector('.scroll');if(sc)sc.scrollTop=0}
 function turnOff(){S.live=false;clearTimeout(reqTimer);render(false)}
-function incoming(){
-  const t=document.createElement('button');t.className='toast';t.innerHTML=`${AV(OTHERS.CO,38)}<span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">${S.mode==='adult'?'Someone nearby wants to meet.':'Cedar Otter 478 wants to meet for karaoke. 40 m away.'}</span></span>`;
+const IROOM={'Karaoke':'karaoke','Pub quiz':'quiz','A pint':'drinks','Cocktails':'drinks','Padel':'padel'};
+function pickMeet(){S.meetRoom=S.meetRoom||[...S.interests].map(i=>IROOM[i]).find(Boolean)||'karaoke';return S.meetRoom}
+function incoming(){const mk=pickMeet();
+  const t=document.createElement('button');t.className='toast';t.innerHTML=`${AV(OTHERS.CO,38)}<span style="flex:1"><span style="display:flex;justify-content:space-between;font:600 15px var(--text)">Everl<span style="font-weight:400;color:var(--sub);font-size:13px">now</span></span><span style="font-size:15px">${S.mode==='adult'?'Someone nearby wants to meet.':`Cedar Otter 478 wants to meet for ${TH[mk].t.toLowerCase()}.`}</span></span>`;
   app.append(t);const open=()=>{t.remove();request()};t.onclick=open;
 }
 function request(){
@@ -1272,7 +1275,7 @@ function request(){
    <div class="grp"><p class="sh">Their boundaries</p><div class="chips sm">${['Safe sex only','Sober only','No photos without asking'].map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>
    <p class="sub">They’ll see your boundaries too. Neither of you is identified unless you both accept.</p>`:`<div style="text-align:center"><p class="sub">40 m away</p><h2 class="t2" style="margin-top:4px">Cedar Otter 478 wants to meet for karaoke</h2></div>
    <div class="chips" style="justify-content:center"><span class="chip" aria-pressed="true"><i>🎤</i>Karaoke</span><span class="chip" aria-pressed="true"><i>🍸</i>Cocktails</span></div>
-   <p class="sub" style="text-align:center">Neither of you is identified unless you both accept. If you do, Everl suggests a public place halfway between you.</p>`}
+   <p class="sub" style="text-align:center">Neither of you is identified unless you both accept. If you do, Everl picks a public place for you both.</p>`}
    <div class="brow"><button class="btn soft" id="dec">Decline</button><button class="btn ink" style="flex:1.4" id="acc">Accept</button></div>`);
   let s=299;const iv=setInterval(()=>{s--;const e=sh.querySelector('#exp');if(!e){clearInterval(iv);return}e.textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`},1000);
   sh.querySelector('#cl').onclick=sh.querySelector('#dec').onclick=()=>{clearInterval(iv);sh.close()};
@@ -1285,7 +1288,7 @@ function matched(){
     <div class="c2" style="position:absolute;right:14px;top:10px;width:140px;height:190px;border-radius:20px;transform:rotate(8deg);box-shadow:var(--float);border:4px solid #fff;color:#101A3C;text-align:left;padding:14px;font:700 26px var(--display)">CO<div style="font:600 13px var(--text)">Cedar Otter</div></div>
     <span style="position:absolute;left:50%;top:176px;transform:translateX(-50%) scale(1.7);border-radius:16px;box-shadow:0 0 0 2.5px #fff,var(--float);display:block"><span class="sw" aria-checked="true" style="display:block"></span></span></div>
    <h1 class="lt" style="color:var(--green-ink);max-width:320px">You’re meeting Cedar Otter 478</h1>
-   <p style="margin:0;color:var(--green-ink);max-width:300px">You both accepted. Everl has chosen a public place halfway between you.</p>
+   <p style="margin:0;color:var(--green-ink);max-width:300px">You both accepted. You’re meeting for ${TH[pickMeet()].t.toLowerCase()} at ${TH[pickMeet()].where.split(',')[0]}.</p>
    <div style="position:absolute;left:20px;right:20px;bottom:calc(32px + var(--bot));display:flex;flex-direction:column;gap:8px"><button class="btn ink" id="toMeet">View directions</button><button class="link" style="color:var(--green-ink)" id="cancelM">Cancel meeting</button></div></div>`);
   $('#toMeet').onclick=()=>{S.live=false;clearTimeout(reqTimer);nav('meet')};
   $('#cancelM').onclick=()=>$('#matchS').remove();
@@ -1346,6 +1349,7 @@ app.addEventListener('pointerdown',e=>{const b=e.target.closest('#safety');if(!b
 $('#reset').onclick=()=>{Object.assign(S,{screen:'splash',live:false,verified:false,tab:'home',joined:{},secs:3600});hist.length=0;clearTimeout(reqTimer);render()};
 {const ph=new URLSearchParams(location.search).get('photo');if(/^[A-F]$/.test(ph||''))document.documentElement.style.setProperty('--splash',`url(img/splash-${ph}.jpg)`)}
 {const r=new URLSearchParams(location.search).get('rows');if(r)S.rowsV=r}
+{const mr=new URLSearchParams(location.search).get('meet');if(mr&&TH[mr])S.meetRoom=mr}
 {const q=new URLSearchParams(location.search).get('screen');if(q==='home'||q==='rooms'||q==='you'){S.screen='main';S.tab=q;S.interests.add('Pub quiz')}else if(q==='room'){S.screen='room';S.room=new URLSearchParams(location.search).get('room')||'quiz'}else if(q==='live'){S.live=true;S.screen='main';S.tab='home'}else if(q&&q!=='main'&&typeof V[q]==='function'){S.screen=q;S.interests.add('Pub quiz')}}
 if(new URLSearchParams(location.search).get('verified'))S.verified=true;
 {document.documentElement.dataset.look='black';document.documentElement.dataset.tone='carbon';const lk=new URLSearchParams(location.search).get('look');if(lk)document.documentElement.dataset.look=lk}
@@ -1494,17 +1498,17 @@ function roomBlack(k){const T=TH[k],j=!!S.joined[k],n=T.spots[0]+(j?1:0),left=T.
  <div class="block"><span class="ii">${IC.pin}</span><span><b>${T.where}</b><span class="d">${WALK[k]||5} min walk</span></span></div>
  <p class="babout">A relaxed ${T.t.toLowerCase()} for anyone nearby. Turn up, say hi to the host, and you’re in. If plans change, leave the room so someone else can join.</p>
  </div><div class="bbar">${j?`<span class="bl"><b>You’re in</b><span>${whenTxt(k)}</span></span><button class="bbtn ghost" data-join="${k}">Leave</button>`:`<span class="bl"><b>${left>0?`${left} ${left===1?'spot':'spots'} left`:'Full'}</b><span>${whenTxt(k)}</span></span><button class="bbtn" data-join="${k}">Join</button>`}</div></div>`}
-function meetBlack(){return `<div class="screen bk bkmeet"><div class="scroll">
+function meetBlack(){const mk=pickMeet(),T=TH[mk],venue=T.where.split(',')[0],street=T.where.split(',').slice(1).join(',').trim()||S.area;return `<div class="screen bk bkmeet"><div class="scroll">
  <div class="bmap">${bmapSvg()}
   <span class="bpeep" style="left:24%;top:76%;opacity:1;animation:none">${AV(S.codename,40)}</span>
-  <span class="bvenue"><i aria-hidden="true">${ACT.karaoke}</i><b>Karaoke</b></span>
+  <span class="bvenue"><i aria-hidden="true">${ACT[mk]||ACT.pin}</i><b>${T.t}</b></span>
   <button class="bclose" data-endmeet aria-label="Close">${IC.x}</button>
-  <div class="binstr"><b>Left onto Oldham Street</b><span>In 120 m</span></div>
+  <div class="binstr"><b>Head to ${venue}</b><span>${street}</span></div>
   <button class="bshield" id="bshield" aria-label="Safety">${IC.shield}</button>
  </div>
  <div class="bsheet" style="padding-bottom:28px"><div class="grab"></div>
-  <p class="beta">4 min</p><p class="betal">Karaoke at Lane 7, Oldham Street. Bar entrance.</p>
-  <div class="bperson">${AV(OTHERS.CO,44)}<span style="flex:1"><b>Cedar Otter 478</b><span class="d">Also going to Lane 7</span></span></div>
+  <p class="beta">${WALK[mk]||5} min</p><p class="betal">${T.t} ${mk==='drinks'?'on':'at'} ${T.where}.</p>
+  <div class="bperson">${AV(OTHERS.CO,44)}<span style="flex:1"><b>Cedar Otter 478</b><span class="d">Also going to ${venue}</span></span></div>
   <div class="bduo"><button class="bbtn" id="dirs">Directions</button><button class="bbtn grey" id="bmsg">Message</button></div>
   <button class="bcancel" data-endmeet>Cancel meeting</button>
  </div></div></div>`}
@@ -1528,7 +1532,7 @@ function requestBlack(){const t=document.createElement('div');t.className='btake
  const C=2*Math.PI*72;
  t.innerHTML=`<p class="cap">Wants to meet</p><div class="bring2"><svg viewBox="0 0 156 156"><circle class="bg" cx="78" cy="78" r="72" fill="none" stroke-width="5"/><circle class="fg" id="rq" cx="78" cy="78" r="72" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="0"/></svg>${AV(OTHERS.CO,120)}</div>
  <p class="who">Cedar Otter 478</p><p class="secs" id="rqs">0:30</p>
- <div class="chips"><span class="chip" aria-pressed="true">Karaoke</span><span class="chip" aria-pressed="true">Cocktails</span></div>
+ <div class="chips"><span class="chip" aria-pressed="true">${TH[pickMeet()].t}</span></div>
  <button class="bbtn" id="rqacc">Accept</button><button class="later" id="rqno">Not now</button>`;
  app.append(t);let n=30;const ring=t.querySelector('#rq'),lab=t.querySelector('#rqs');
  const iv=setInterval(()=>{n--;if(!t.isConnected){clearInterval(iv);return}lab.textContent=`0:${String(Math.max(n,0)).padStart(2,'0')}`;ring.style.strokeDashoffset=C*(1-n/30);if(n<=0){clearInterval(iv);t.remove()}},1000);
